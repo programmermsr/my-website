@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#02030D" />
+<title>clock</title>
+
+<meta name="description" content="محمد صادق رضائی | برنامه نویس سی شارپ در ویندوز، موبایل و طراحی سایت. توسعه‌دهنده نرم‌افزارهای اختصاصی با تجربه در C#، ASP.NET، SQL و Kotlin.">
+<meta name="keywords" content="محمد صادق رضائی, برنامه نویس, سی شارپ, C#, طراحی سایت, ASP.NET, برنامه نویس ویندوز, برنامه نویس موبایل, programmer msr">
+<meta name="author" content="محمد صادق رضائی">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="language" content="Persian">
+<meta name="rating" content="general">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:site_name" content="programmer msr">
+<meta property="og:title" content="clock">
+<meta property="og:description" content="محمد صادق رضائی | برنامه نویس سی شارپ در ویندوز، موبایل و طراحی سایت. توسعه‌دهنده نرم‌افزارهای اختصاصی با تجربه در C#، ASP.NET، SQL و Kotlin.">
+<meta property="og:image" content="homeImages/head/msrMedium.jpg">
+<meta property="og:image:alt" content="محمد صادق رضائی">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="clock">
+<meta name="twitter:description" content="محمد صادق رضائی | برنامه نویس سی شارپ در ویندوز، موبایل و طراحی سایت. توسعه‌دهنده نرم‌افزارهای اختصاصی با تجربه در C#، ASP.NET، SQL و Kotlin.">
+<meta name="twitter:image" content="homeImages/head/msrMedium.jpg">
+
+<link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+<link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+<link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "محمد صادق رضائی",
+  "alternateName": "programmer msr",
+  "jobTitle": "برنامه نویس",
+  "description": "برنامه نویس سی شارپ در ویندوز، موبایل و طراحی سایت. توسعه‌دهنده نرم‌افزارهای اختصاصی با تجربه در C#، ASP.NET، SQL و Kotlin.",
+  "image": "homeImages/head/msrMedium.jpg",
+  "knowsAbout": ["C#", "ASP.NET", "SQL", "Kotlin", "Windows Development", "Mobile Development", "Web Design"]
+}
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #02030D;
+  }
+
+  body {
+    background: linear-gradient(
+      180deg,
+      #02030D 0%,
+      #08052A 33%,
+      #12052D 66%,
+      #02182B 100%
+    );
+    font-family: "B Titr", "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
+
+  #bg {
+    position: fixed;
+    inset: 0;
+    display: block;
+  }
+
+  #stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  #clock {
+    display: block;
+  }
+
+  #digital {
+    margin-top: 55px;
+    padding: 10px 26px;
+    border-radius: 22px;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 229, 255, 0.12) 0%,
+      rgba(255, 0, 229, 0.12) 50%,
+      rgba(124, 77, 255, 0.12) 100%
+    );
+    font-size: 40px;
+    line-height: 1.05;
+    font-weight: 900;
+    color: #FFFFFF;
+    white-space: nowrap;
+    direction: ltr;
+    text-shadow: 0 0 28px #00E5FF;
+  }
+
+  #dayName {
+    margin-top: 28px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #FF80AB;
+    text-shadow: 0 0 18px #FF4081;
+    white-space: nowrap;
+  }
+
+  #dateText {
+    margin-top: 28px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #80DEEA;
+    text-shadow: 0 0 16px #00E5FF;
+    white-space: nowrap;
+    direction: ltr;
+  }
+
+  .seo-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  #topControls {
+    position: fixed;
+    top: 14px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  #topControls .ctrl {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-family: "B Titr", "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #E6F7FF;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    background: rgba(8, 5, 42, 0.55);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.25), inset 0 0 10px rgba(0, 229, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  }
+
+  #topControls .ctrl:hover {
+    border-color: rgba(255, 0, 229, 0.75);
+    box-shadow: 0 0 18px rgba(255, 0, 229, 0.35), inset 0 0 12px rgba(255, 0, 229, 0.10);
+  }
+
+  #topControls .ctrl:active {
+    transform: scale(0.96);
+  }
+
+  #topControls #btnSite {
+    border-color: rgba(255, 64, 129, 0.55);
+    box-shadow: 0 0 14px rgba(255, 64, 129, 0.25), inset 0 0 10px rgba(255, 64, 129, 0.08);
+  }
+
+  #topControls #btnSite:hover {
+    border-color: rgba(0, 229, 255, 0.75);
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.35), inset 0 0 12px rgba(0, 229, 255, 0.10);
+  }
+
+  body.is-fullscreen #topControls {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.is-fullscreen #topControls .ctrl {
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="seo-hidden">clock — محمد صادق رضائی | برنامه نویس سی شارپ، موبایل و طراحی سایت</h1>
+
+<div id="topControls">
+  <button id="btnFullscreen" class="ctrl" type="button">تمام صفحه</button>
+  <a id="btnSite" class="ctrl" href="https://www.programmer-msr.ir/" rel="noopener">برگشت به سایت</a>
+</div>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div id="stage">
+  <div id="app">
+    <canvas id="clock" role="img" aria-label="ساعت آنالوگ نئونی"></canvas>
+    <div id="digital">۰۰ : ۰۰ : ۰۰</div>
+    <div id="dayName">یکشنبه</div>
+    <div id="dateText">۱۴۰۴/۰۱/۰۱</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var FA_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+
+  function toPersianDigits(str) {
+    return String(str).replace(/[0-9]/g, function (d) {
+      return FA_DIGITS[+d];
+    });
+  }
+
+  function toJalali(gYear, gMonth, gDay) {
+    var gDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var jDaysInMonth = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+
+    var gy = gYear - 1600;
+    var gm = gMonth - 1;
+    var gd = gDay - 1;
+
+    var gDayNo =
+      365 * gy +
+      Math.floor((gy + 3) / 4) -
+      Math.floor((gy + 99) / 100) +
+      Math.floor((gy + 399) / 400);
+
+    for (var i = 0; i < gm; i++) {
+      gDayNo += gDaysInMonth[i];
+    }
+
+    if (
+      gm > 1 &&
+      ((gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0)
+    ) {
+      gDayNo++;
+    }
+
+    gDayNo += gd;
+
+    var jDayNo = gDayNo - 79;
+    var jNp = Math.floor(jDayNo / 12053);
+    jDayNo %= 12053;
+
+    var jy = 979 + 33 * jNp + 4 * Math.floor(jDayNo / 1461);
+    jDayNo %= 1461;
+
+    if (jDayNo >= 366) {
+      jy += Math.floor((jDayNo - 1) / 365);
+      jDayNo = (jDayNo - 1) % 365;
+    }
+
+    var jm = 0;
+    while (jm < 11 && jDayNo >= jDaysInMonth[jm]) {
+      jDayNo -= jDaysInMonth[jm];
+      jm++;
+    }
+
+    return [jy, jm + 1, jDayNo + 1];
+  }
+
+  function mulberry32(seed) {
+    var a = seed;
+    return function () {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  var DEG = Math.PI / 180;
+
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  var bgCanvas = document.getElementById("bg");
+  var bgCtx = bgCanvas.getContext("2d");
+
+  var clockCanvas = document.getElementById("clock");
+  var clockCtx = clockCanvas.getContext("2d");
+
+  var CLOCK_SIZE = 340;
+
+  clockCanvas.style.width = CLOCK_SIZE + "px";
+  clockCanvas.style.height = CLOCK_SIZE + "px";
+
+  var W = 0;
+  var H = 0;
+
+  var clockCenter = { x: 0, y: 0 };
+  var clockRadius = 0;
+
+  function updateClockMetrics() {
+    var rect = clockCanvas.getBoundingClientRect();
+    clockCenter.x = rect.left + rect.width / 2;
+    clockCenter.y = rect.top + rect.height / 2;
+    clockRadius = rect.width / 2;
+  }
+
+  function resizeAll() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    bgCanvas.width = Math.round(W * DPR);
+    bgCanvas.height = Math.round(H * DPR);
+    bgCanvas.style.width = W + "px";
+    bgCanvas.style.height = H + "px";
+
+    clockCanvas.width = Math.round(CLOCK_SIZE * DPR);
+    clockCanvas.height = Math.round(CLOCK_SIZE * DPR);
+
+    fitApp();
+    updateClockMetrics();
+  }
+
+  function fitApp() {
+    var app = document.getElementById("app");
+    app.style.transform = "scale(1)";
+
+    var w = app.offsetWidth || CLOCK_SIZE;
+    var h = app.offsetHeight || CLOCK_SIZE;
+
+    var availW = window.innerWidth - 20;
+    var availH = window.innerHeight - 32;
+
+    var s = Math.min(1, availW / w, availH / h);
+
+    app.style.transform = "scale(" + s + ")";
+  }
+
+  var starRnd = mulberry32(20261006);
+  var stars = [];
+
+  (function buildStars() {
+    for (var i = 0; i < 90; i++) {
+      stars.push({
+        x: starRnd(),
+        y: starRnd(),
+        radius: 0.8 + starRnd() * 2.8,
+        alpha: 0.25 + starRnd() * 0.65,
+        phase: starRnd() * 360,
+        speed: 0.6 + starRnd() * 1.8
+      });
+    }
+  })();
+
+  var shootingStars = [];
+  var nextSpawnAt = performance.now() + 900;
+
+  function updateShootingStars(now) {
+    var guard = 0;
+
+    while (now >= nextSpawnAt && guard < 8) {
+      shootingStars.push({
+        angle: Math.random() * Math.PI * 2,
+        lengthFrac: 0.045 + Math.random() * 0.05,
+        spawnTime: nextSpawnAt,
+        lifetime: 2400 + Math.random() * 800
+      });
+
+      nextSpawnAt += 850 + Math.random() * 500;
+      guard++;
+    }
+
+    if (guard >= 8) {
+      nextSpawnAt = now + 850;
+    }
+
+    shootingStars = shootingStars.filter(function (s) {
+      return now - s.spawnTime < s.lifetime;
+    });
+  }
+
+  function drawRadialGlow(ctx, x, y, r, color) {
+    var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, color);
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  var RAY_COLORS = [
+    "#00E5FF",
+    "#7C4DFF",
+    "#FF00E5",
+    "#FF4081",
+    "#FFD740",
+    "#00E676"
+  ];
+
+  function renderBackground(now, twinkle, rayRotation, pulse) {
+    var ctx = bgCtx;
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    var minDim = Math.min(W, H);
+    var maxDim = Math.max(W, H);
+
+    drawRadialGlow(ctx, clockCenter.x, clockCenter.y, minDim * 0.5, "rgba(124,77,255,0.13)");
+    drawRadialGlow(ctx, W * 0.2, H * 0.25, minDim * 0.35, "rgba(0,229,255,0.10)");
+    drawRadialGlow(ctx, W * 0.8, H * 0.75, minDim * 0.35, "rgba(255,64,129,0.10)");
+
+    for (var i = 0; i < stars.length; i++) {
+      var star = stars[i];
+
+      var wave =
+        (Math.sin(((twinkle * star.speed + star.phase) * DEG)) + 1) / 2;
+
+      var alpha = star.alpha * (0.45 + wave * 0.75);
+      alpha = Math.max(0, Math.min(1, alpha));
+
+      ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+      ctx.beginPath();
+      ctx.arc(star.x * W, star.y * H, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    var rayCx = clockCenter.x;
+    var rayCy = clockCenter.y;
+    var maxRadius = maxDim * 0.75;
+    var startRadius = minDim * 0.18;
+
+    ctx.lineCap = "round";
+    ctx.lineWidth = 10;
+
+    for (var k = 0; k < 18; k++) {
+      var a = (k * 20 + rayRotation) * DEG;
+      var ca = Math.cos(a);
+      var sa = Math.sin(a);
+
+      ctx.strokeStyle =
+        hexToRgba(RAY_COLORS[k % RAY_COLORS.length], 0.035 * pulse);
+
+      ctx.beginPath();
+      ctx.moveTo(rayCx + ca * startRadius, rayCy + sa * startRadius);
+      ctx.lineTo(rayCx + ca * maxRadius, rayCy + sa * maxRadius);
+      ctx.stroke();
+    }
+
+    renderShootingStars(ctx, now, minDim);
+  }
+
+  function renderShootingStars(ctx, now, minDim) {
+    if (shootingStars.length === 0) return;
+
+    var cx = clockCenter.x;
+    var cy = clockCenter.y;
+    var clockRadiusPx = clockRadius;
+
+    var maxRadiusPx = Math.max(
+      Math.min(W, H) * 0.78,
+      clockRadiusPx * 1.7
+    );
+
+    ctx.lineCap = "round";
+
+    for (var i = 0; i < shootingStars.length; i++) {
+      var s = shootingStars[i];
+
+      var elapsed = Math.max(0, now - s.spawnTime);
+      var progress = Math.min(1, elapsed / s.lifetime);
+
+      var headRadius =
+        clockRadiusPx + progress * (maxRadiusPx - clockRadiusPx);
+
+      var tailLength = s.lengthFrac * minDim;
+      var tailRadius = Math.max(headRadius - tailLength, clockRadiusPx);
+
+      var cosA = Math.cos(s.angle);
+      var sinA = Math.sin(s.angle);
+
+      var headX = cx + cosA * headRadius;
+      var headY = cy + sinA * headRadius;
+
+      var tailX = cx + cosA * tailRadius;
+      var tailY = cy + sinA * tailRadius;
+
+      var alpha;
+      if (progress < 0.1) {
+        alpha = progress / 0.1;
+      } else if (progress > 0.7) {
+        alpha = (1 - progress) / 0.3;
+      } else {
+        alpha = 1;
+      }
+      alpha = Math.max(0, Math.min(1, alpha));
+
+      if (alpha <= 0) continue;
+
+      var g1 = ctx.createLinearGradient(tailX, tailY, headX, headY);
+      g1.addColorStop(0, "rgba(0,0,0,0)");
+      g1.addColorStop(0.45, "rgba(0,229,255," + 0.16 * alpha + ")");
+      g1.addColorStop(0.8, "rgba(124,77,255," + 0.28 * alpha + ")");
+      g1.addColorStop(1, "rgba(255,255,255," + 0.55 * alpha + ")");
+
+      ctx.strokeStyle = g1;
+      ctx.lineWidth = 3.6;
+      ctx.beginPath();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(headX, headY);
+      ctx.stroke();
+
+      var g2 = ctx.createLinearGradient(tailX, tailY, headX, headY);
+      g2.addColorStop(0, "rgba(0,0,0,0)");
+      g2.addColorStop(0.55, "rgba(255,255,255," + 0.18 * alpha + ")");
+      g2.addColorStop(1, "rgba(255,255,255," + 0.95 * alpha + ")");
+
+      ctx.strokeStyle = g2;
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(headX, headY);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(0,229,255," + 0.45 * alpha + ")";
+      ctx.beginPath();
+      ctx.arc(headX, headY, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+      ctx.beginPath();
+      ctx.arc(headX, headY, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function hexToRgba(hex, alpha) {
+    var h = hex.replace("#", "");
+    var r = parseInt(h.substring(0, 2), 16);
+    var g = parseInt(h.substring(2, 4), 16);
+    var b = parseInt(h.substring(4, 6), 16);
+    return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+  }
+
+  var NUMBER_COLORS = [
+    "#FF4081", "#FFD740", "#00E676", "#00E5FF",
+    "#448AFF", "#7C4DFF", "#E040FB", "#FF4081",
+    "#FFD740", "#00E676", "#00E5FF", "#448AFF"
+  ];
+
+  function pointOnCircle(cx, cy, angleDeg, length) {
+    var rad = angleDeg * DEG;
+    return {
+      x: cx + Math.cos(rad) * length,
+      y: cy + Math.sin(rad) * length
+    };
+  }
+
+  function drawClock(hour, minute, smoothSecond, pulse, ringRotation) {
+    var ctx = clockCtx;
+    var S = CLOCK_SIZE;
+    var cx = S / 2;
+    var cy = S / 2;
+    var R = S / 2;
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, S, S);
+
+    ctx.lineCap = "round";
+
+    var faceGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+    faceGrad.addColorStop(0, "#181044");
+    faceGrad.addColorStop(0.5, "#0C0926");
+    faceGrad.addColorStop(1, "#03030D");
+
+    ctx.fillStyle = faceGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R - 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(0,229,255," + 0.07 * pulse + ")";
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 0.92, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(ringRotation * DEG);
+
+    var ringGrad = ctx.createConicGradient(0, 0, 0);
+    ringGrad.addColorStop(0 / 6, "#00E5FF");
+    ringGrad.addColorStop(1 / 6, "#7C4DFF");
+    ringGrad.addColorStop(2 / 6, "#FF00E5");
+    ringGrad.addColorStop(3 / 6, "#FF4081");
+    ringGrad.addColorStop(4 / 6, "#FFD740");
+    ringGrad.addColorStop(5 / 6, "#00E676");
+    ringGrad.addColorStop(1, "#00E5FF");
+
+    ctx.strokeStyle = ringGrad;
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.arc(0, 0, R - 4, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(-ringRotation * 0.6 * DEG);
+
+    var innerGrad = ctx.createConicGradient(0, 0, 0);
+    innerGrad.addColorStop(0, "rgba(255,255,255,0.05)");
+    innerGrad.addColorStop(1 / 3, "rgba(0,229,255,0.35)");
+    innerGrad.addColorStop(2 / 3, "rgba(255,64,129,0.30)");
+    innerGrad.addColorStop(1, "rgba(255,255,255,0.05)");
+
+    ctx.strokeStyle = innerGrad;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(0, 0, R - 15, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.restore();
+
+    var outerTick = R - 22;
+
+    for (var i = 0; i < 60; i++) {
+      var ta = (i * 6 - 90) * DEG;
+      var innerTick = i % 5 === 0 ? outerTick - 16 : outerTick - 7;
+
+      var cosT = Math.cos(ta);
+      var sinT = Math.sin(ta);
+
+      ctx.strokeStyle =
+        i % 5 === 0 ? "rgba(255,255,255,0.90)" : "rgba(255,255,255,0.28)";
+
+      ctx.lineWidth = i % 5 === 0 ? 3 : 1.2;
+
+      ctx.beginPath();
+      ctx.moveTo(cx + cosT * innerTick, cy + sinT * innerTick);
+      ctx.lineTo(cx + cosT * outerTick, cy + sinT * outerTick);
+      ctx.stroke();
+    }
+
+    var secondAngle = smoothSecond * 6 - 90;
+    var minuteAngle = (minute * 6 + (smoothSecond / 60) * 6) - 90;
+    var hourAngle = ((hour % 12) * 30 + (minute / 60) * 30) - 90;
+
+    var hourEnd = pointOnCircle(cx, cy, hourAngle, R * 0.41);
+    var minuteEnd = pointOnCircle(cx, cy, minuteAngle, R * 0.57);
+    var secondEnd = pointOnCircle(cx, cy, secondAngle, R * 0.68);
+    var secondBack = pointOnCircle(cx, cy, secondAngle + 180, R * 0.15);
+
+    ctx.strokeStyle = "rgba(124,77,255,0.28)";
+    ctx.lineWidth = 17;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(hourEnd.x, hourEnd.y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(hourEnd.x, hourEnd.y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(0,229,255,0.30)";
+    ctx.lineWidth = 14;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(minuteEnd.x, minuteEnd.y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#80DEEA";
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(minuteEnd.x, minuteEnd.y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(255,64,129,0.32)";
+    ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(secondEnd.x, secondEnd.y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#FF4081";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(secondEnd.x, secondEnd.y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(secondBack.x, secondBack.y);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(255,64,129," + 0.30 * pulse + ")";
+    ctx.beginPath();
+    ctx.arc(cx, cy, 17, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(cx, cy, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#FF4081";
+    ctx.beginPath();
+    ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    var numberRadius = 112;
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = '800 20px "B Titr", "Vazirmatn", Tahoma, sans-serif';
+
+    for (var n = 1; n <= 12; n++) {
+      var na = (n * 30 - 90) * DEG;
+      var nx = cx + Math.cos(na) * numberRadius;
+      var ny = cy + Math.sin(na) * numberRadius;
+      var color = NUMBER_COLORS[n - 1];
+
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = color;
+      ctx.fillText(toPersianDigits(String(n)), nx, ny);
+    }
+
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
+  }
+
+  var tehranFormatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tehran",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    weekday: "short",
+    hourCycle: "h23"
+  });
+
+  var WEEKDAY_INDEX = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6
+  };
+
+  function computeTehranParts() {
+    var parts = tehranFormatter.formatToParts(new Date());
+    var map = {};
+
+    for (var i = 0; i < parts.length; i++) {
+      map[parts[i].type] = parts[i].value;
+    }
+
+    var hour = parseInt(map.hour, 10) % 24;
+
+    return {
+      year: parseInt(map.year, 10),
+      month: parseInt(map.month, 10),
+      day: parseInt(map.day, 10),
+      hour: hour,
+      minute: parseInt(map.minute, 10),
+      second: parseInt(map.second, 10),
+      weekdayIndex:
+        typeof WEEKDAY_INDEX[map.weekday] === "number"
+          ? WEEKDAY_INDEX[map.weekday]
+          : 0
+    };
+  }
+
+  var cachedParts = null;
+  var cachedSecondKey = -1;
+
+  function getTehranParts() {
+    var key = Math.floor(Date.now() / 1000);
+
+    if (key !== cachedSecondKey || cachedParts === null) {
+      cachedSecondKey = key;
+      cachedParts = computeTehranParts();
+    }
+
+    return cachedParts;
+  }
+
+  var START = performance.now();
+
+  var elDigital = document.getElementById("digital");
+  var elDayName = document.getElementById("dayName");
+  var elDate = document.getElementById("dateText");
+
+  var PERSIAN_DAYS = [
+    "یکشنبه",
+    "دوشنبه",
+    "سه‌شنبه",
+    "چهارشنبه",
+    "پنج‌شنبه",
+    "جمعه",
+    "شنبه"
+  ];
+
+  var lastRenderedKey = -1;
+
+  function updateTexts(parts) {
+    var digitalTime =
+      pad2(parts.hour) + " : " + pad2(parts.minute) + " : " + pad2(parts.second);
+
+    elDigital.textContent = toPersianDigits(digitalTime);
+
+    elDayName.textContent = PERSIAN_DAYS[parts.weekdayIndex];
+
+    var j = toJalali(parts.year, parts.month, parts.day);
+
+    elDate.textContent = toPersianDigits(
+      pad4(j[0]) + "/" + pad2(j[1]) + "/" + pad2(j[2])
+    );
+  }
+
+  function pad2(n) {
+    return n < 10 ? "0" + n : String(n);
+  }
+
+  function pad4(n) {
+    var s = String(n);
+    while (s.length < 4) s = "0" + s;
+    return s;
+  }
+
+  function frame(now) {
+    var parts = getTehranParts();
+    var ms = Date.now() % 1000;
+
+    var smoothSecond = parts.second + ms / 1000;
+
+    var elapsed = now - START;
+
+    var rayRotation = ((elapsed % 18000) / 18000) * 360;
+    var ringRotation = ((elapsed % 6000) / 6000) * 360;
+    var twinkle = ((elapsed % 4200) / 4200) * 360;
+
+    var pulsePhase = (elapsed % 2800) / 2800;
+    var pulseT = pulsePhase < 0.5 ? pulsePhase * 2 : (1 - pulsePhase) * 2;
+    var pulse = 0.72 + pulseT * 0.40;
+
+    if (cachedSecondKey !== lastRenderedKey) {
+      lastRenderedKey = cachedSecondKey;
+      updateTexts(parts);
+      updateClockMetrics();
+    }
+
+    updateShootingStars(now);
+
+    renderBackground(now, twinkle, rayRotation, pulse);
+    drawClock(parts.hour, parts.minute, smoothSecond, pulse, ringRotation);
+
+    requestAnimationFrame(frame);
+  }
+
+  function isFullscreenActive() {
+    return !!(
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+  }
+
+  function updateFullscreenUI() {
+    if (isFullscreenActive()) {
+      document.body.classList.add("is-fullscreen");
+    } else {
+      document.body.classList.remove("is-fullscreen");
+    }
+  }
+
+  function enterFullscreen() {
+    var el = document.documentElement;
+
+    if (el.requestFullscreen) {
+      var p = el.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    } else if (el.mozRequestFullScreen) {
+      el.mozRequestFullScreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    }
+  }
+
+  function exitFullscreen() {
+    if (document.exitFullscreen) {
+      var p = document.exitFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+
+  var btnFullscreen = document.getElementById("btnFullscreen");
+
+  if (btnFullscreen) {
+    btnFullscreen.addEventListener("click", function () {
+      if (isFullscreenActive()) {
+        exitFullscreen();
+      } else {
+        enterFullscreen();
+      }
+    });
+  }
+
+  ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "MSFullscreenChange"].forEach(function (ev) {
+    document.addEventListener(ev, function () {
+      updateFullscreenUI();
+      setTimeout(function () {
+        fitApp();
+        updateClockMetrics();
+      }, 120);
+    });
+  });
+
+  updateFullscreenUI();
+
+  window.addEventListener("resize", resizeAll);
+  window.addEventListener("orientationchange", function () {
+    setTimeout(resizeAll, 120);
+  });
+
+  resizeAll();
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      fitApp();
+      updateClockMetrics();
+    });
+  }
+
+  requestAnimationFrame(function (t) {
+    START = t;
+    nextSpawnAt = t + 900;
+    requestAnimationFrame(frame);
+  });
+})();
+</script>
+
+</body>
+</html>
