@@ -77,11 +77,11 @@
       flex-wrap: wrap;
     }
 
-    /* URL Input Box (Added gap) */
+    /* URL Input Box */
     .url-input-box {
       display: flex;
       align-items: center;
-      gap: 12px; /* فاصله بین متن لینک و دکمه */
+      gap: 12px;
       background: #151b2b;
       border: 1px solid rgba(0, 229, 255, 0.3);
       border-radius: 12px;
@@ -103,8 +103,15 @@
       outline: none;
       color: #fff;
       font-size: 14px;
-      direction: ltr;
-      min-width: 0; /* برای جلوگیری از سرریز شدن */
+      direction: ltr; /* برای تایپ صحیح لینک انگلیسی */
+      min-width: 0;
+    }
+
+    /* استایل متن راهنما (Placeholder) */
+    .url-input-box input::placeholder {
+      color: #888; /* رنگ خاکستری */
+      direction: rtl; /* برای نمایش صحیح متن فارسی */
+      text-align: right;
     }
 
     .url-input-box button {
@@ -310,7 +317,8 @@
   <!-- Toolbar -->
   <div class="toolbar">
     <div class="url-input-box">
-      <input type="text" id="urlInput" value="https://www.programmer-msr.ir/" placeholder="آدرس سایت را وارد کنید (مثلاً https://google.com)" dir="ltr">
+      <!-- مقدار value حذف شد و متن placeholder تغییر کرد -->
+      <input type="text" id="urlInput" placeholder="لطفا لینک را وارد کنید" dir="ltr">
       <button id="loadBtn">بارگذاری</button>
     </div>
 
@@ -352,7 +360,7 @@
           <div class="dot green"></div>
         </div>
 
-        <!-- The Website Iframe -->
+        <!-- The Website Iframe (Still shows your site by default) -->
         <iframe id="previewFrame" src="https://www.programmer-msr.ir/" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
       
       </div>
