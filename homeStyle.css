@@ -1,5 +1,7 @@
-
-*{
+/* ============================================================
+   RESET & FONTS
+   ============================================================ */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,42 +10,41 @@
     list-style: none;
 }
 
-/*do not show blue background when tap in mobile*/
+/* do not show blue background when tap in mobile */
 * {
-  -webkit-tap-highlight-color: transparent; /* Chrome, Safari: removes default blue highlight on tap */
-  -webkit-touch-callout: none; /* iOS: disables long-press menu */
-  -webkit-user-select: none;   /* prevents accidental text selection on touch */
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation; /* hint for browser: reduces touch delay and improves responsiveness */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
 }
 
-@font-face 
-{
-  font-family: 'Vazirmatn';
-  src: url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2 supports variations'),
-       url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2 supports variations'),
+         url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
 }
 
-body
-{
+body {
     background-color: #ffffff;
 }
-a
-{
+
+a {
     font-size: 0;
     text-decoration: none;
     color: black;
 }
 
 
-/*header---------------------------------------------------------------------------------------------*/
-#main-header
-{
+/* ============================================================
+   HEADER
+   ============================================================ */
+#main-header {
     background: url(homeImages/head/blueHeader.jpg) no-repeat center center/cover;
     height: 40vh;
     min-height: 220px;
@@ -55,41 +56,42 @@ a
     gap: 12%;
     overflow: hidden;
 }
-#textChange-and-myIcon-box
-{
+
+#textChange-and-myIcon-box {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 8vh;
 }
-#textChange
-{
+
+#textChange {
     height: 20px;
     font-size: 24px;
     margin-bottom: 12px;
 }
-#myIcon
-{
+
+#myIcon {
     margin-right: 10px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     border: 2px solid rgb(5, 169, 219);
 }
-header > p
-{
+
+header > p {
     margin-bottom: 30px;
 }
-/*skills----------------------------------------------------------------------- */
-#skills 
-{
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+#skills {
     text-align: center;
     margin-top: -30px;
     direction: ltr;
     overflow: hidden;
-    display: inline-block;  
+    display: inline-block;
     white-space: pre;
-    
     background: linear-gradient(90deg, #ff4d4d, #4d79ff, #4dff88, #ffb84d);
     background-size: 200% 100%;
     color: transparent;
@@ -98,100 +100,89 @@ header > p
     animation: gradien-text 1s linear infinite;
 }
 
-@keyframes gradien-text 
-{
+@keyframes gradien-text {
     0%   { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
 }
 
 
-/*itmes--------------------------------------------------------------------------------------*/
-#itmes-box
-{
-  display: grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap: 15px;
-  margin: 15px 20px 15px 20px; 
+/* ============================================================
+   ITEMS
+   ============================================================ */
+#itmes-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin: 15px 20px 15px 20px;
 }
-/*Item*/
-.item
-{
-  background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px 0px rgb(32, 32, 32);
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 10px auto 5px auto;
-  transition-duration: 0.4s;
+
+.item {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 0px rgb(32, 32, 32);
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 10px auto 5px auto;
+    transition-duration: 0.4s;
 }
-@media (min-width: 768px) 
-{
-  .item:hover 
-  {
-    transform: translateY(-10px);
-  }
+
+@media (min-width: 768px) {
+    .item:hover {
+        transform: translateY(-10px);
+    }
 }
-/*itemHead*/
-.itemHead
-{
+
+.itemHead {
     background-color: rgb(32, 32, 32);
     display: flex;
     justify-content: right;
-    align-items:center ;
+    align-items: center;
 }
-.itemHead h2
-{
+
+.itemHead h2 {
     color: #fff;
     font-size: 12px;
     margin-right: 5px;
 }
-.itemHead img
-{
+
+.itemHead img {
     width: 40px;
     height: 40px;
     padding: 5px;
 }
-/*item Images*/
-.itemImages
-{
+
+.itemImages {
     display: flex;
     justify-content: center;
-    align-items:center ;
+    align-items: center;
 }
-.itemImages img
-{
+
+.itemImages img {
     width: 49.75%;
 }
-.itemImageRight
-{
+
+.itemImageRight {
     margin-left: .5%;
 }
-/*item Text*/
-.itemDescription
-{
-   font-weight: 600;
-   font-size: 14px;
-   padding: 10px;
-   text-align: center;
-   line-height: 2;
-   height: 100%;
+
+.itemDescription {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    line-height: 2;
+    height: 100%;
 }
-.spanRed
-{
-    color: orangered;
-}
-.spanGreen
-{
-    color: #11ba04;
-}
-/*Item btn*/
-.itembtn
-{
+
+.spanRed   { color: orangered; }
+.spanGreen { color: #11ba04; }
+
+.itembtn {
     color: white;
     background-color: #007deb;
     transition-duration: .5s;
-    text-align:center;
+    text-align: center;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     font-size: 15px;
@@ -199,15 +190,15 @@ header > p
     height: 45px;
 }
 
-.itembtn:hover
-{
+.itembtn:hover {
     background-color: rgb(2, 172, 2);
 }
 
-/*footer---------------------------------------------------------*/
 
-footer
-{
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
     background-color: #151515;
     display: flex;
     flex-direction: column;
@@ -216,25 +207,22 @@ footer
     padding: 30px 20px;
 }
 
-footer img
-{
+footer img {
     height: 25px;
     width: auto;
 }
 
-/* ---------- چیدمان عمودی دو بخش ---------- */
-.footer-sections
-{
+/* چیدمان عمودی دو بخش */
+.footer-sections {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 22px;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
 }
 
-.footer-section
-{
+.footer-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -242,8 +230,7 @@ footer img
     width: 100%;
 }
 
-.footer-title
-{
+.footer-title {
     color: #16baf5;
     font-size: 13px;
     font-weight: bold;
@@ -253,17 +240,15 @@ footer img
     margin: 0;
 }
 
-/* جداکننده‌ی افقی */
-.footer-divider
-{
+/* جداکننده افقی */
+.footer-divider {
     width: 70%;
     height: 1px;
     background: linear-gradient(90deg, transparent, #383838 20%, #383838 80%, transparent);
 }
 
-/* ---------- آیدی اینستاگرام ---------- */
-#my-id
-{
+/* آیدی اینستاگرام */
+#my-id {
     color: white;
     direction: ltr;
     font-size: 15px;
@@ -271,14 +256,12 @@ footer img
     text-decoration: none;
 }
 
-#my-id:hover
-{
+#my-id:hover {
     color: orangered;
 }
 
-/* ---------- آیکن‌های ارتباط ---------- */
-#contacts
-{
+/* آیکن‌های ارتباط */
+#contacts {
     direction: ltr;
     display: flex;
     flex-direction: row;
@@ -287,23 +270,22 @@ footer img
     gap: 10px;
 }
 
-/* ---------- لینک‌های صفحات کاربردی (ساعت / نقشه) ---------- */
-.footer-page-links
-{
-    display: flex;
-    flex-direction: row;
+/* ---------- لینک‌های صفحات سرگرمی (۳ آیتم در هر سطر) ---------- */
+.footer-page-links {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
-.footer-page-link
-{
+.footer-page-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 7px;
-    padding: 8px 16px;
+    padding: 8px 14px;
     border-radius: 8px;
     background-color: #222;
     color: #fff;
@@ -312,10 +294,11 @@ footer img
     text-decoration: none;
     border: 1px solid #333;
     transition: 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
-.footer-page-link svg
-{
+.footer-page-link svg {
     width: 16px;
     height: 16px;
     fill: none;
@@ -327,8 +310,7 @@ footer img
     flex-shrink: 0;
 }
 
-.footer-page-link:hover
-{
+.footer-page-link:hover {
     background-color: #007deb;
     border-color: #007deb;
     color: #fff;
@@ -336,7 +318,77 @@ footer img
     box-shadow: 0 6px 14px -6px #007deb;
 }
 
-.footer-page-link:hover svg
-{
+.footer-page-link:hover svg {
     stroke: #fff;
+}
+
+/* ---------- رنگ اختصاصی هر صفحه ---------- */
+
+/* رادار — سبز نظامی */
+.footer-page-link[href="radar.html"] svg {
+    stroke: #00ff64;
+}
+.footer-page-link[href="radar.html"]:hover {
+    background-color: #00b84a;
+    border-color: #00b84a;
+    box-shadow: 0 6px 14px -6px #00b84a;
+}
+.footer-page-link[href="radar.html"]:hover svg {
+    stroke: #fff;
+}
+
+/* منظومه شمسی — نارنجی خورشیدی */
+.footer-page-link[href="solar-system.html"] svg {
+    stroke: #ffc850;
+}
+.footer-page-link[href="solar-system.html"]:hover {
+    background-color: #d88f00;
+    border-color: #d88f00;
+    box-shadow: 0 6px 14px -6px #d88f00;
+}
+.footer-page-link[href="solar-system.html"]:hover svg {
+    stroke: #fff;
+}
+
+/* دوز — قرمز */
+.footer-page-link[href="doz.html"] svg {
+    stroke: #ff5555;
+}
+.footer-page-link[href="doz.html"]:hover {
+    background-color: #c82323;
+    border-color: #c82323;
+    box-shadow: 0 6px 14px -6px #c82323;
+}
+.footer-page-link[href="doz.html"]:hover svg {
+    stroke: #fff;
+}
+
+/* قرعه‌کشی — صورتی */
+.footer-page-link[href="lottery.html"] svg {
+    stroke: #ff3c9e;
+}
+.footer-page-link[href="lottery.html"]:hover {
+    background-color: #c2005f;
+    border-color: #c2005f;
+    box-shadow: 0 6px 14px -6px #c2005f;
+}
+.footer-page-link[href="lottery.html"]:hover svg {
+    stroke: #fff;
+}
+
+/* ---------- موبایل ---------- */
+@media (max-width: 600px) {
+    .footer-page-links {
+        grid-template-columns: repeat(3, auto);
+        gap: 6px;
+    }
+    .footer-page-link {
+        padding: 6px 8px;
+        font-size: 11px;
+        gap: 4px;
+    }
+    .footer-page-link svg {
+        width: 12px;
+        height: 12px;
+    }
 }

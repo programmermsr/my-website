@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>منظومه شمسی تعاملی | محمد صادق رضائی</title>
+  <meta name="description" content="شبیه‌ساز تعاملی منظومه شمسی — خورشید، هشت سیاره، ماه و حلقه‌های زحل با نمای سه‌بعدی از بغل و نورپردازی واقعی. با موس بچرخانید، زوم کنید و روی هر سیاره کلیک کنید. ساخته شده توسط محمد صادق رضائی، برنامه‌نویس سیشارپ و طراح سایت.">
+  <meta name="keywords" content="منظومه شمسی, سیارات, خورشید, شبیه ساز, نجوم, فضا, محمد صادق رضائی, برنامه نویس, سی شارپ, C#, طراحی سایت, ASP.NET, programmer msr">
+  <meta name="author" content="محمد صادق رضائی">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#02020a">
+  <link rel="canonical" href="https://www.programmer-msr.ir/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:site_name" content="Mohammad Sadegh Rezaei | Programmer MSR">
+  <meta property="og:title" content="منظومه شمسی تعاملی | محمد صادق رضائی">
+  <meta property="og:description" content="شبیه‌ساز تعاملی منظومه شمسی — با موس بچرخانید، زوم کنید و روی هر سیاره کلیک کنید.">
+  <meta property="og:url" content="https://www.programmer-msr.ir/">
+  <meta property="og:image" content="https://www.programmer-msr.ir/homeImages/head/msrMedium.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="منظومه شمسی تعاملی | محمد صادق رضائی">
+  <meta name="twitter:description" content="شبیه‌ساز تعاملی منظومه شمسی — با موس بچرخانید، زوم کنید و روی هر سیاره کلیک کنید.">
+  <meta name="twitter:image" content="https://www.programmer-msr.ir/homeImages/head/msrMedium.jpg">
+
+  <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+  <link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+  <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "منظومه شمسی تعاملی",
+    "url": "https://www.programmer-msr.ir/",
+    "author": {
+      "@type": "Person",
+      "name": "محمد صادق رضائی",
+      "alternateName": "Mohammad Sadegh Rezaei",
+      "url": "https://www.programmer-msr.ir/",
+      "jobTitle": "برنامه‌نویس و توسعه‌دهنده نرم‌افزار",
+      "knowsAbout": ["C#", "ASP.NET", "SQL", "Kotlin", "Windows Development", "Mobile Development", "Web Design"]
+    },
+    "applicationCategory": "Educational",
+    "operatingSystem": "Web Browser"
+  }
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: Vazirmatn, 'Segoe UI', Tahoma, sans-serif;
+      background: #02020a;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 18px 18px;
+      gap: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      animation: fadeDown 0.6s ease both;
+      z-index: 10;
+    }
+
+    .top-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.86em;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(10, 12, 30, 0.7);
+      color: #d0d8e8;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .top-btn:hover {
+      background: rgba(80, 130, 255, 0.15);
+      border-color: rgba(100, 160, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .top-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    header {
+      text-align: center;
+      animation: fadeDown 0.7s ease 0.05s both;
+      z-index: 10;
+    }
+
+    h1 {
+      margin: 0 0 3px;
+      font-size: 1.4em;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #ffcc00 0%, #ff7733 30%, #6688ff 70%, #44ddff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .instruction {
+      margin: 0;
+      font-size: 0.82em;
+      color: #7080a0;
+      font-weight: 500;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    main {
+      flex: 1;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 0;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(100, 160, 255, 0.15),
+        0 0 100px rgba(80, 60, 200, 0.08);
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+
+    main:fullscreen,
+    main:-webkit-full-screen,
+    main:-moz-full-screen {
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    #space {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    #space:active {
+      cursor: grabbing;
+    }
+
+    .info-panel {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      max-width: 320px;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(8, 10, 25, 0.94);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(100, 160, 255, 0.3);
+      color: #fff;
+      opacity: 0;
+      transform: translateY(-10px) scale(0.96);
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(100, 160, 255, 0.15);
+      z-index: 100;
+    }
+
+    .info-panel.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .close-info {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #aaa;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .close-info:hover {
+      background: rgba(255, 80, 80, 0.2);
+      color: #fff;
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .info-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .info-header h2 {
+      margin: 0;
+      font-size: 1.25em;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    #info-text {
+      margin: 0 0 12px;
+      font-size: 0.85em;
+      line-height: 1.75;
+      color: #b0b8cc;
+    }
+
+    .info-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+    }
+
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8em;
+      gap: 8px;
+    }
+
+    .fact-label {
+      color: #7080a0;
+    }
+
+    .fact-value {
+      color: #e0e8f5;
+      font-weight: 600;
+      text-align: left;
+      direction: ltr;
+    }
+
+    .zoom-controls {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 100;
+    }
+
+    .zoom-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(10, 12, 30, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #c0c8e0;
+      font-family: inherit;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .zoom-btn:hover {
+      background: rgba(100, 160, 255, 0.15);
+      border-color: rgba(100, 160, 255, 0.4);
+      color: #88bbff;
+    }
+
+    .zoom-btn:active {
+      transform: scale(0.94);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px 10px 10px; gap: 8px; }
+      h1 { font-size: 1.15em; letter-spacing: 2px; }
+      .instruction { font-size: 0.72em; }
+      .top-btn { padding: 8px 10px; font-size: 0.76em; gap: 5px; }
+      .top-btn svg { width: 12px; height: 12px; }
+      .info-panel { max-width: calc(100% - 32px); padding: 12px 16px; }
+      .info-header h2 { font-size: 1.1em; }
+      #info-text { font-size: 0.78em; line-height: 1.65; }
+      .zoom-controls { bottom: 12px; right: 12px; gap: 5px; }
+      .zoom-btn { width: 34px; height: 34px; font-size: 1em; }
+    }
+
+    @media (max-width: 400px) {
+      .top-btn span { display: none; }
+      .top-btn { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <button id="fullscreen-btn" class="top-btn" title="حالت تمام صفحه">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+      </svg>
+      <span>تمام صفحه</span>
+    </button>
+
+    <a href="https://www.programmer-msr.ir/" class="top-btn" title="بازگشت به سایت اصلی">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>بازگشت به سایت</span>
+    </a>
+  </div>
+
+  <header>
+    <h1>منظومه شمسی</h1>
+    <p class="instruction">با ماوس بچرخانید و زوم کنید — روی هر سیاره کلیک کنید تا اطلاعاتش را ببینید</p>
+  </header>
+
+  <main id="main-area">
+    <canvas id="space"></canvas>
+
+    <div class="info-panel" id="info-panel">
+      <button class="close-info" id="close-info" title="بستن">×</button>
+      <div class="info-header">
+        <span class="info-dot" id="info-dot"></span>
+        <h2 id="info-name">—</h2>
+      </div>
+      <p id="info-text"></p>
+      <div class="info-facts" id="info-facts"></div>
+    </div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoom-in" title="بزرگ‌نمایی">+</button>
+      <button class="zoom-btn" id="zoom-out" title="کوچک‌نمایی">−</button>
+      <button class="zoom-btn" id="zoom-reset" title="بازنشانی" style="font-size:0.9em">⟲</button>
+    </div>
+  </main>
+
+  <script>
+    const TILT = 0.4;
+    const SPEED = 1;
+
+    const PLANETS = [
+      {
+        key: 'mercury', name: 'عطارد',
+        color: '#b8b0a8', colorLight: '#e8e0d8', colorDark: '#5a5048', colorShadow: '#1a1510',
+        size: 8, orbit: 80, period: 88,
+        facts: [
+          { label: 'قطر', value: '4,879 km' },
+          { label: 'فاصله از خورشید', value: '57.9 M km' },
+          { label: 'طول سال', value: '88 روز' }
+        ],
+        info: 'کوچک‌ترین سیاره منظومه شمسی و نزدیک‌ترین به خورشید. سطح آن پر از دهانه‌های برخوردی است و دمای آن بین -173 تا 427 درجه سانتی‌گراد نوسان می‌کند.'
+      },
+      {
+        key: 'venus', name: 'زهره',
+        color: '#f0c070', colorLight: '#ffe8b0', colorDark: '#b08030', colorShadow: '#3a2810',
+        size: 13, orbit: 118, period: 225,
+        atmosphere: 'rgba(255, 200, 100, 0.25)',
+        facts: [
+          { label: 'قطر', value: '12,104 km' },
+          { label: 'فاصله از خورشید', value: '108.2 M km' },
+          { label: 'طول سال', value: '225 روز' }
+        ],
+        info: 'گرم‌ترین سیاره منظومه شمسی با دمای سطح 465 درجه. جو غلیظ آن از دی‌اکسید کربن است و به همین دلیل به آن «خواهر زمین» می‌گویند.'
+      },
+      {
+        key: 'earth', name: 'زمین',
+        color: '#4a90e2', colorLight: '#88c0ff', colorDark: '#1e4a80', colorShadow: '#0a1a30',
+        size: 14, orbit: 162, period: 365,
+        hasMoon: true,
+        atmosphere: 'rgba(100, 180, 255, 0.4)',
+        facts: [
+          { label: 'قطر', value: '12,742 km' },
+          { label: 'فاصله از خورشید', value: '149.6 M km' },
+          { label: 'طول سال', value: '365 روز' },
+          { label: 'قمرها', value: '1' }
+        ],
+        info: 'سیاره ما، تنها سیاره شناخته‌شده با حیات. 71 درصد سطح آن را آب پوشانده و جو آن از نیتروژن و اکسیژن تشکیل شده است.'
+      },
+      {
+        key: 'mars', name: 'مریخ',
+        color: '#d45430', colorLight: '#ff8060', colorDark: '#8a2a1a', colorShadow: '#2a0804',
+        size: 10, orbit: 212, period: 687,
+        atmosphere: 'rgba(255, 120, 80, 0.2)',
+        facts: [
+          { label: 'قطر', value: '6,779 km' },
+          { label: 'فاصله از خورشید', value: '227.9 M km' },
+          { label: 'طول سال', value: '687 روز' },
+          { label: 'قمرها', value: '2' }
+        ],
+        info: 'سیاره سرخ، به دلیل اکسید آهن در خاک. بلندترین کوه منظومه شمسی (المپوس مونس) با ارتفاع 22 کیلومتر در این سیاره قرار دارد.'
+      },
+      {
+        key: 'jupiter', name: 'مشتری',
+        color: '#d9c398', colorLight: '#f5e4c8', colorDark: '#8a7040', colorShadow: '#2a2010',
+        size: 36, orbit: 320, period: 4333,
+        atmosphere: 'rgba(255, 200, 150, 0.2)',
+        facts: [
+          { label: 'قطر', value: '139,820 km' },
+          { label: 'فاصله از خورشید', value: '778.5 M km' },
+          { label: 'طول سال', value: '11.9 سال' },
+          { label: 'قمرها', value: '95' }
+        ],
+        info: 'بزرگ‌ترین سیاره منظومه شمسی. جرم آن 2.5 برابر مجموع همه سیارات دیگر است. لکه سرخ بزرگ آن یک طوفان عظیم است که قرن‌ها در جریان بوده.'
+      },
+      {
+        key: 'saturn', name: 'زحل',
+        color: '#e8d9a8', colorLight: '#fff5d8', colorDark: '#a08850', colorShadow: '#2a2010',
+        size: 30, orbit: 425, period: 10759,
+        hasRing: true,
+        atmosphere: 'rgba(255, 230, 180, 0.2)',
+        facts: [
+          { label: 'قطر', value: '116,460 km' },
+          { label: 'فاصله از خورشید', value: '1.43 B km' },
+          { label: 'طول سال', value: '29.4 سال' },
+          { label: 'قمرها', value: '146' }
+        ],
+        info: 'سیاره حلقه‌دار، دومین سیاره بزرگ منظومه شمسی. حلقه‌های آن از یخ و سنگ ساخته شده‌اند و تیتان بزرگ‌ترین قمر آن است.'
+      },
+      {
+        key: 'uranus', name: 'اورانوس',
+        color: '#a5e5e5', colorLight: '#d8ffff', colorDark: '#509090', colorShadow: '#102a2a',
+        size: 22, orbit: 510, period: 30687,
+        atmosphere: 'rgba(180, 240, 240, 0.25)',
+        facts: [
+          { label: 'قطر', value: '50,724 km' },
+          { label: 'فاصله از خورشید', value: '2.87 B km' },
+          { label: 'طول سال', value: '84 سال' },
+          { label: 'قمرها', value: '28' }
+        ],
+        info: 'سیاره یخی با رنگ آبی-سبز که از متان در جو آن است. برخلاف سایر سیارات، محور چرخش آن تقریباً موازی مدار است، یعنی عملاً «به پهلو» می‌چرخد.'
+      },
+      {
+        key: 'neptune', name: 'نپتون',
+        color: '#4a5fd4', colorLight: '#8899ff', colorDark: '#1e2878', colorShadow: '#06081e',
+        size: 22, orbit: 590, period: 60190,
+        atmosphere: 'rgba(100, 130, 255, 0.3)',
+        facts: [
+          { label: 'قطر', value: '49,244 km' },
+          { label: 'فاصله از خورشید', value: '4.5 B km' },
+          { label: 'طول سال', value: '164.8 سال' },
+          { label: 'قمرها', value: '16' }
+        ],
+        info: 'دورترین سیاره منظومه شمسی و بادخیزترین آن‌ها، با بادهایی تا 2100 کیلومتر بر ساعت. رنگ آبی عمیق آن از متان جو است.'
+      }
+    ];
+
+    const SUN_INFO = {
+      name: 'خورشید',
+      color: '#ffcc00',
+      info: 'ستاره مرکزی منظومه شمسی. 99.86 درصد جرم کل منظومه را تشکیل می‌دهد و نور آن حدود 8 دقیقه و 20 ثانیه طول می‌کشد تا به زمین برسد.',
+      facts: [
+        { label: 'قطر', value: '1,392,700 km' },
+        { label: 'دمای سطح', value: '5,500 °C' },
+        { label: 'دمای هسته', value: '15 M °C' },
+        { label: 'سن', value: '4.6 B سال' }
+      ]
+    };
+
+    PLANETS.forEach((p, i) => {
+      p.angle = (i / PLANETS.length) * Math.PI * 2 + 0.3;
+      p.x = 0;
+      p.y = 0;
+      p.z = 0;
+      p.depthScale = 1;
+      p.trail = [];
+    });
+
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+    const mainEl = document.getElementById('main-area');
+    const infoPanel = document.getElementById('info-panel');
+    const infoName = document.getElementById('info-name');
+    const infoText = document.getElementById('info-text');
+    const infoFacts = document.getElementById('info-facts');
+    const infoDot = document.getElementById('info-dot');
+    const closeInfoBtn = document.getElementById('close-info');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+    let W = 0, H = 0;
+    let scale = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let simTime = 0;
+    let lastT = 0;
+    let asteroids = [];
+    let nebulaCanvas = null;
+    let selectedPlanet = null;
+    let labelFontSize = 13;
+    let starLayer1 = [], starLayer2 = [], starLayer3 = [];
+
+    const pointer = {
+      down: false,
+      startX: 0, startY: 0,
+      downOffsetX: 0, downOffsetY: 0,
+      moved: false
+    };
+
+    function createStars() {
+      starLayer1 = [];
+      starLayer2 = [];
+      starLayer3 = [];
+
+      const layers = [
+        { arr: starLayer1, count: Math.floor((W * H) / 6000), maxSize: 0.8, colors: ['rgba(200, 210, 255, ', 'rgba(255, 255, 255, '] },
+        { arr: starLayer2, count: Math.floor((W * H) / 10000), maxSize: 1.5, colors: ['rgba(255, 255, 255, ', 'rgba(200, 230, 255, ', 'rgba(255, 220, 200, '] },
+        { arr: starLayer3, count: Math.floor((W * H) / 30000), maxSize: 2.2, colors: ['rgba(180, 200, 255, ', 'rgba(255, 240, 220, ', 'rgba(200, 255, 220, '] }
+      ];
+
+      for (const layer of layers) {
+        for (let i = 0; i < layer.count; i++) {
+          layer.arr.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            size: Math.random() * layer.maxSize + 0.3,
+            color: layer.colors[Math.floor(Math.random() * layer.colors.length)],
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.5 + Math.random() * 2
+          });
+        }
+      }
+    }
+
+    function createNebula() {
+      nebulaCanvas = document.createElement('canvas');
+      nebulaCanvas.width = W;
+      nebulaCanvas.height = H;
+      const nctx = nebulaCanvas.getContext('2d');
+
+      const nebulaColors = [
+        { r: 80, g: 30, b: 140 },
+        { r: 30, g: 60, b: 150 },
+        { r: 140, g: 30, b: 100 },
+        { r: 20, g: 100, b: 120 },
+        { r: 100, g: 40, b: 80 }
+      ];
+
+      const blobCount = 10 + Math.floor(W * H / 200000);
+
+      for (let i = 0; i < blobCount; i++) {
+        const x = Math.random() * W;
+        const y = Math.random() * H;
+        const r = 150 + Math.random() * 350;
+        const c = nebulaColors[Math.floor(Math.random() * nebulaColors.length)];
+        const alpha = 0.06 + Math.random() * 0.08;
+
+        const grad = nctx.createRadialGradient(x, y, 0, x, y, r);
+        grad.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, ${alpha})`);
+        grad.addColorStop(0.4, `rgba(${c.r}, ${c.g}, ${c.b}, ${alpha * 0.5})`);
+        grad.addColorStop(1, `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+        nctx.fillStyle = grad;
+        nctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    function createAsteroids() {
+      asteroids = [];
+      const beltOrbit = 266;
+      const count = 90;
+
+      for (let i = 0; i < count; i++) {
+        asteroids.push({
+          angle: Math.random() * Math.PI * 2,
+          orbit: beltOrbit + (Math.random() - 0.5) * 30,
+          size: 0.8 + Math.random() * 1.8,
+          period: 800 + Math.random() * 400,
+          brightness: 0.3 + Math.random() * 0.5
+        });
+      }
+    }
+
+    function resize() {
+      const rect = mainEl.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      labelFontSize = Math.max(11, Math.min(15, Math.min(W, H) / 50));
+
+      createStars();
+      createNebula();
+      createAsteroids();
+      fitToScreen();
+    }
+
+    function fitToScreen() {
+      const maxOrbit = Math.max(...PLANETS.map(p => p.orbit)) + 50;
+      const marginX = W < 600 ? 25 : 70;
+      const marginY = H < 600 ? 25 : 70;
+      const availW = W - marginX * 2;
+      const availH = H - marginY * 2;
+
+      const scaleW = availW / (maxOrbit * 2);
+      const scaleH = availH / (maxOrbit * 2 * TILT);
+
+      scale = Math.min(scaleW, scaleH);
+      offsetX = 0;
+      offsetY = 0;
+    }
+
+    function updatePlanetPositions() {
+      for (const p of PLANETS) {
+        const angle = (simTime / p.period) * Math.PI * 2 + p.angle;
+        p.angleNow = angle;
+        p.x = Math.cos(angle) * p.orbit;
+        p.y = Math.sin(angle) * p.orbit * TILT;
+        p.z = Math.sin(angle);
+        p.depthScale = 0.85 + (p.z + 1) * 0.15;
+
+        p.trail.push({ x: p.x, y: p.y });
+        if (p.trail.length > 30) p.trail.shift();
+      }
+    }
+
+    function worldToScreen(wx, wy) {
+      return {
+        x: wx * scale + W / 2 + offsetX,
+        y: wy * scale + H / 2 + offsetY
+      };
+    }
+
+    function drawBackground() {
+      ctx.fillStyle = '#02020a';
+      ctx.fillRect(0, 0, W, H);
+
+      if (nebulaCanvas) {
+        ctx.globalAlpha = 0.9;
+        ctx.drawImage(nebulaCanvas, 0, 0);
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function drawStars() {
+      const t = performance.now() * 0.001;
+      const allLayers = [starLayer1, starLayer2, starLayer3];
+
+      for (let li = 0; li < allLayers.length; li++) {
+        const layer = allLayers[li];
+        for (const s of layer) {
+          const alpha = 0.3 + Math.abs(Math.sin(t * s.speed + s.phase)) * 0.7;
+          ctx.fillStyle = s.color + alpha + ')';
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (li === 2 && s.size > 1.8) {
+            ctx.fillStyle = s.color + (alpha * 0.3) + ')';
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    }
+
+    function drawOrbits() {
+      for (const p of PLANETS) {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.orbit, p.orbit * TILT, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(100, 150, 220, 0.12)';
+        ctx.lineWidth = 1.2 / scale;
+        ctx.stroke();
+      }
+    }
+
+    function drawAsteroids(back) {
+      for (const a of asteroids) {
+        const angle = (simTime / a.period) * Math.PI * 2 + a.angle;
+        const x = Math.cos(angle) * a.orbit;
+        const y = Math.sin(angle) * a.orbit * TILT;
+        const z = Math.sin(angle);
+
+        if (back && z >= 0) continue;
+        if (!back && z < 0) continue;
+
+        const ds = 0.85 + (z + 1) * 0.15;
+        ctx.fillStyle = `rgba(180, 170, 150, ${a.brightness * ds})`;
+        ctx.beginPath();
+        ctx.arc(x, y, a.size * ds, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawSun() {
+      const time = performance.now() * 0.001;
+      const pulse = 1 + Math.sin(time * 2) * 0.04;
+      const sunR = 38;
+
+      const outerGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, 320 * pulse);
+      outerGlow.addColorStop(0, 'rgba(255, 200, 80, 0.35)');
+      outerGlow.addColorStop(0.2, 'rgba(255, 160, 60, 0.18)');
+      outerGlow.addColorStop(0.5, 'rgba(255, 120, 40, 0.06)');
+      outerGlow.addColorStop(1, 'rgba(255, 80, 20, 0)');
+      ctx.fillStyle = outerGlow;
+      ctx.beginPath();
+      ctx.arc(0, 0, 320 * pulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      const midGlow = ctx.createRadialGradient(0, 0, sunR * 0.7, 0, 0, sunR * 2.5);
+      midGlow.addColorStop(0, 'rgba(255, 240, 150, 0.6)');
+      midGlow.addColorStop(0.5, 'rgba(255, 180, 60, 0.2)');
+      midGlow.addColorStop(1, 'rgba(255, 120, 30, 0)');
+      ctx.fillStyle = midGlow;
+      ctx.beginPath();
+      ctx.arc(0, 0, sunR * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      const sunGrad = ctx.createRadialGradient(-12, -12, 5, 0, 0, sunR);
+      sunGrad.addColorStop(0, '#fffceb');
+      sunGrad.addColorStop(0.25, '#ffe066');
+      sunGrad.addColorStop(0.6, '#ff9922');
+      sunGrad.addColorStop(1, '#ff5500');
+      ctx.fillStyle = sunGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, sunR, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(0, 0, sunR, 0, Math.PI * 2);
+      ctx.clip();
+
+      for (let i = 0; i < 6; i++) {
+        const ang = time * 0.3 + i * 1.2;
+        const dist = sunR * (0.3 + Math.sin(time + i) * 0.2);
+        const sx = Math.cos(ang) * dist;
+        const sy = Math.sin(ang) * dist;
+        const r = 5 + Math.sin(time * 2 + i) * 2;
+        const hot = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
+        hot.addColorStop(0, 'rgba(255, 255, 240, 0.5)');
+        hot.addColorStop(1, 'rgba(255, 240, 150, 0)');
+        ctx.fillStyle = hot;
+        ctx.beginPath();
+        ctx.arc(sx, sy, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      const coreGrad = ctx.createRadialGradient(-8, -8, 0, -8, -8, sunR * 0.6);
+      coreGrad.addColorStop(0, 'rgba(255, 255, 250, 0.95)');
+      coreGrad.addColorStop(1, 'rgba(255, 255, 250, 0)');
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(-8, -8, sunR * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (sunSelected) {
+        ctx.beginPath();
+        ctx.arc(0, 0, sunR + 8 / scale + Math.sin(time * 3) * 2 / scale, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(100, 200, 255, 0.85)';
+        ctx.lineWidth = 1.5 / scale;
+        ctx.stroke();
+      }
+    }
+
+    let sunSelected = false;
+
+    function drawPlanetBody(p, size) {
+      const sunDirX = -p.x;
+      const sunDirY = -p.y;
+      const sunDist = Math.hypot(sunDirX, sunDirY) || 1;
+      const nx = sunDirX / sunDist;
+      const ny = sunDirY / sunDist;
+
+      const brightX = p.x + nx * size * 0.5;
+      const brightY = p.y + ny * size * 0.5;
+
+      const grad = ctx.createRadialGradient(
+        brightX, brightY, size * 0.05,
+        p.x, p.y, size * 1.05
+      );
+      grad.addColorStop(0, p.colorLight || p.color);
+      grad.addColorStop(0.45, p.color);
+      grad.addColorStop(0.85, p.colorDark);
+      grad.addColorStop(1, p.colorShadow || '#000');
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+
+    function drawPlanetDetails(p, size) {
+      if (p.key === 'jupiter') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.clip();
+
+        const bandOffset = (simTime * 0.02) % (size * 2);
+
+        for (let i = 0; i < 6; i++) {
+          const y = p.y - size + ((i * size * 0.35 + bandOffset) % (size * 2));
+          ctx.fillStyle = i % 2 === 0 ? 'rgba(120, 80, 40, 0.35)' : 'rgba(200, 160, 110, 0.25)';
+          ctx.fillRect(p.x - size, y, size * 2, size * 0.18);
+        }
+
+        const spotX = p.x + size * 0.25;
+        const spotY = p.y + size * 0.12;
+        const spotGrad = ctx.createRadialGradient(spotX, spotY, 0, spotX, spotY, size * 0.32);
+        spotGrad.addColorStop(0, 'rgba(200, 70, 40, 0.85)');
+        spotGrad.addColorStop(0.6, 'rgba(180, 60, 30, 0.5)');
+        spotGrad.addColorStop(1, 'rgba(180, 60, 30, 0)');
+        ctx.fillStyle = spotGrad;
+        ctx.beginPath();
+        ctx.ellipse(spotX, spotY, size * 0.32, size * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      if (p.key === 'earth') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.clip();
+
+        const rot = (simTime * 0.005) % (Math.PI * 2);
+
+        ctx.fillStyle = 'rgba(70, 150, 70, 0.75)';
+        ctx.beginPath();
+        ctx.ellipse(p.x - size * 0.3 + Math.cos(rot) * 2, p.y - size * 0.2, size * 0.38, size * 0.3, 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(p.x + size * 0.35 - Math.cos(rot) * 2, p.y + size * 0.3, size * 0.28, size * 0.22, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(p.x + size * 0.15, p.y - size * 0.4, size * 0.18, size * 0.14, 0.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        const cloudAlpha = 0.15 + Math.sin(simTime * 0.02) * 0.05;
+        ctx.fillStyle = `rgba(255, 255, 255, ${cloudAlpha})`;
+        ctx.beginPath();
+        ctx.ellipse(p.x - size * 0.2, p.y + size * 0.15, size * 0.5, size * 0.15, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(p.x + size * 0.3, p.y - size * 0.25, size * 0.35, size * 0.1, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      if (p.key === 'mars') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y - size * 0.85, size * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y + size * 0.85, size * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      if (p.key === 'saturn') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = 'rgba(160, 130, 80, 0.3)';
+        ctx.fillRect(p.x - size, p.y - size * 0.35, size * 2, size * 0.15);
+        ctx.fillRect(p.x - size, p.y + size * 0.05, size * 2, size * 0.18);
+        ctx.fillRect(p.x - size, p.y + size * 0.5, size * 2, size * 0.12);
+        ctx.restore();
+      }
+    }
+
+    function drawAtmosphere(p, size) {
+      if (!p.atmosphere) return;
+
+      const atmo = ctx.createRadialGradient(p.x, p.y, size * 0.9, p.x, p.y, size * 1.35);
+      atmo.addColorStop(0, p.atmosphere);
+      atmo.addColorStop(0.6, p.atmosphere.replace(/[\d.]+\)$/, '0.05)'));
+      atmo.addColorStop(1, p.atmosphere.replace(/[\d.]+\)$/, '0)'));
+      ctx.fillStyle = atmo;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size * 1.35, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawSaturnRings(p, size, front) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(-0.25);
+
+      const startAngle = front ? 0 : Math.PI;
+      const endAngle = front ? Math.PI : Math.PI * 2;
+
+      ctx.beginPath();
+      ctx.ellipse(0, 0, size * 2.2, size * 0.68, 0, startAngle, endAngle);
+      ctx.strokeStyle = front
+        ? 'rgba(220, 200, 150, 0.75)'
+        : 'rgba(220, 200, 150, 0.5)';
+      ctx.lineWidth = size * 0.22;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(0, 0, size * 1.78, size * 0.55, 0, startAngle, endAngle);
+      ctx.strokeStyle = front
+        ? 'rgba(240, 220, 170, 0.6)'
+        : 'rgba(240, 220, 170, 0.35)';
+      ctx.lineWidth = size * 0.1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(0, 0, size * 2.45, size * 0.75, 0, startAngle, endAngle);
+      ctx.strokeStyle = front
+        ? 'rgba(180, 160, 120, 0.4)'
+        : 'rgba(180, 160, 120, 0.25)';
+      ctx.lineWidth = size * 0.06;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawPlanet(p) {
+      const ds = p.depthScale;
+      const size = p.size * ds;
+
+      if (p.atmosphere) drawAtmosphere(p, size);
+
+      if (p.hasRing) drawSaturnRings(p, size, false);
+
+      drawPlanetBody(p, size);
+      drawPlanetDetails(p, size);
+
+      if (p.hasRing) drawSaturnRings(p, size, true);
+
+      if (p.hasMoon) {
+        const moonAngle = (simTime / 27.3) * Math.PI * 2;
+        const moonR = size + 14;
+        const mx = p.x + Math.cos(moonAngle) * moonR;
+        const my = p.y + Math.sin(moonAngle) * moonR * TILT;
+
+        const glowGrad = ctx.createRadialGradient(mx, my, 0, mx, my, 6);
+        glowGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+        glowGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = glowGrad;
+        ctx.beginPath();
+        ctx.arc(mx, my, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(mx, my, 3 * ds, 0, Math.PI * 2);
+        ctx.fillStyle = '#e8e8e8';
+        ctx.fill();
+      }
+
+      if (selectedPlanet === p) {
+        const t = performance.now() * 0.003;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size + 8 / scale + Math.sin(t) * 2 / scale, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(100, 200, 255, 0.85)';
+        ctx.lineWidth = 1.5 / scale;
+        ctx.setLineDash([6 / scale, 4 / scale]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    function drawLabels() {
+      const sunScreen = worldToScreen(0, 0);
+
+      ctx.font = `700 ${labelFontSize}px Vazirmatn, Segoe UI, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      for (const p of PLANETS) {
+        const screen = worldToScreen(p.x, p.y);
+        const dx = screen.x - sunScreen.x;
+        const dy = screen.y - sunScreen.y;
+        const angle = Math.atan2(dy, dx);
+        const offset = p.size * p.depthScale * scale + 20 + labelFontSize * 0.7;
+
+        let lx = screen.x + Math.cos(angle) * offset;
+        let ly = screen.y + Math.sin(angle) * offset;
+
+        lx = Math.max(32, Math.min(W - 32, lx));
+        ly = Math.max(20, Math.min(H - 20, ly));
+
+        ctx.save();
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.9)';
+        ctx.lineWidth = 3.5;
+        ctx.lineJoin = 'round';
+        ctx.strokeText(p.name, lx, ly);
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = p.colorLight || p.color;
+        ctx.fillText(p.name, lx, ly);
+        ctx.restore();
+      }
+
+      const sunLy = Math.min(H - 20, sunScreen.y + 38 * scale + 32);
+      ctx.save();
+      ctx.shadowColor = '#ffcc00';
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.lineWidth = 3.5;
+      ctx.lineJoin = 'round';
+      ctx.strokeText('خورشید', sunScreen.x, sunLy);
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#ffdd55';
+      ctx.fillText('خورشید', sunScreen.x, sunLy);
+      ctx.restore();
+    }
+
+    function drawVignette() {
+      const vig = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.75);
+      vig.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      vig.addColorStop(1, 'rgba(0, 0, 0, 0.55)');
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function draw() {
+      drawBackground();
+      drawStars();
+
+      ctx.save();
+      ctx.translate(W / 2 + offsetX, H / 2 + offsetY);
+      ctx.scale(scale, scale);
+
+      drawOrbits();
+
+      const sorted = [...PLANETS].sort((a, b) => a.z - b.z);
+
+      for (const p of sorted) {
+        if (p.z < 0) drawPlanet(p);
+      }
+
+      drawAsteroids(true);
+      drawSun();
+      drawAsteroids(false);
+
+      for (const p of sorted) {
+        if (p.z >= 0) drawPlanet(p);
+      }
+
+      ctx.restore();
+
+      drawLabels();
+      drawVignette();
+    }
+
+    function loop(t) {
+      requestAnimationFrame(loop);
+
+      if (lastT === 0) lastT = t;
+      const dt = Math.min((t - lastT) / 1000, 0.05);
+      lastT = t;
+
+      simTime += dt * 30 * SPEED;
+
+      updatePlanetPositions();
+      draw();
+    }
+
+    function screenToWorld(sx, sy) {
+      return {
+        x: (sx - W / 2 - offsetX) / scale,
+        y: (sy - H / 2 - offsetY) / scale
+      };
+    }
+
+    function findPlanetAt(sx, sy) {
+      const w = screenToWorld(sx, sy);
+
+      if (Math.hypot(w.x, w.y) < 40) return 'sun';
+
+      for (const p of PLANETS) {
+        const hitRadius = p.size * p.depthScale + 14 / scale;
+        if (Math.hypot(w.x - p.x, w.y - p.y) < hitRadius) {
+          return p;
+        }
+      }
+      return null;
+    }
+
+    function showInfo(data) {
+      if (data === 'sun') data = { ...SUN_INFO, key: 'sun' };
+
+      infoName.textContent = data.name;
+      infoText.textContent = data.info;
+      infoDot.style.background = data.color;
+      infoDot.style.color = data.color;
+
+      infoFacts.innerHTML = '';
+      for (const f of data.facts) {
+        const row = document.createElement('div');
+        row.className = 'fact-row';
+        row.innerHTML = `<span class="fact-label">${f.label}</span><span class="fact-value">${f.value}</span>`;
+        infoFacts.appendChild(row);
+      }
+
+      infoPanel.classList.add('show');
+
+      if (data.key !== 'sun') {
+        selectedPlanet = PLANETS.find(p => p.key === data.key);
+        sunSelected = false;
+      } else {
+        selectedPlanet = null;
+        sunSelected = true;
+      }
+    }
+
+    function hideInfo() {
+      infoPanel.classList.remove('show');
+      selectedPlanet = null;
+      sunSelected = false;
+    }
+
+    closeInfoBtn.addEventListener('click', hideInfo);
+
+    function onPointerDown(e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      const rect = canvas.getBoundingClientRect();
+      pointer.down = true;
+      pointer.moved = false;
+      pointer.startX = e.clientX - rect.left;
+      pointer.startY = e.clientY - rect.top;
+      pointer.downOffsetX = offsetX;
+      pointer.downOffsetY = offsetY;
+      canvas.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+
+      if (pointer.down) {
+        const dx = sx - pointer.startX;
+        const dy = sy - pointer.startY;
+        if (Math.hypot(dx, dy) > 5) pointer.moved = true;
+
+        if (pointer.moved) {
+          offsetX = pointer.downOffsetX + dx;
+          offsetY = pointer.downOffsetY + dy;
+          canvas.style.cursor = 'grabbing';
+        }
+      } else {
+        const hit = findPlanetAt(sx, sy);
+        canvas.style.cursor = hit ? 'pointer' : 'grab';
+      }
+    }
+
+    function onPointerUp(e) {
+      if (!pointer.down) return;
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+
+      if (!pointer.moved) {
+        const hit = findPlanetAt(sx, sy);
+        if (hit) showInfo(hit);
+        else hideInfo();
+      }
+
+      pointer.down = false;
+      canvas.style.cursor = 'grab';
+    }
+
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('pointercancel', onPointerUp);
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      const worldX = (mx - W / 2 - offsetX) / scale;
+      const worldY = (my - H / 2 - offsetY) / scale;
+
+      const factor = 1 - e.deltaY * 0.0012;
+      const newScale = Math.max(0.2, Math.min(6, scale * factor));
+
+      offsetX = mx - W / 2 - worldX * newScale;
+      offsetY = my - H / 2 - worldY * newScale;
+      scale = newScale;
+    }, { passive: false });
+
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      scale = Math.min(6, scale * 1.4);
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      scale = Math.max(0.2, scale / 1.4);
+    });
+
+    document.getElementById('zoom-reset').addEventListener('click', fitToScreen);
+
+    function getFullscreenElement() {
+      return document.fullscreenElement || document.webkitFullscreenElement ||
+             document.mozFullScreenElement || document.msFullscreenElement;
+    }
+    function enterFullscreen(el) {
+      if (el.requestFullscreen) return el.requestFullscreen();
+      if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+      if (el.mozRequestFullScreen) return el.mozRequestFullScreen();
+      if (el.msRequestFullscreen) return el.msRequestFullscreen();
+    }
+    function exitFullscreen() {
+      if (document.exitFullscreen) return document.exitFullscreen();
+      if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+      if (document.mozCancelFullScreen) return document.mozCancelFullScreen();
+      if (document.msExitFullscreen) return document.msExitFullscreen();
+    }
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (!getFullscreenElement()) enterFullscreen(mainEl).catch(err => console.error(err));
+      else exitFullscreen();
+    });
+
+    ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(evt => {
+      document.addEventListener(evt, () => setTimeout(resize, 150));
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    });
+
+    resize();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
