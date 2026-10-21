@@ -16,9 +16,7 @@
   <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
 
   <style>
-    /* ==========================================================
-       GLOBAL RESET & BASE STYLES
-       ========================================================== */
+    /* Global Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
@@ -57,9 +55,7 @@
       color: black;
     }
 
-    /* ==========================================================
-       HEADER
-       ========================================================== */
+    /* Header */
     #main-header {
       position: relative;
       height: 40vh;
@@ -71,22 +67,15 @@
       color: #fff;
       gap: 12%;
       overflow: hidden;
-      background-color: #031830; /* fallback dark blue */
+      background-color: #031830; 
     }
 
-    /* Layer holding the real background image */
+    /* Header Background Image */
     .header-bg {
       position: absolute;
       inset: 0;
       z-index: 0;
-
-      /* Dark-blue shimmer skeleton */
-      background: linear-gradient(
-        90deg,
-        #031830 0%,
-        #0a2f5c 50%,
-        #031830 100%
-      );
+      background: linear-gradient(90deg, #031830 0%, #0a2f5c 50%, #031830 100%);
       background-size: 200% 100%;
       animation: skeleton-shimmer 1.6s ease-in-out infinite;
     }
@@ -108,7 +97,7 @@
       opacity: 1;
     }
 
-    /* Ensure header content sits above the background layer */
+    /* Header Content Over Background */
     #main-header > *:not(.header-bg) {
       position: relative;
       z-index: 1;
@@ -139,9 +128,7 @@
       margin-bottom: 30px;
     }
 
-    /* ==========================================================
-       SKILLS MARQUEE
-       ========================================================== */
+    /* Skills Marquee */
     #skills {
       text-align: center;
       margin-top: -30px;
@@ -162,25 +149,26 @@
       100% { filter: hue-rotate(360deg); }
     }
 
-    /* ==========================================================
-       APP CARDS GRID
-       ========================================================== */
+    /* App Cards Grid */
     #itmes-box {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 15px;
-      margin: 15px 20px;
+      margin: 20px auto;
+      width: 98%;
+      max-width: 1600px;
     }
 
     .item {
       background-color: #f4f4f4;
-      /* گوشه‌های بالا تیز و گوشه‌های پایین هلال */
+      /* Top corners sharp, bottom rounded */
       border-radius: 0 0 10px 10px; 
       box-shadow: 0px 0px 5px 0px rgb(32, 32, 32);
       display: flex;
       flex-direction: column;
+      width: 100%;
       max-width: 400px;
-      margin: 10px auto 5px auto;
+      margin: 0 auto;
       transition-duration: 0.4s;
       overflow: hidden;
     }
@@ -205,26 +193,18 @@
       margin-right: 5px;
     }
 
-    /* برگشت به حالت اولیه بدون هیچ لودینگی */
+    /* Card header icon */
     .itemHead img {
       width: 40px;
       height: 40px;
       padding: 5px;
     }
 
-    /* ==========================================================
-       DARK LOADING SKELETON (For Footer Icons)
-       ========================================================== */
+    /* Footer Icons Loader */
     .grey-loader {
       position: relative;
       overflow: hidden;
-      /* پس زمینه تیره برای لودینگ */
-      background: linear-gradient(
-        90deg,
-        #2a2a2a 0%,
-        #3a3a3a 50%,
-        #2a2a2a 100%
-      );
+      background: linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
       background-size: 200% 100%;
       animation: skeleton-shimmer 1.6s ease-in-out infinite;
     }
@@ -246,9 +226,7 @@
       opacity: 1;
     }
 
-    /* ==========================================================
-       ITEM IMAGES — LOADING SKELETON + SMILEY PLACEHOLDER
-       ========================================================== */
+    /* Item Images (Skeleton Only) */
     .itemImages {
       display: flex;
       justify-content: center;
@@ -260,35 +238,13 @@
       width: 49.75%;
       aspect-ratio: 716 / 1280;
       overflow: hidden;
-
-      background: linear-gradient(
-        90deg,
-        #e0e0e0 0%,
-        #f2f2f2 50%,
-        #e0e0e0 100%
-      );
+      background: linear-gradient(90deg, #e0e0e0 0%, #f2f2f2 50%, #e0e0e0 100%);
       background-size: 200% 100%;
       animation: skeleton-shimmer 1.6s ease-in-out infinite;
     }
 
     .image-wrapper:first-child {
       margin-left: 0.5%;
-    }
-
-    .image-wrapper::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD93D' stroke='%23E5A500' stroke-width='4'/%3E%3Ccircle cx='35' cy='40' r='7' fill='%23222'/%3E%3Ccircle cx='65' cy='40' r='7' fill='%23222'/%3E%3Cpath d='M28 58 Q50 82 72 58' stroke='%23222' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 42%;
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-
-      animation: smiley-bob 2s ease-in-out infinite;
-      transition: opacity 0.3s ease;
     }
 
     .image-wrapper img {
@@ -300,11 +256,6 @@
       z-index: 2;
       opacity: 0;
       transition: opacity 0.45s ease;
-    }
-
-    .image-wrapper.loaded::before {
-      opacity: 0;
-      animation: none;
     }
 
     .image-wrapper.loaded {
@@ -321,14 +272,7 @@
       100% { background-position: -200% 0; }
     }
 
-    @keyframes smiley-bob {
-      0%, 100% { transform: translateY(0) rotate(-4deg); }
-      50%      { transform: translateY(-7px) rotate(4deg); }
-    }
-
-    /* ==========================================================
-       ITEM TEXT & BUTTON
-       ========================================================== */
+    /* Item Text & Button */
     .itemDescription {
       font-weight: 600;
       font-size: 14px;
@@ -357,9 +301,7 @@
       background-color: rgb(2, 172, 2);
     }
 
-    /* ==========================================================
-       FOOTER
-       ========================================================== */
+    /* Footer */
     footer {
       background-color: #151515;
       display: flex;
@@ -423,7 +365,7 @@
       gap: 10px;
     }
 
-    /* Footer Icons Loading Style */
+    /* Footer Icon Size */
     .footer-icon {
       width: 25px;
       height: 25px;
@@ -433,6 +375,7 @@
       object-fit: contain;
     }
 
+    /* Entertainment Links Grid (3 columns) */
     .footer-page-links {
       display: grid;
       grid-template-columns: repeat(3, auto);
@@ -484,37 +427,38 @@
       stroke: #fff;
     }
 
+    /* --- Custom Colors for Each Page --- */
     .footer-page-link[href="radar.html"] svg { stroke: #00ff64; }
-    .footer-page-link[href="radar.html"]:hover {
-      background-color: #00b84a;
-      border-color: #00b84a;
-      box-shadow: 0 6px 14px -6px #00b84a;
-    }
+    .footer-page-link[href="radar.html"]:hover { background-color: #00b84a; border-color: #00b84a; box-shadow: 0 6px 14px -6px #00b84a; }
     .footer-page-link[href="radar.html"]:hover svg { stroke: #fff; }
 
     .footer-page-link[href="solar-system.html"] svg { stroke: #ffc850; }
-    .footer-page-link[href="solar-system.html"]:hover {
-      background-color: #d88f00;
-      border-color: #d88f00;
-      box-shadow: 0 6px 14px -6px #d88f00;
-    }
+    .footer-page-link[href="solar-system.html"]:hover { background-color: #d88f00; border-color: #d88f00; box-shadow: 0 6px 14px -6px #d88f00; }
     .footer-page-link[href="solar-system.html"]:hover svg { stroke: #fff; }
 
     .footer-page-link[href="doz.html"] svg { stroke: #ff5555; }
-    .footer-page-link[href="doz.html"]:hover {
-      background-color: #c82323;
-      border-color: #c82323;
-      box-shadow: 0 6px 14px -6px #c82323;
-    }
+    .footer-page-link[href="doz.html"]:hover { background-color: #c82323; border-color: #c82323; box-shadow: 0 6px 14px -6px #c82323; }
     .footer-page-link[href="doz.html"]:hover svg { stroke: #fff; }
 
     .footer-page-link[href="lottery.html"] svg { stroke: #ff3c9e; }
-    .footer-page-link[href="lottery.html"]:hover {
-      background-color: #c2005f;
-      border-color: #c2005f;
-      box-shadow: 0 6px 14px -6px #c2005f;
-    }
+    .footer-page-link[href="lottery.html"]:hover { background-color: #c2005f; border-color: #c2005f; box-shadow: 0 6px 14px -6px #c2005f; }
     .footer-page-link[href="lottery.html"]:hover svg { stroke: #fff; }
+
+    /* Hacker (Red) */
+    .footer-page-link[href="hacker.html"] svg { stroke: #ff003c; }
+    .footer-page-link[href="hacker.html"]:hover { background-color: #cc0030; border-color: #cc0030; box-shadow: 0 6px 14px -6px #cc0030; }
+    .footer-page-link[href="hacker.html"]:hover svg { stroke: #fff; }
+
+    /* Responsive (Cyan) */
+    .footer-page-link[href="responsive.html"] svg { stroke: #00e5ff; }
+    .footer-page-link[href="responsive.html"]:hover { background-color: #00b3cc; border-color: #00b3cc; box-shadow: 0 6px 14px -6px #00b3cc; }
+    .footer-page-link[href="responsive.html"]:hover svg { stroke: #fff; }
+
+    /* Rest (Green) */
+    .footer-page-link[href="rest.html"] svg { stroke: #4ade80; }
+    .footer-page-link[href="rest.html"]:hover { background-color: #2e8b57; border-color: #2e8b57; box-shadow: 0 6px 14px -6px #2e8b57; }
+    .footer-page-link[href="rest.html"]:hover svg { stroke: #fff; }
+
 
     @media (max-width: 600px) {
       .footer-page-links {
@@ -536,12 +480,9 @@
 
 <body>
 
-  <!-- ==========================================================
-       HEADER
-       ========================================================== -->
+  <!-- Header -->
   <header id="main-header">
-
-    <!-- Background image with blue skeleton loading -->
+    <!-- Header Background -->
     <div class="header-bg" id="headerBg">
       <img src="homeImages/head/blueHeader.jpg" alt="">
     </div>
@@ -555,13 +496,10 @@
     <p id="skills" aria-label="مهارت های برنامه نویسی"></p>
   </header>
 
-  <!-- ==========================================================
-       APP CARDS
-       ========================================================== -->
+  <!-- App Cards -->
   <main>
     <div id="itmes-box">
-
-      <!-- Card: English Irregular Verbs -->
+      <!-- Card 1 -->
       <section class="item">
         <header class="itemHead">
           <img src="homeImages/english icon.png" alt="آیکون افعال بی‌قاعده انگلیسی">
@@ -588,7 +526,7 @@
         </a>
       </section>
 
-      <!-- Card: Police Flashlight -->
+      <!-- Card 2 -->
       <section class="item">
         <header class="itemHead" style="background-color: rgb(32, 0, 67);">
           <img src="homeImages/police light.png" alt="آیکون چراغ قوه پلیسی">
@@ -616,7 +554,7 @@
         </a>
       </section>
 
-      <!-- Card: Zekr Counter -->
+      <!-- Card 3 -->
       <section class="item">
         <header class="itemHead" style="background-color: #04034c;">
           <img src="homeImages/zekr icon.png" alt="آیکون ذکر شمار">
@@ -644,7 +582,7 @@
         </a>
       </section>
 
-      <!-- Card: Arbaeen Words -->
+      <!-- Card 4 -->
       <section class="item">
         <header class="itemHead" style="background-color: #034c17;">
           <img src="homeImages/hossein.png" alt="آیکون آموزش کلمات اربعین">
@@ -674,13 +612,10 @@
     </div>
   </main>
 
-  <!-- ==========================================================
-       FOOTER
-       ========================================================== -->
+  <!-- Footer -->
   <footer id="contact">
     <div class="footer-sections">
-
-      <!-- Contact Me -->
+      <!-- Contact Links -->
       <div class="footer-section">
         <h3 class="footer-title">ارتباط با من</h3>
 
@@ -715,10 +650,11 @@
 
       <div class="footer-divider" aria-hidden="true"></div>
 
-      <!-- Entertainment Links (3 per row, opens in new tab) -->
+      <!-- Entertainment Links (3 rows of 3) -->
       <div class="footer-section">
         <div class="footer-page-links">
-
+          
+          <!-- Row 1 -->
           <a href="clock.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه ساعت">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9"/>
@@ -745,6 +681,7 @@
             <span>رادار</span>
           </a>
 
+          <!-- Row 2 -->
           <a href="doz.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه بازی دوز">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <line x1="4" y1="4" x2="10" y2="10"/>
@@ -778,15 +715,44 @@
             <span>قرعه‌کشی</span>
           </a>
 
+          <!-- Row 3 (New Pages) -->
+          <a href="hacker.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه هکر">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+              <polyline points="6 9 9 12 6 15"/>
+              <line x1="13" y1="15" x2="17" y2="15"/>
+            </svg>
+            <span>هکر</span>
+          </a>
+
+          <a href="responsive.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه تست ریسپانسیو">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span>ریسپانسیو</span>
+          </a>
+
+          <a href="rest.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه استراحت">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              <line x1="6" y1="1" x2="6" y2="4"></line>
+              <line x1="10" y1="1" x2="10" y2="4"></line>
+              <line x1="14" y1="1" x2="14" y2="4"></line>
+            </svg>
+            <span>استراحت</span>
+          </a>
+
         </div>
       </div>
-
     </div>
   </footer>
 
-  <!-- ==========================================================
-       JSON-LD STRUCTURED DATA (SEO)
-       ========================================================== -->
+  <!-- SEO Data -->
   <script type="application/ld+json">
   [
     {
@@ -832,13 +798,9 @@
   ]
   </script>
 
-  <!-- ==========================================================
-       SCRIPTS
-       ========================================================== -->
+  <!-- Scripts -->
   <script>
-    /* ==========================================================
-       1. HEADER TYPEWRITER ANIMATION
-       ========================================================== */
+    // Header Typewriter Animation
     (function () {
       const el = document.getElementById('textChange');
       const TEXT_NAME = 'محمد صادق رضائی';
@@ -902,9 +864,7 @@
     })();
 
 
-    /* ==========================================================
-       2. INTRO TEXT HIGHLIGHT ANIMATION
-       ========================================================== */
+    // Intro Text Highlight Animation
     (function () {
       const el = document.getElementById('myIntroducing');
       const COLOR = '#16baf5';
@@ -927,9 +887,7 @@
     })();
 
 
-    /* ==========================================================
-       3. SKILLS MARQUEE
-       ========================================================== */
+    // Skills Marquee
     (function () {
       const SKILLS = ['C#', 'sql server', 'EF', 'winform', 'ASP', 'html', 'css', 'js', 'kotlin'];
       const el = document.getElementById('skills');
@@ -948,44 +906,31 @@
     })();
 
 
-    /* ==========================================================
-       4. PREVENT IMAGE DRAG
-       ========================================================== */
+    // Prevent Image Drag
     document.body.addEventListener('dragstart', function (e) {
       e.preventDefault();
     });
 
 
-    /* ==========================================================
-       5. IMAGE LOADING SKELETON HANDLER
-       ==========================================================
-       ⚠️ TEMPORARY: simulate slow loading (2–5 seconds) so you
-       can see the skeleton effect. When you want real behaviour,
-       DELETE the setTimeout block and uncomment the "REAL" block.
-       ========================================================== */
-    // فقط برای عکس‌های اصلی کارت‌ها، هدر و فوتر اعمال می‌شود (آیکون‌های عنوان کارت حذف شدند)
+    // Image Loading Skeleton Handler
     document.querySelectorAll('.image-wrapper, .header-bg, .footer-icon').forEach(function (wrapper) {
       const img = wrapper.querySelector('img');
       if (!img) return;
 
-      /* --- TEMPORARY: simulated slow load (2–5 seconds) --- */
-      const delay = 2000 + Math.random() * 3000;
-      setTimeout(function () {
-        wrapper.classList.add('loaded');
-      }, delay);
-
-      /* --- REAL behaviour (uncomment when ready) ---
+      // Cached image
       if (img.complete && img.naturalWidth > 0) {
         wrapper.classList.add('loaded');
       } else {
+        // Downloading image
         img.addEventListener('load', function () {
           wrapper.classList.add('loaded');
         });
+        
+        // Error fallback
         img.addEventListener('error', function () {
           wrapper.classList.add('loaded');
         });
       }
-      -------------------------------------------------- */
     });
   </script>
 
