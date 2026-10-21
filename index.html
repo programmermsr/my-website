@@ -9,307 +9,985 @@
   <meta name="description" content="محمد صادق رضائی | برنامه نویس سی شارپ در ویندوز، موبایل و طراحی سایت. توسعه‌دهنده نرم‌افزارهای اختصاصی با تجربه در C#، ASP.NET، SQL و Kotlin.">
   <meta name="keywords" content="محمد صادق رضائی, برنامه نویس, سی شارپ, C#, طراحی سایت, ASP.NET, برنامه نویس ویندوز, برنامه نویس موبایل, programmer msr">
   <meta name="author" content="محمد صادق رضائی">
+
+  <!-- Favicon -->
   <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
   <link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
   <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
-    
-  <!--my css js-->
-  <link rel="stylesheet" href="homeStyle.css">
-  <script src="homeScripts.js" defer="defer"></script>
 
+  <style>
+    /* ==========================================================
+       GLOBAL RESET & BASE STYLES
+       ========================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: bold;
+      list-style: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    @font-face {
+      font-family: 'Vazirmatn';
+      src: url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2 supports variations'),
+           url('fonts/webfonts/Vazirmatn[wght].woff2') format('woff2-variations');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    body {
+      background-color: #ffffff;
+    }
+
+    a {
+      font-size: 0;
+      text-decoration: none;
+      color: black;
+    }
+
+    /* ==========================================================
+       HEADER
+       ========================================================== */
+    #main-header {
+      position: relative;
+      height: 40vh;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      gap: 12%;
+      overflow: hidden;
+      background-color: #031830; /* fallback dark blue */
+    }
+
+    /* Layer holding the real background image */
+    .header-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+
+      /* Dark-blue shimmer skeleton */
+      background: linear-gradient(
+        90deg,
+        #031830 0%,
+        #0a2f5c 50%,
+        #031830 100%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.6s ease-in-out infinite;
+    }
+
+    .header-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .header-bg.loaded {
+      animation: none;
+    }
+
+    .header-bg.loaded img {
+      opacity: 1;
+    }
+
+    /* Ensure header content sits above the background layer */
+    #main-header > *:not(.header-bg) {
+      position: relative;
+      z-index: 1;
+    }
+
+    #textChange-and-myIcon-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 8vh;
+    }
+
+    #textChange {
+      height: 20px;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    #myIcon {
+      margin-right: 10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgb(5, 169, 219);
+    }
+
+    header > p {
+      margin-bottom: 30px;
+    }
+
+    /* ==========================================================
+       SKILLS MARQUEE
+       ========================================================== */
+    #skills {
+      text-align: center;
+      margin-top: -30px;
+      direction: ltr;
+      overflow: hidden;
+      display: inline-block;
+      white-space: pre;
+      background: linear-gradient(90deg, #ff4d4d, #4d79ff, #4dff88, #ffb84d);
+      background-size: 200% 100%;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: gradient-text 1s linear infinite;
+    }
+
+    @keyframes gradient-text {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* ==========================================================
+       APP CARDS GRID
+       ========================================================== */
+    #itmes-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin: 15px 20px;
+    }
+
+    .item {
+      background-color: #f4f4f4;
+      /* گوشه‌های بالا تیز و گوشه‌های پایین هلال */
+      border-radius: 0 0 10px 10px; 
+      box-shadow: 0px 0px 5px 0px rgb(32, 32, 32);
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 10px auto 5px auto;
+      transition-duration: 0.4s;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .item:hover {
+        transform: translateY(-10px);
+      }
+    }
+
+    .itemHead {
+      background-color: rgb(32, 32, 32);
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      border-radius: 0;
+    }
+
+    .itemHead h2 {
+      color: #fff;
+      font-size: 12px;
+      margin-right: 5px;
+    }
+
+    /* برگشت به حالت اولیه بدون هیچ لودینگی */
+    .itemHead img {
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+    }
+
+    /* ==========================================================
+       DARK LOADING SKELETON (For Footer Icons)
+       ========================================================== */
+    .grey-loader {
+      position: relative;
+      overflow: hidden;
+      /* پس زمینه تیره برای لودینگ */
+      background: linear-gradient(
+        90deg,
+        #2a2a2a 0%,
+        #3a3a3a 50%,
+        #2a2a2a 100%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.6s ease-in-out infinite;
+    }
+
+    .grey-loader img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .grey-loader.loaded {
+      animation: none;
+      background: transparent;
+    }
+
+    .grey-loader.loaded img {
+      opacity: 1;
+    }
+
+    /* ==========================================================
+       ITEM IMAGES — LOADING SKELETON + SMILEY PLACEHOLDER
+       ========================================================== */
+    .itemImages {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-wrapper {
+      position: relative;
+      width: 49.75%;
+      aspect-ratio: 716 / 1280;
+      overflow: hidden;
+
+      background: linear-gradient(
+        90deg,
+        #e0e0e0 0%,
+        #f2f2f2 50%,
+        #e0e0e0 100%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.6s ease-in-out infinite;
+    }
+
+    .image-wrapper:first-child {
+      margin-left: 0.5%;
+    }
+
+    .image-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD93D' stroke='%23E5A500' stroke-width='4'/%3E%3Ccircle cx='35' cy='40' r='7' fill='%23222'/%3E%3Ccircle cx='65' cy='40' r='7' fill='%23222'/%3E%3Cpath d='M28 58 Q50 82 72 58' stroke='%23222' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 42%;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+
+      animation: smiley-bob 2s ease-in-out infinite;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-wrapper img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .image-wrapper.loaded::before {
+      opacity: 0;
+      animation: none;
+    }
+
+    .image-wrapper.loaded {
+      animation: none;
+      background: #e8e8e8;
+    }
+
+    .image-wrapper.loaded img {
+      opacity: 1;
+    }
+
+    @keyframes skeleton-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes smiley-bob {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50%      { transform: translateY(-7px) rotate(4deg); }
+    }
+
+    /* ==========================================================
+       ITEM TEXT & BUTTON
+       ========================================================== */
+    .itemDescription {
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px;
+      text-align: center;
+      line-height: 2;
+      height: 100%;
+    }
+
+    .spanRed   { color: orangered; }
+    .spanGreen { color: #11ba04; }
+
+    .itembtn {
+      color: white;
+      background-color: #007deb;
+      transition-duration: 0.5s;
+      text-align: center;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      font-size: 15px;
+      padding: 10px;
+      height: 45px;
+    }
+
+    .itembtn:hover {
+      background-color: rgb(2, 172, 2);
+    }
+
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
+    footer {
+      background-color: #151515;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .footer-sections {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .footer-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .footer-title {
+      color: #16baf5;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #16baf5;
+      margin: 0;
+    }
+
+    .footer-divider {
+      width: 70%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #383838 20%, #383838 80%, transparent);
+    }
+
+    #my-id {
+      color: white;
+      direction: ltr;
+      font-size: 15px;
+      transition: 0.5s;
+      text-decoration: none;
+    }
+
+    #my-id:hover {
+      color: orangered;
+    }
+
+    #contacts {
+      direction: ltr;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Footer Icons Loading Style */
+    .footer-icon {
+      width: 25px;
+      height: 25px;
+    }
+
+    .footer-icon img {
+      object-fit: contain;
+    }
+
+    .footer-page-links {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .footer-page-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background-color: #222;
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 1px solid #333;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-page-link svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #16baf5;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+
+    .footer-page-link:hover {
+      background-color: #007deb;
+      border-color: #007deb;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px -6px #007deb;
+    }
+
+    .footer-page-link:hover svg {
+      stroke: #fff;
+    }
+
+    .footer-page-link[href="radar.html"] svg { stroke: #00ff64; }
+    .footer-page-link[href="radar.html"]:hover {
+      background-color: #00b84a;
+      border-color: #00b84a;
+      box-shadow: 0 6px 14px -6px #00b84a;
+    }
+    .footer-page-link[href="radar.html"]:hover svg { stroke: #fff; }
+
+    .footer-page-link[href="solar-system.html"] svg { stroke: #ffc850; }
+    .footer-page-link[href="solar-system.html"]:hover {
+      background-color: #d88f00;
+      border-color: #d88f00;
+      box-shadow: 0 6px 14px -6px #d88f00;
+    }
+    .footer-page-link[href="solar-system.html"]:hover svg { stroke: #fff; }
+
+    .footer-page-link[href="doz.html"] svg { stroke: #ff5555; }
+    .footer-page-link[href="doz.html"]:hover {
+      background-color: #c82323;
+      border-color: #c82323;
+      box-shadow: 0 6px 14px -6px #c82323;
+    }
+    .footer-page-link[href="doz.html"]:hover svg { stroke: #fff; }
+
+    .footer-page-link[href="lottery.html"] svg { stroke: #ff3c9e; }
+    .footer-page-link[href="lottery.html"]:hover {
+      background-color: #c2005f;
+      border-color: #c2005f;
+      box-shadow: 0 6px 14px -6px #c2005f;
+    }
+    .footer-page-link[href="lottery.html"]:hover svg { stroke: #fff; }
+
+    @media (max-width: 600px) {
+      .footer-page-links {
+        grid-template-columns: repeat(3, auto);
+        gap: 6px;
+      }
+      .footer-page-link {
+        padding: 6px 8px;
+        font-size: 11px;
+        gap: 4px;
+      }
+      .footer-page-link svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!--header-------------------------------------------------------------------------------------------->
-<header id="main-header">
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+  <header id="main-header">
 
-  <div id="textChange-and-myIcon-box">
-    <h1 id="textChange"></h1>
-    <img id="myIcon" src="homeImages/head/msrMedium.jpg" alt="محمد صادق رضائی برنامه نویس سی شارپ">
-  </div>
+    <!-- Background image with blue skeleton loading -->
+    <div class="header-bg" id="headerBg">
+      <img src="homeImages/head/blueHeader.jpg" alt="">
+    </div>
 
-  <p id="myIntroducing">برنامه نویس ویندوز و موبایل و سایت</p> 
-  <p id="skills" aria-label="مهارت های برنامه نویسی"></p>
-</header>
+    <div id="textChange-and-myIcon-box">
+      <h1 id="textChange"></h1>
+      <img id="myIcon" src="homeImages/head/msrMedium.jpg" alt="محمد صادق رضائی برنامه نویس سی شارپ">
+    </div>
 
+    <p id="myIntroducing">برنامه نویس ویندوز و موبایل و سایت</p>
+    <p id="skills" aria-label="مهارت های برنامه نویسی"></p>
+  </header>
 
-  <!--Items------------------------------------------------------------------------------------------->
+  <!-- ==========================================================
+       APP CARDS
+       ========================================================== -->
   <main>
-      <div id="itmes-box">
+    <div id="itmes-box">
 
-        <!--item-->
-        <section class="item">
+      <!-- Card: English Irregular Verbs -->
+      <section class="item">
+        <header class="itemHead">
+          <img src="homeImages/english icon.png" alt="آیکون افعال بی‌قاعده انگلیسی">
+          <h2>افعال بی قاعده ی انگلیسی</h2>
+        </header>
 
-          <header class="itemHead">
-            <img src="homeImages/english icon.png" alt="آیکون افعال بی‌قاعده انگلیسی">
-            <h2>افعال بی قاعده ی انگلیسی</h2>
-          </header>
-
-          <div class="itemImages">
-            <img class="itemImageRight" src="homeImages/english 1.jpg" alt="نمونه افعال بی قاعده انگلیسی 1">
+        <div class="itemImages">
+          <div class="image-wrapper">
+            <img src="homeImages/english 1.jpg" alt="نمونه افعال بی قاعده انگلیسی 1">
+          </div>
+          <div class="image-wrapper">
             <img src="homeImages/english 2.jpg" alt="نمونه افعال بی قاعده انگلیسی 2">
           </div>
+        </div>
 
-          <p class="itemDescription">
-            در این برنامه <span class="spanRed">213</span> فعل بی قاعده ی انگلیسی 
-            با <span class="spanGreen">عکس و تلفظ و پلی خودکار و مثال</span> گذاشته شده است تا راحت تر یاد بگیرید و مرور کنید
-          </p>
+        <p class="itemDescription">
+          در این برنامه <span class="spanRed">213</span> فعل بی قاعده ی انگلیسی
+          با <span class="spanGreen">عکس و تلفظ و پلی خودکار و مثال</span> گذاشته شده است تا راحت تر یاد بگیرید و مرور کنید
+        </p>
 
-          <a class="itembtn" target="_blank" rel="noopener noreferrer"
-            href ="https://cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr">
-            مشاهده صفحه ی برنامه
-          </a>
-        </section>
+        <a class="itembtn" target="_blank" rel="noopener noreferrer"
+           href="https://cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr">
+          مشاهده صفحه ی برنامه
+        </a>
+      </section>
 
+      <!-- Card: Police Flashlight -->
+      <section class="item">
+        <header class="itemHead" style="background-color: rgb(32, 0, 67);">
+          <img src="homeImages/police light.png" alt="آیکون چراغ قوه پلیسی">
+          <h2>چراغ قوه پلیسی زیبا</h2>
+        </header>
 
-        <!--item-->
-        <section class="item">
-
-          <header class="itemHead" style="background-color: rgb(32, 0, 67);">
-            <img src="homeImages/police light.png" alt="آیکون چراغ قوه پلیسی">
-            <h2>چراغ قوه پلیسی زیبا</h2>
-          </header>
-
-          <div class="itemImages">
-            <img class="itemImageRight" src="homeImages/f1.jpg" alt="نمای اول چراغ قوه پلیسی">
+        <div class="itemImages">
+          <div class="image-wrapper">
+            <img src="homeImages/f1.jpg" alt="نمای اول چراغ قوه پلیسی">
+          </div>
+          <div class="image-wrapper">
             <img src="homeImages/f2.jpg" alt="نمای دوم چراغ قوه پلیسی">
           </div>
+        </div>
 
-          <p class="itemDescription">
-            این برنامه <span class="spanRed">فلش گوشی</span> را روشن می کند و
-            <span class="spanGreen">پس زمینه های متنوعی</span> هم برای نمایشگر دارد
-            که از آن می توانید در تاریکی ها استفاده کنید
-          </p>
+        <p class="itemDescription">
+          این برنامه <span class="spanRed">فلش گوشی</span> را روشن می کند و
+          <span class="spanGreen">پس زمینه های متنوعی</span> هم برای نمایشگر دارد
+          که از آن می توانید در تاریکی ها استفاده کنید
+        </p>
 
-          <a class="itembtn" target="_blank" rel="noopener noreferrer"
-            href ="https://cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr">
-            مشاهده صفحه ی برنامه
-          </a>
-        </section>
+        <a class="itembtn" target="_blank" rel="noopener noreferrer"
+           href="https://cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr">
+          مشاهده صفحه ی برنامه
+        </a>
+      </section>
 
+      <!-- Card: Zekr Counter -->
+      <section class="item">
+        <header class="itemHead" style="background-color: #04034c;">
+          <img src="homeImages/zekr icon.png" alt="آیکون ذکر شمار">
+          <h2>ذکر شمار بهشتی</h2>
+        </header>
 
-        <!--item-->
-        <section class="item">
-
-          <header class="itemHead" style="background-color: #04034c;">
-            <img src="homeImages/zekr icon.png" alt="آیکون ذکر شمار">
-            <h2>ذکر شمار بهشتی</h2>
-          </header>
-
-          <div class="itemImages">
-            <img class="itemImageRight" src="homeImages/z1.jpg" alt="نمای اول ذکر شمار">
+        <div class="itemImages">
+          <div class="image-wrapper">
+            <img src="homeImages/z1.jpg" alt="نمای اول ذکر شمار">
+          </div>
+          <div class="image-wrapper">
             <img src="homeImages/z2.jpg" alt="نمای دوم ذکر شمار">
           </div>
+        </div>
 
-          <p class="itemDescription">
-            ذکر شمار حرفه ای با قابلیت <span class="spanRed">آمدن روی صفحه</span> 
-            که شما می توانید تا <span class="spanGreen">99999999999999</span> ذکر بگویید
-            و تعداد ذکر ها <span class="spanGreen">ذخیره</span> می شوند
-          </p>
+        <p class="itemDescription">
+          ذکر شمار حرفه ای با قابلیت <span class="spanRed">آمدن روی صفحه</span>
+          که شما می توانید تا <span class="spanGreen">99999999999999</span> ذکر بگویید
+          و تعداد ذکر ها <span class="spanGreen">ذخیره</span> می شوند
+        </p>
 
-          <a class="itembtn" target="_blank" rel="noopener noreferrer"
-            href ="https://cafebazaar.ir/app/programmer_msr.ir.zekr_shomar_msr">
-            مشاهده صفحه ی برنامه
-          </a>
-        </section>
+        <a class="itembtn" target="_blank" rel="noopener noreferrer"
+           href="https://cafebazaar.ir/app/programmer_msr.ir.zekr_shomar_msr">
+          مشاهده صفحه ی برنامه
+        </a>
+      </section>
 
+      <!-- Card: Arbaeen Words -->
+      <section class="item">
+        <header class="itemHead" style="background-color: #034c17;">
+          <img src="homeImages/hossein.png" alt="آیکون آموزش کلمات اربعین">
+          <h2>55 کلمه برای اربعین با صوت</h2>
+        </header>
 
-        <!--item-->
-        <section class="item">
-
-          <header class="itemHead" style="background-color: #034c17;">
-            <img src="homeImages/hossein.png" alt="آیکون آموزش کلمات اربعین">
-            <h2>55 کلمه برای اربعین با صوت</h2>
-          </header>
-
-          <div class="itemImages">
-            <img class="itemImageRight" src="homeImages/h1.jpg" alt="کلمات پرکاربرد اربعین 1">
+        <div class="itemImages">
+          <div class="image-wrapper">
+            <img src="homeImages/h1.jpg" alt="کلمات پرکاربرد اربعین 1">
+          </div>
+          <div class="image-wrapper">
             <img src="homeImages/h2.jpg" alt="کلمات پرکاربرد اربعین 2">
           </div>
+        </div>
 
-          <p class="itemDescription">
-            در این برنامه تعدادی از <span class="spanRed">کلمات پرکاربرد</span> که در سفر اربعین نیاز می شود
-            جمع آوری شده است تا <span class="spanGreen">راحت تر</span> با دیگران صحبت کنید
-          </p>
+        <p class="itemDescription">
+          در این برنامه تعدادی از <span class="spanRed">کلمات پرکاربرد</span> که در سفر اربعین نیاز می‌شود
+          جمع آوری شده است تا <span class="spanGreen">راحت تر</span> با دیگران صحبت کنید
+        </p>
 
-          <a class="itembtn" target="_blank" rel="noopener noreferrer"
-            href ="https://cafebazaar.ir/app/programmer_msr.ir.Arbaeen_Travel_Words_MSR">
-            مشاهده صفحه ی برنامه
-          </a>
-        </section>
+        <a class="itembtn" target="_blank" rel="noopener noreferrer"
+           href="https://cafebazaar.ir/app/programmer_msr.ir.Arbaeen_Travel_Words_MSR">
+          مشاهده صفحه ی برنامه
+        </a>
+      </section>
 
-      </div>
+    </div>
   </main>
 
-    <!--footer--------------------------------------------------------------------------------------------->
-<footer id="contact">
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer id="contact">
+    <div class="footer-sections">
 
-  <div class="footer-sections">
+      <!-- Contact Me -->
+      <div class="footer-section">
+        <h3 class="footer-title">ارتباط با من</h3>
 
-    <!-- ارتباط با من -->
-    <div class="footer-section">
-      <h3 class="footer-title">ارتباط با من</h3>
-
-      <a id="my-id" href="https://www.instagram.com/programmermsr/" target="_blank" rel="noopener noreferrer"
-        aria-label="صفحه اینستاگرام Programmermsr">
-        @programmermsr
-      </a>
-
-      <div id="contacts">
-        <a href="https://www.instagram.com/programmermsr/" target="_blank" rel="noopener noreferrer"
-          aria-label="صفحه اینستاگرام Programmermsr">
-          <img src="homeImages/head/instagram.png" alt="اینستاگرام Programmermsr">
+        <a id="my-id" href="https://www.instagram.com/programmermsr/" target="_blank" rel="noopener noreferrer"
+           aria-label="صفحه اینستاگرام Programmermsr">
+          @programmermsr
         </a>
 
-        <a href="https://ble.ir/programmermsr" target="_blank" rel="noopener noreferrer"
-          aria-label="صفحه بله Programmermsr">
-          <img src="homeImages/head/bale.png" alt="بله Programmermsr">
-        </a>
+        <div id="contacts">
+          <a href="https://www.instagram.com/programmermsr/" target="_blank" rel="noopener noreferrer"
+             aria-label="صفحه اینستاگرام Programmermsr">
+            <div class="footer-icon grey-loader">
+              <img src="homeImages/head/instagram.png" alt="اینستاگرام Programmermsr">
+            </div>
+          </a>
 
-        <a href="https://github.com/programmermsr" target="_blank" rel="noopener noreferrer"
-          aria-label="صفحه گیت‌هاب Programmermsr">
-          <img src="homeImages/head/github.png" alt="گیت‌هاب Programmermsr">
-        </a>
+          <a href="https://ble.ir/programmermsr" target="_blank" rel="noopener noreferrer"
+             aria-label="صفحه بله Programmermsr">
+            <div class="footer-icon grey-loader">
+              <img src="homeImages/head/bale.png" alt="بله Programmermsr">
+            </div>
+          </a>
+
+          <a href="https://github.com/programmermsr" target="_blank" rel="noopener noreferrer"
+             aria-label="صفحه گیت‌هاب Programmermsr">
+            <div class="footer-icon grey-loader">
+              <img src="homeImages/head/github.png" alt="گیت‌هاب Programmermsr">
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
 
-    <div class="footer-divider" aria-hidden="true"></div>
+      <div class="footer-divider" aria-hidden="true"></div>
 
-    <!-- سرگرمی -->
-    <div class="footer-section">
-      <div class="footer-page-links">
+      <!-- Entertainment Links (3 per row, opens in new tab) -->
+      <div class="footer-section">
+        <div class="footer-page-links">
 
-        <a href="clock.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه ساعت">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-          </svg>
-          <span>ساعت</span>
-        </a>
+          <a href="clock.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه ساعت">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+            <span>ساعت</span>
+          </a>
 
-        <a href="map.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه نقشه">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 21s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12z"/>
-            <circle cx="12" cy="9" r="2.5"/>
-          </svg>
-          <span>نقشه</span>
-        </a>
+          <a href="map.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه نقشه">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <span>نقشه</span>
+          </a>
 
-        <a href="radar.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه رادار نظامی">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <circle cx="12" cy="12" r="5"/>
-            <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
-            <path d="M12 12 L 18.5 5.5"/>
-          </svg>
-          <span>رادار</span>
-        </a>
+          <a href="radar.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه رادار نظامی">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+              <path d="M12 12 L 18.5 5.5"/>
+            </svg>
+            <span>رادار</span>
+          </a>
 
-        <a href="doz.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه بازی دوز">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <line x1="4" y1="4" x2="10" y2="10"/>
-            <line x1="10" y1="4" x2="4" y2="10"/>
-            <circle cx="17" cy="7" r="2.8"/>
-            <circle cx="7" cy="17" r="2.8"/>
-            <line x1="14" y1="14" x2="20" y2="20"/>
-            <line x1="20" y1="14" x2="14" y2="20"/>
-          </svg>
-          <span>دوز</span>
-        </a>
+          <a href="doz.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه بازی دوز">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="4" y1="4" x2="10" y2="10"/>
+              <line x1="10" y1="4" x2="4" y2="10"/>
+              <circle cx="17" cy="7" r="2.8"/>
+              <circle cx="7" cy="17" r="2.8"/>
+              <line x1="14" y1="14" x2="20" y2="20"/>
+              <line x1="20" y1="14" x2="14" y2="20"/>
+            </svg>
+            <span>دوز</span>
+          </a>
 
-        <a href="solar-system.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه منظومه شمسی">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="2.8"/>
-            <ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(-22 12 12)"/>
-            <circle cx="20" cy="9" r="1.3" fill="currentColor"/>
-          </svg>
-          <span>منظومه شمسی</span>
-        </a>
+          <a href="solar-system.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه منظومه شمسی">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="2.8"/>
+              <ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(-22 12 12)"/>
+              <circle cx="20" cy="9" r="1.3" fill="currentColor"/>
+            </svg>
+            <span>منظومه شمسی</span>
+          </a>
 
-        <a href="lottery.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه قرعه‌کشی">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="3.5"/>
-            <circle cx="8"  cy="8"  r="1.3" fill="currentColor"/>
-            <circle cx="16" cy="8"  r="1.3" fill="currentColor"/>
-            <circle cx="12" cy="12" r="1.3" fill="currentColor"/>
-            <circle cx="8"  cy="16" r="1.3" fill="currentColor"/>
-            <circle cx="16" cy="16" r="1.3" fill="currentColor"/>
-          </svg>
-          <span>قرعه‌کشی</span>
-        </a>
+          <a href="lottery.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه قرعه‌کشی">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="3.5"/>
+              <circle cx="8"  cy="8"  r="1.3" fill="currentColor"/>
+              <circle cx="16" cy="8"  r="1.3" fill="currentColor"/>
+              <circle cx="12" cy="12" r="1.3" fill="currentColor"/>
+              <circle cx="8"  cy="16" r="1.3" fill="currentColor"/>
+              <circle cx="16" cy="16" r="1.3" fill="currentColor"/>
+            </svg>
+            <span>قرعه‌کشی</span>
+          </a>
 
+        </div>
       </div>
+
     </div>
+  </footer>
 
-  </div>
+  <!-- ==========================================================
+       JSON-LD STRUCTURED DATA (SEO)
+       ========================================================== -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "افعال بی قاعده انگلیسی",
+      "operatingSystem": "Android",
+      "applicationCategory": "EducationalApplication",
+      "description": "آموزش حدود 199 فعل بی‌قاعده انگلیسی همراه با عکس، تلفظ و پخش خودکار.",
+      "image": ["homeImages/english icon.png", "homeImages/english 1.jpg", "homeImages/english 2.jpg"],
+      "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "چراغ قوه پلیسی زیبا",
+      "operatingSystem": "Android",
+      "applicationCategory": "UtilityApplication",
+      "description": "روشن کردن فلش گوشی همراه با پس‌زمینه‌های گرافیکی زیبا برای استفاده در تاریکی.",
+      "image": ["homeImages/police light.png", "homeImages/f1.jpg", "homeImages/f2.jpg"],
+      "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "ذکر شمار بهشتی",
+      "operatingSystem": "Android",
+      "applicationCategory": "LifestyleApplication",
+      "description": "ذکرشمار حرفه‌ای با امکان نمایش روی صفحه و شمارش تا 99999999999999 همراه با ذخیره مقادیر.",
+      "image": ["homeImages/coin Image.png", "homeImages/z1.jpg", "homeImages/z2.jpg"],
+      "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.zekr_shomar_msr"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "۵۵ کلمه برای اربعین با صوت",
+      "operatingSystem": "Android",
+      "applicationCategory": "EducationalApplication",
+      "description": "آموزش ۵۵ کلمه پرکاربرد سفر اربعین همراه با صوت برای ارتباط بهتر در سفر.",
+      "image": ["homeImages/hossein.png", "homeImages/h1.jpg", "homeImages/h2.jpg"],
+      "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.Arbaeen_Travel_Words_MSR"
+    }
+  ]
+  </script>
 
-</footer>
+  <!-- ==========================================================
+       SCRIPTS
+       ========================================================== -->
+  <script>
+    /* ==========================================================
+       1. HEADER TYPEWRITER ANIMATION
+       ========================================================== */
+    (function () {
+      const el = document.getElementById('textChange');
+      const TEXT_NAME = 'محمد صادق رضائی';
+      const TEXT_URL  = 'programmer-msr.ir';
+      const HIGHLIGHT_COLOR = 'orangered';
 
-<!--json LD------------------------------------------------------------------------------------------------>
-<script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    "name": "افعال بی قاعده انگلیسی",
-    "operatingSystem": "Android",
-    "applicationCategory": "EducationalApplication",
-    "description": "آموزش حدود 199 فعل بی‌قاعده انگلیسی همراه با عکس، تلفظ و پخش خودکار.",
-    "image": [
-      "homeImages/english icon.png",
-      "homeImages/english 1.jpg",
-      "homeImages/english 2.jpg"
-    ],
-    "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr"
-  },
+      let typing = false;
+      let currentText = '';
+      let switchTimer = null;
 
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    "name": "چراغ قوه پلیسی زیبا",
-    "operatingSystem": "Android",
-    "applicationCategory": "UtilityApplication",
-    "description": "روشن کردن فلش گوشی همراه با پس‌زمینه‌های گرافیکی زیبا برای استفاده در تاریکی.",
-    "image": [
-      "homeImages/police light.png",
-      "homeImages/f1.jpg",
-      "homeImages/f2.jpg"
-    ],
-    "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr"
-  },
+      function colorize(text) {
+        if (text.startsWith('p')) {
+          return text.slice(0, 11) +
+                 `<span style="color:${HIGHLIGHT_COLOR};">${text.slice(11, 14)}</span>` +
+                 text.slice(14);
+        }
 
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    "name": "ذکر شمار بهشتی",
-    "operatingSystem": "Android",
-    "applicationCategory": "LifestyleApplication",
-    "description": "ذکرشمار حرفه‌ای با امکان نمایش روی صفحه و شمارش تا 99999999999999 همراه با ذخیره مقادیر.",
-    "image": [
-      "homeImages/coin Image.png",
-      "homeImages/z1.jpg",
-      "homeImages/z2.jpg"
-    ],
-    "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.zekr_shomar_msr"
-  },
+        if (text.startsWith('م')) {
+          if (text.length <= 5) {
+            return `<span style="color:${HIGHLIGHT_COLOR};">م</span>` + text.slice(1);
+          }
+          if (text.length >= 6 && text.length <= 10) {
+            return `<span style="color:${HIGHLIGHT_COLOR};">م</span>` + 'حمد ' +
+                   `<span style="color:${HIGHLIGHT_COLOR};">ص</span>` + text.slice(6);
+          }
+          if (text.length > 10 && text.length <= 15) {
+            return `<span style="color:${HIGHLIGHT_COLOR};">م</span>` + 'حمد ' +
+                   `<span style="color:${HIGHLIGHT_COLOR};">ص</span>` + 'ادق ' +
+                   `<span style="color:${HIGHLIGHT_COLOR};">ر</span>` + text.slice(11);
+          }
+        }
+        return text;
+      }
 
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    "name": "۵۵ کلمه برای اربعین با صوت",
-    "operatingSystem": "Android",
-    "applicationCategory": "EducationalApplication",
-    "description": "آموزش ۵۵ کلمه پرکاربرد سفر اربعین همراه با صوت برای ارتباط بهتر در سفر.",
-    "image": [
-      "homeImages/hossein.png",
-      "homeImages/h1.jpg",
-      "homeImages/h2.jpg"
-    ],
-    "downloadUrl": "https://cafebazaar.ir/app/programmer_msr.ir.Arbaeen_Travel_Words_MSR"
-  }
-]
-</script>
+      function typeText(str) {
+        typing = true;
+        el.innerHTML = '';
+        let i = 0;
 
+        const timer = setInterval(() => {
+          i++;
+          el.innerHTML = colorize(str.slice(0, i));
+
+          if (i >= str.length) {
+            clearInterval(timer);
+            typing = false;
+          }
+        }, 150);
+      }
+
+      function startCycle() {
+        if (switchTimer) clearInterval(switchTimer);
+        switchTimer = setInterval(() => {
+          if (typing) return;
+          currentText = (currentText === TEXT_NAME) ? TEXT_URL : TEXT_NAME;
+          typeText(currentText);
+        }, 2000);
+      }
+
+      startCycle();
+    })();
+
+
+    /* ==========================================================
+       2. INTRO TEXT HIGHLIGHT ANIMATION
+       ========================================================== */
+    (function () {
+      const el = document.getElementById('myIntroducing');
+      const COLOR = '#16baf5';
+      const WORDS = ['برنامه نویس', 'ویندوز', 'و', 'موبایل', 'و', 'سایت'];
+      let index = 0;
+
+      setInterval(() => {
+        if (WORDS[index] === 'و') index = (index + 1) % WORDS.length;
+
+        const before  = WORDS.slice(0, index).join(' ');
+        const current = WORDS[index];
+        const after   = WORDS.slice(index + 1).join(' ');
+
+        el.innerHTML = before +
+          ` <span style="color:${COLOR};">${current}</span> ` +
+          after;
+
+        index = (index + 1) % WORDS.length;
+      }, 750);
+    })();
+
+
+    /* ==========================================================
+       3. SKILLS MARQUEE
+       ========================================================== */
+    (function () {
+      const SKILLS = ['C#', 'sql server', 'EF', 'winform', 'ASP', 'html', 'css', 'js', 'kotlin'];
+      const el = document.getElementById('skills');
+      const NBSP = '\u00A0';
+      const LEADING_SPACE = NBSP.repeat(20);
+      const VISIBLE_LENGTH = 30;
+
+      const fullText = LEADING_SPACE + SKILLS.join(NBSP);
+      const doubleText = fullText + fullText;
+
+      let index = 0;
+      setInterval(() => {
+        el.innerHTML = doubleText.substring(index, index + VISIBLE_LENGTH);
+        index = (index + 1) % fullText.length;
+      }, 150);
+    })();
+
+
+    /* ==========================================================
+       4. PREVENT IMAGE DRAG
+       ========================================================== */
+    document.body.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+
+
+    /* ==========================================================
+       5. IMAGE LOADING SKELETON HANDLER
+       ==========================================================
+       ⚠️ TEMPORARY: simulate slow loading (2–5 seconds) so you
+       can see the skeleton effect. When you want real behaviour,
+       DELETE the setTimeout block and uncomment the "REAL" block.
+       ========================================================== */
+    // فقط برای عکس‌های اصلی کارت‌ها، هدر و فوتر اعمال می‌شود (آیکون‌های عنوان کارت حذف شدند)
+    document.querySelectorAll('.image-wrapper, .header-bg, .footer-icon').forEach(function (wrapper) {
+      const img = wrapper.querySelector('img');
+      if (!img) return;
+
+      /* --- TEMPORARY: simulated slow load (2–5 seconds) --- */
+      const delay = 2000 + Math.random() * 3000;
+      setTimeout(function () {
+        wrapper.classList.add('loaded');
+      }, delay);
+
+      /* --- REAL behaviour (uncomment when ready) ---
+      if (img.complete && img.naturalWidth > 0) {
+        wrapper.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function () {
+          wrapper.classList.add('loaded');
+        });
+        img.addEventListener('error', function () {
+          wrapper.classList.add('loaded');
+        });
+      }
+      -------------------------------------------------- */
+    });
+  </script>
 
 </body>
 </html>
