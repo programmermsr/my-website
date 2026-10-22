@@ -52,12 +52,16 @@
       user-select: none;
     }
 
+    html, body {
+      height: 100%;
+      overflow: hidden; /* قفل کردن اسکرول بدنه */
+      overscroll-behavior-y: none;
+    }
+
     body {
       background-color: var(--bg-dark);
       color: var(--cyan);
       font-family: 'Share Tech Mono', monospace;
-      height: 100vh;
-      overflow: hidden;
       position: relative;
       background-image: 
         radial-gradient(circle at 50% 40%, rgba(0, 50, 150, 0.15) 0%, transparent 60%),
@@ -92,7 +96,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 50px;
-      z-index: 10;
+      z-index: 50;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -135,7 +139,15 @@
       box-shadow: 0 0 20px var(--cyan);
     }
 
-    /* Side HUDs */
+    /* 
+      کانتینر اسکرول (در دسکتاپ نامرئی است و روی چیدمان اثری ندارد)
+      در موبایل تبدیل به یک ظرف اسکرول شونده می‌شود
+    */
+    .scroll-container {
+      display: contents; 
+    }
+
+    /* Side HUDs (Desktop) */
     .left-hud {
       position: absolute;
       left: 20px;
@@ -501,16 +513,64 @@
     }
     @keyframes blink-cursor { 50% { opacity: 0; } }
 
-    /* Responsive */
+    /* ==========================================================
+       RESPONSIVE DESIGN FOR MOBILE (Absolute Scroll Container)
+       ========================================================== */
     @media (max-width: 900px) {
-      .left-hud, .right-hud { display: none; }
-      .glitch-text { font-size: 2.5rem; }
-      .center-wrapper { bottom: 20px; }
-    }
-    @media (max-width: 500px) {
-      .glitch-text { font-size: 1.8rem; letter-spacing: 2px; }
-      .sub-text { font-size: 0.9rem; letter-spacing: 4px; }
-      .code-content { font-size: 12px; height: 150px; }
+      .scroll-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        inset: 0;
+        overflow-y: auto;
+        overscroll-behavior-y: contain; /* یا none */
+        -webkit-overflow-scrolling: touch;
+        padding-top: 65px;
+        padding-bottom: 40px;
+        z-index: 10; /* بالاتر از کانواس ها */
+      }
+
+      .top-nav {
+        position: fixed;
+        background: rgba(1, 2, 6, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 50;
+      }
+
+      .left-hud, .right-hud, .center-wrapper {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        width: 92%;
+        max-width: 500px;
+        margin: 15px auto;
+        height: auto;
+        display: flex;
+        pointer-events: auto;
+        flex: none; /* جلوگیری از کشیدگی یا جمع شدگی */
+      }
+
+      /* Ordering elements for mobile view */
+      .center-wrapper { order: 1; margin-top: 5px; }
+      .left-hud { order: 2; }
+      .right-hud { order: 3; }
+
+      /* Explicit heights for panels on mobile */
+      .terminal-panel { height: 200px; flex: none; }
+      .scanner-panel { height: 200px; flex: none; }
+      .decrypt-panel { height: 200px; flex: none; }
+      
+      .right-top-panel { height: auto; flex: none; }
+      .right-mid-panel { height: 180px; flex: none; }
+      .right-bot-panel { height: 200px; flex: none; }
+
+      .glitch-text { font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 10px; }
+      .sub-text { font-size: 0.9rem; letter-spacing: 4px; margin-bottom: 20px; }
+      .code-content { font-size: 12px; height: 180px; }
     }
   </style>
 </head>
@@ -529,117 +589,118 @@
     <a href="https://www.programmer-msr.ir/" class="disconnect-btn">DISCONNECT</a>
   </div>
 
-  <!-- Left Panels -->
-  <div class="left-hud">
-    <div class="panel terminal-panel">
-      <div class="panel-header">
-        <span>ROOT@SYSTEM:~#</span>
-        <span style="color:var(--red)">AES-256</span>
-      </div>
-      <div class="terminal" id="terminal-output">
-        <div class="t-line t-cmd">root@sys:~# ./inject.sh</div>
-        <div class="t-line t-ok">[OK] Payload deployed.</div>
-      </div>
-    </div>
+  <!-- Scroll Container (Wraps the three sections) -->
+  <div class="scroll-container">
 
-    <div class="panel scanner-panel">
-      <div class="panel-header">
-        <span>PORT SCANNER</span>
-        <span style="color:var(--red)">RUNNING</span>
+    <!-- Center UI (Glitch text + Code Panel) -->
+    <div class="center-wrapper">
+      <div class="center-glitch">
+        <div class="glitch-text" data-text="SYSTEM&#10;OVERRIDE">SYSTEM<br>OVERRIDE</div>
+        <div class="sub-text">UNAUTHORIZED ACCESS</div>
       </div>
-      <div class="scanner-content" id="scanner-output">
-        <div class="scan-line-effect"></div>
-      </div>
-    </div>
-
-    <div class="panel decrypt-panel">
-      <div class="panel-header">
-        <span>PAYLOAD DECRYPT</span>
-        <span style="color:var(--cyan)">ACTIVE</span>
-      </div>
-      <div class="decrypt-content">
-        <div class="decrypt-file-row">
-          <span id="current-file">mainframe.db</span>
-          <span id="decrypt-percent" style="color:var(--cyan)">0%</span>
+      <div class="code-panel">
+        <div class="panel-header">
+          <span>EXPLOIT.cs</span>
+          <span style="color:var(--cyan)">C# COMPILER</span>
         </div>
-        <div class="decrypt-bar-bg">
-          <div class="decrypt-bar-fill" id="decrypt-bar"></div>
+        <div class="code-content" id="code-editor"></div>
+      </div>
+    </div>
+
+    <!-- Left Panels -->
+    <div class="left-hud">
+      <div class="panel terminal-panel">
+        <div class="panel-header">
+          <span>ROOT@SYSTEM:~#</span>
+          <span style="color:var(--red)">AES-256</span>
         </div>
-        <div class="hex-dump" id="hex-dump"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Center UI (Glitch text + Code Panel) -->
-  <div class="center-wrapper">
-    
-    <div class="center-glitch">
-      <div class="glitch-text" data-text="SYSTEM&#10;OVERRIDE">SYSTEM<br>OVERRIDE</div>
-      <div class="sub-text">UNAUTHORIZED ACCESS</div>
-    </div>
-
-    <!-- C# Code Panel -->
-    <div class="code-panel">
-      <div class="panel-header">
-        <span>EXPLOIT.cs</span>
-        <span style="color:var(--cyan)">C# COMPILER</span>
-      </div>
-      <div class="code-content" id="code-editor"></div>
-    </div>
-
-  </div>
-
-  <!-- Right Panels -->
-  <div class="right-hud">
-    <div class="panel right-top-panel">
-      <div class="panel-header">
-        <span>SYS RESOURCES</span>
-        <span>LIVE</span>
-      </div>
-      <div class="stats-panel">
-        <div>
-          <div class="stat-row"><span>CPU LOAD</span><span id="val-cpu">85%</span></div>
-          <div class="bar-bg"><div class="bar-fill" id="bar-cpu" style="width:85%"></div></div>
+        <div class="terminal" id="terminal-output">
+          <div class="t-line t-cmd">root@sys:~# ./inject.sh</div>
+          <div class="t-line t-ok">[OK] Payload deployed.</div>
         </div>
-        <div>
-          <div class="stat-row"><span>MEMORY</span><span id="val-ram">60%</span></div>
-          <div class="bar-bg"><div class="bar-fill" id="bar-ram" style="width:60%"></div></div>
+      </div>
+
+      <div class="panel scanner-panel">
+        <div class="panel-header">
+          <span>PORT SCANNER</span>
+          <span style="color:var(--red)">RUNNING</span>
+        </div>
+        <div class="scanner-content" id="scanner-output">
+          <div class="scan-line-effect"></div>
+        </div>
+      </div>
+
+      <div class="panel decrypt-panel">
+        <div class="panel-header">
+          <span>PAYLOAD DECRYPT</span>
+          <span style="color:var(--cyan)">ACTIVE</span>
+        </div>
+        <div class="decrypt-content">
+          <div class="decrypt-file-row">
+            <span id="current-file">mainframe.db</span>
+            <span id="decrypt-percent" style="color:var(--cyan)">0%</span>
+          </div>
+          <div class="decrypt-bar-bg">
+            <div class="decrypt-bar-fill" id="decrypt-bar"></div>
+          </div>
+          <div class="hex-dump" id="hex-dump"></div>
         </div>
       </div>
     </div>
 
-    <div class="panel right-mid-panel">
-      <div class="panel-header">
-        <span>SATELLITE UPLINK</span>
-        <span>LOCKED</span>
+    <!-- Right Panels -->
+    <div class="right-hud">
+      <div class="panel right-top-panel">
+        <div class="panel-header">
+          <span>SYS RESOURCES</span>
+          <span>LIVE</span>
+        </div>
+        <div class="stats-panel">
+          <div>
+            <div class="stat-row"><span>CPU LOAD</span><span id="val-cpu">85%</span></div>
+            <div class="bar-bg"><div class="bar-fill" id="bar-cpu" style="width:85%"></div></div>
+          </div>
+          <div>
+            <div class="stat-row"><span>MEMORY</span><span id="val-ram">60%</span></div>
+            <div class="bar-bg"><div class="bar-fill" id="bar-ram" style="width:60%"></div></div>
+          </div>
+        </div>
       </div>
-      <div class="radar-container">
-        <div class="radar-circle">
-          <div class="radar-sweep"></div>
-          <div class="radar-target" id="trg1" style="top:30%; left:40%"></div>
-          <div class="radar-target" id="trg2" style="top:70%; left:80%"></div>
+
+      <div class="panel right-mid-panel">
+        <div class="panel-header">
+          <span>SATELLITE UPLINK</span>
+          <span>LOCKED</span>
+        </div>
+        <div class="radar-container">
+          <div class="radar-circle">
+            <div class="radar-sweep"></div>
+            <div class="radar-target" id="trg1" style="top:30%; left:40%"></div>
+            <div class="radar-target" id="trg2" style="top:70%; left:80%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel right-bot-panel">
+        <div class="panel-header">
+          <span>BRUTE FORCE</span>
+          <span style="color:var(--red)" id="brute-status">RUNNING</span>
+        </div>
+        <div class="brute-content">
+          <div class="brute-label">TARGET: root@admin</div>
+          <div class="brute-output" id="brute-output"></div>
+          <div class="bar-bg">
+            <div class="bar-fill" id="brute-bar" style="width:0%"></div>
+          </div>
+          <div class="attempt-info">
+            <span>ATTEMPTS</span>
+            <span id="attempt-count">0</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="panel right-bot-panel">
-      <div class="panel-header">
-        <span>BRUTE FORCE</span>
-        <span style="color:var(--red)" id="brute-status">RUNNING</span>
-      </div>
-      <div class="brute-content">
-        <div class="brute-label">TARGET: root@admin</div>
-        <div class="brute-output" id="brute-output"></div>
-        <div class="bar-bg">
-          <div class="bar-fill" id="brute-bar" style="width:0%"></div>
-        </div>
-        <div class="attempt-info">
-          <span>ATTEMPTS</span>
-          <span id="attempt-count">0</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  </div> <!-- End of Scroll Container -->
 
   <script>
     /* ==========================================================
