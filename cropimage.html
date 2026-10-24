@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>برش عکس | programmer-msr.ir</title>
-  <meta name="description" content="ابزار آنلاین برش عکس (مستطیلی و دایره‌ای) - بدون نیاز به سرور، همه چیز در مرورگر شما انجام می‌شود">
+  <meta name="description" content="ابزار آنلاین برش عکس (مستطیلی، گردگوشه و دایره‌ای) - بدون نیاز به سرور، همه چیز در مرورگر شما انجام می‌شود">
 
   <!-- Favicon -->
   <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
@@ -195,6 +195,7 @@
         inset 0 0 0 1px rgba(255, 255, 255, 0.3);
       cursor: move;
       pointer-events: auto;
+      transition: border-radius 0.08s linear;
     }
 
     #cropBox::before,
@@ -220,6 +221,10 @@
     #cropBox.circle { border-radius: 50%; }
     #cropBox.circle::before,
     #cropBox.circle::after { display: none; }
+
+    /* وقتی گوشه‌ها گرد می‌شوند، خطوط راهنمای شبکه حذف می‌شوند */
+    #cropBox.rounded::before,
+    #cropBox.rounded::after { display: none; }
 
     .handle {
       position: absolute;
@@ -256,6 +261,12 @@
       display: flex;
       gap: 6px;
       align-items: center;
+    }
+
+    .toolbar-group.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      filter: grayscale(1);
     }
 
     .toolbar-label {
@@ -298,6 +309,61 @@
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
+    }
+
+    /* ===== اسلایدر گردی گوشه ===== */
+    .radius-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 110px;
+      height: 4px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      cursor: pointer;
+      direction: ltr;
+    }
+
+    .radius-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #00e5ff;
+      border: 2px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+      transition: 0.15s;
+    }
+
+    .radius-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .radius-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #00e5ff;
+      border: 2px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+    }
+
+    .radius-slider::-moz-range-track {
+      height: 4px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .radius-value {
+      font-size: 12px;
+      font-weight: 800;
+      color: #00e5ff;
+      min-width: 36px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
     }
 
     .action-btn {
@@ -354,6 +420,7 @@
       .toolbar { gap: 6px; padding: 8px; }
       .ratio-btn { padding: 5px 8px; font-size: 11px; }
       .action-btn { padding: 8px 14px; font-size: 12px; }
+      .radius-slider { width: 78px; }
     }
   </style>
 </head>
@@ -411,6 +478,12 @@
         </button>
       </div>
 
+      <div class="toolbar-group" id="radiusGroup">
+        <span class="toolbar-label">گردی گوشه:</span>
+        <input type="range" id="radiusSlider" class="radius-slider" min="0" max="50" step="1" value="0">
+        <span class="radius-value" id="radiusValue">۰٪</span>
+      </div>
+
       <div class="toolbar-group">
         <span class="toolbar-label">نسبت:</span>
         <button class="ratio-btn active" data-ratio="free">آزاد</button>
@@ -452,6 +525,9 @@
       const infoText = document.getElementById('infoText');
       const ratioBtns = document.querySelectorAll('.ratio-btn[data-ratio]');
       const shapeBtns = document.querySelectorAll('.shape-btn');
+      const radiusSlider = document.getElementById('radiusSlider');
+      const radiusValue = document.getElementById('radiusValue');
+      const radiusGroup = document.getElementById('radiusGroup');
 
       let img = null;
       let displayW = 0, displayH = 0;
@@ -460,6 +536,7 @@
       let crop = { x: 0, y: 0, w: 0, h: 0 };
       let activeRatio = null;
       let activeShape = 'rect';
+      let cornerRadius = 0;          // درصد گردی گوشه (۰ تا ۵۰)
       let dragMode = null;
       let dragStart = { x: 0, y: 0 };
       let startCrop = { x: 0, y: 0, w: 0, h: 0 };
@@ -564,19 +641,65 @@
         crop.y = Math.max(0, Math.min(displayH - size, cy - size / 2));
       }
 
+      /* شعاع گردی بر حسب پیکسل، نسبت به کوچک‌ترین ضلع کادر برش */
+      function getRadiusPx(w, h, percent) {
+        return (percent / 100) * Math.min(w, h);
+      }
+
       function updateCropBox() {
         cropBox.style.left = crop.x + 'px';
         cropBox.style.top = crop.y + 'px';
         cropBox.style.width = crop.w + 'px';
         cropBox.style.height = crop.h + 'px';
-        cropBox.classList.toggle('circle', activeShape === 'circle');
+
+        const isCircle = activeShape === 'circle';
+        cropBox.classList.toggle('circle', isCircle);
+
+        if (isCircle) {
+          cropBox.style.borderRadius = '';
+          cropBox.classList.remove('rounded');
+        } else {
+          const r = getRadiusPx(crop.w, crop.h, cornerRadius);
+          cropBox.style.borderRadius = r + 'px';
+          cropBox.classList.toggle('rounded', cornerRadius > 0);
+        }
       }
 
       function updateInfo() {
         const px = Math.round(crop.w * scale);
         const py = Math.round(crop.h * scale);
-        const label = activeShape === 'circle' ? 'دایره‌ای' : 'مستطیلی';
+        let label = 'مستطیلی';
+        if (activeShape === 'circle') label = 'دایره‌ای';
+        else if (cornerRadius > 0) label = 'گردگوشه';
         infoText.textContent = `برش ${label}: ${px} × ${py} پیکسل`;
+      }
+
+      function toPersianDigits(str) {
+        return String(str).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+      }
+
+      function updateRadiusUI() {
+        radiusValue.textContent = toPersianDigits(cornerRadius) + '٪';
+        radiusGroup.classList.toggle('disabled', activeShape === 'circle');
+      }
+
+      /* ===== رسم مسیر مستطیل با گوشه‌های گرد ===== */
+      function roundRectPath(ctx, x, y, w, h, r) {
+        r = Math.max(0, Math.min(r, w / 2, h / 2));
+        if (r === 0) {
+          ctx.rect(x, y, w, h);
+          return;
+        }
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.arcTo(x + w, y, x + w, y + r, r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+        ctx.lineTo(x + r, y + h);
+        ctx.arcTo(x, y + h, x, y + h - r, r);
+        ctx.lineTo(x, y + r);
+        ctx.arcTo(x, y, x + r, y, r);
+        ctx.closePath();
       }
 
       function getClientPos(e) {
@@ -666,6 +789,14 @@
       document.addEventListener('touchend', onEnd);
       document.addEventListener('touchcancel', onEnd);
 
+      /* ===== اسلایدر گردی گوشه ===== */
+      radiusSlider.addEventListener('input', () => {
+        cornerRadius = parseFloat(radiusSlider.value) || 0;
+        updateRadiusUI();
+        updateCropBox();
+        updateInfo();
+      });
+
       shapeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           shapeBtns.forEach(b => b.classList.remove('active'));
@@ -678,6 +809,7 @@
             activeRatio = 1;
           }
 
+          updateRadiusUI();
           updateCropBox();
           updateInfo();
         });
@@ -727,7 +859,10 @@
         outCanvas.height = sh;
         const outCtx = outCanvas.getContext('2d');
 
+        let tag = 'rect';
+
         if (activeShape === 'circle') {
+          tag = 'circle';
           const size = Math.min(sw, sh);
           outCtx.save();
           outCtx.beginPath();
@@ -735,11 +870,19 @@
           outCtx.clip();
           outCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
           outCtx.restore();
+        } else if (cornerRadius > 0) {
+          tag = 'round';
+          const r = getRadiusPx(sw, sh, cornerRadius);
+          outCtx.save();
+          outCtx.beginPath();
+          roundRectPath(outCtx, 0, 0, sw, sh, r);
+          outCtx.clip();
+          outCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+          outCtx.restore();
         } else {
           outCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
         }
 
-        const tag = activeShape === 'circle' ? 'circle' : 'rect';
         const filename = `crop_${tag}_${sw}x${sh}.png`;
 
         outCanvas.toBlob(async (blob) => {
@@ -788,6 +931,9 @@
       window.addEventListener('resize', () => {
         if (img && editor.classList.contains('active')) enterEditor();
       });
+
+      // مقدار اولیه UI
+      updateRadiusUI();
     })();
   </script>
 </body>
