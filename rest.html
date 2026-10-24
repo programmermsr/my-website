@@ -9,6 +9,8 @@
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
   
   <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+  <link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+  <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
 
   <style>
     * {
@@ -24,18 +26,22 @@
       background: #1a2e1a;
       color: #e0e0e0;
       height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
     .top-bar {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 15px 20px;
       background: #142414;
       border-bottom: 2px solid #2e5e2e;
+      flex-shrink: 0;
+      min-height: 58px;
     }
 
     .top-bar h2 {
@@ -44,20 +50,77 @@
       font-weight: bold;
     }
 
-    .back-btn {
+    .brand-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #7fd77f;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(127, 215, 127, 0.5);
+      transition: 0.3s;
+      direction: ltr;
+    }
+
+    .brand-link:hover {
+      color: #fff;
+      text-shadow: 0 0 30px rgba(127, 215, 127, 0.9);
+    }
+
+    /* ===== دکمه‌های سمت چپ نوار بالا ===== */
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn,
+    .fs-btn {
       color: #7fd77f;
       text-decoration: none;
       font-size: 14px;
       border: 1px solid #7fd77f;
-      padding: 6px 14px;
       border-radius: 4px;
       transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: bold;
+      line-height: 1;
+      /* ارتفاع یکسان برای هر دو دکمه */
+      height: 34px;
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
-    .back-btn:hover {
+    .back-btn {
+      padding-right: 14px;
+      padding-left: 14px;
+    }
+
+    .fs-btn {
+      width: 34px;
+      padding-right: 0;
+      padding-left: 0;
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover,
+    .fs-btn:hover {
       background: #7fd77f;
       color: #142414;
     }
+
+    /* آیکون‌های تمام‌صفحه */
+    .fs-btn .icon-collapse { display: none; }
+    body.fs-active .fs-btn .icon-expand { display: none; }
+    body.fs-active .fs-btn .icon-collapse { display: block; }
 
     .main-container {
       flex: 1;
@@ -66,6 +129,7 @@
       align-items: center;
       gap: 80px;
       padding: 20px;
+      min-height: 0;
     }
 
     .timer-section {
@@ -120,6 +184,18 @@
         width: 240px !important;
         height: 240px !important;
       }
+      .brand-link { font-size: 14px; }
+      .top-bar h2 { font-size: 12px; }
+      .back-btn span { display: none; }
+      .back-btn {
+        padding-right: 8px;
+        padding-left: 8px;
+      }
+      .back-btn,
+      .fs-btn {
+        height: 30px;
+      }
+      .fs-btn { width: 30px; }
     }
   </style>
 </head>
@@ -127,13 +203,34 @@
 
   <div class="top-bar">
     <h2>زمان استراحت</h2>
-    <a href="https://www.programmer-msr.ir/" class="back-btn">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-left:5px;">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-      بازگشت به سایت
-    </a>
+    <a href="https://www.programmer-msr.ir/" class="brand-link">programmer-msr.ir</a>
+
+    <div class="actions">
+      <!-- دکمه تمام‌صفحه -->
+      <button type="button" class="fs-btn" id="fullscreenBtn" aria-label="تمام صفحه" title="تمام صفحه (F11)">
+        <svg class="icon-expand" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+          <path d="M16 3h3a2 2 0 0 1 2 2v3"></path>
+          <path d="M8 21H5a2 2 0 0 1-2-2v-3"></path>
+          <path d="M16 21h3a2 2 0 0 0 2-2v-3"></path>
+        </svg>
+        <svg class="icon-collapse" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h3a2 2 0 0 0 2-2V3"></path>
+          <path d="M21 8h-3a2 2 0 0 1-2-2V3"></path>
+          <path d="M3 16h3a2 2 0 0 1 2 2v3"></path>
+          <path d="M21 16h-3a2 2 0 0 0-2 2v3"></path>
+        </svg>
+      </button>
+
+      <!-- دکمه بازگشت به سایت -->
+      <a href="https://www.programmer-msr.ir/" class="back-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>بازگشت به سایت</span>
+      </a>
+    </div>
   </div>
 
   <div class="main-container">
@@ -149,6 +246,112 @@
   </div>
 
   <script>
+    // ===== Fullscreen management =====
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    let autoFullscreenDisabled = false; // بعد از اینکه کاربر خودش دکمه را زد، حالت خودکار غیرفعال می‌شود
+
+    function isFullscreen() {
+      return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      );
+    }
+
+    function enterFullscreen() {
+      const el = document.documentElement;
+      const req = el.requestFullscreen ||
+                  el.webkitRequestFullscreen ||
+                  el.mozRequestFullScreen ||
+                  el.msRequestFullscreen;
+      if (req) {
+        try {
+          const p = req.call(el);
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      }
+    }
+
+    function exitFullscreen() {
+      const ex = document.exitFullscreen ||
+                 document.webkitExitFullscreen ||
+                 document.mozCancelFullScreen ||
+                 document.msExitFullscreen;
+      if (ex) {
+        try {
+          const p = ex.call(document);
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      }
+    }
+
+    function toggleFullscreen() {
+      if (isFullscreen()) {
+        exitFullscreen();
+      } else {
+        enterFullscreen();
+      }
+    }
+
+    // به‌روزرسانی آیکون و وضعیت دکمه
+    function updateFullscreenUI() {
+      const fs = isFullscreen();
+      document.body.classList.toggle('fs-active', fs);
+      if (fullscreenBtn) {
+        fullscreenBtn.setAttribute('aria-label', fs ? 'خروج از تمام صفحه' : 'تمام صفحه');
+        fullscreenBtn.setAttribute('title', fs ? 'خروج از تمام صفحه (F11)' : 'تمام صفحه (F11)');
+      }
+    }
+
+    ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange']
+      .forEach(function (evt) {
+        document.addEventListener(evt, updateFullscreenUI);
+      });
+
+    // کلیک روی دکمه تمام‌صفحه
+    if (fullscreenBtn) {
+      fullscreenBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        autoFullscreenDisabled = true;
+        toggleFullscreen();
+      });
+    }
+
+    // کلید F11 (شبیه‌سازی رفتار مرورگر)
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'F11' || e.keyCode === 122) {
+        e.preventDefault();
+        autoFullscreenDisabled = true;
+        toggleFullscreen();
+      }
+    });
+
+    // تلاش برای ورود خودکار به تمام‌صفحه در بارگذاری
+    enterFullscreen();
+
+    // Fallback: ورود به تمام‌صفحه با اولین تعامل کاربر
+    function onFirstGesture(e) {
+      if (autoFullscreenDisabled) return;
+      if (e && e.key === 'F11') return;
+      if (e && e.target && e.target.closest &&
+          e.target.closest('.back-btn, #fullscreenBtn')) return;
+      if (!isFullscreen()) enterFullscreen();
+    }
+    document.addEventListener('click', onFirstGesture);
+    document.addEventListener('keydown', onFirstGesture);
+    document.addEventListener('touchstart', onFirstGesture, { passive: true });
+
+    // خروج از تمام‌صفحه هنگام کلیک روی «بازگشت به سایت»
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn) {
+      backBtn.addEventListener('click', function () {
+        if (isFullscreen()) exitFullscreen();
+      });
+    }
+
+    // ===== Clock =====
     const canvas = document.getElementById('analogClock');
     const ctx = canvas.getContext('2d');
 
@@ -260,6 +463,7 @@
 
     requestAnimationFrame(drawClock);
 
+    // ===== Timer =====
     const timerDisplay = document.getElementById('timerDisplay');
     let counterInterval = null;
     let secondsElapsed = 0;
