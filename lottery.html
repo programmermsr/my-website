@@ -188,7 +188,11 @@
       gap: clamp(10px, 2vh, 20px);
       z-index: 2;
       min-height: 0;
-      overflow-y: auto;
+    }
+
+    /* جلوگیری از اسکرول در حین انیمیشن */
+    #rollScreen {
+      touch-action: none;
     }
 
     .screen.hidden {
@@ -609,12 +613,19 @@
 
     const fullscreenBtn = document.getElementById('fullscreen-btn');
 
+    // ✅ Performance optimization for mobile
+    const isMobilePerf = window.innerWidth < 900 || /Android|iPhone|iPad/i.test(navigator.userAgent);
+
     let W = 0, H = 0;
     let particles = [];
     let currentMin = 1;
     let currentMax = 100;
     let targetNumber = 0;
     let animating = false;
+
+    // ✅ Module-level state for countdown reliability
+    let countdownTimer = null;
+    let countdownFinished = false;
 
     const CIRCUMFERENCE = 597;
 
@@ -695,7 +706,7 @@
         ctx.globalAlpha = p.life;
         ctx.fillStyle = p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = isMobilePerf ? 5 : 10;
         ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.66);
         ctx.restore();
       }
@@ -751,7 +762,14 @@
       resultScreen.classList.add('hidden');
       rollScreen.classList.remove('hidden');
 
+      // ✅ Reset the state flags before starting
       animating = true;
+      countdownFinished = false;
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+
       runCountdownAnimation();
     }
 
@@ -759,49 +777,63 @@
       rollScreen.classList.add('shaking');
 
       const startTime = performance.now();
-      let lastShown = null;
+      let lastShown = COUNTDOWN_FROM;
 
       setCountdownDisplay(COUNTDOWN_FROM);
-      lastShown = COUNTDOWN_FROM;
-
       const c5 = COUNTDOWN_COLORS[COUNTDOWN_FROM];
-      spawnBurst(W / 2, H / 2, 15, false, [c5.main, c5.glow, '#ffffff']);
+      spawnBurst(W / 2, H / 2, isMobilePerf ? 10 : 15, false, [c5.main, c5.glow, '#ffffff']);
 
-      function tick(now) {
-        const elapsed = now - startTime;
-        const t = Math.min(elapsed / COUNTDOWN_TOTAL, 1);
-
-        if (t >= 1) {
-          finishRoll();
+      // ✅ Use setInterval for step advancement (reliable on mobile)
+      let currentStep = COUNTDOWN_FROM;
+      countdownTimer = setInterval(() => {
+        if (countdownFinished) {
+          clearInterval(countdownTimer);
+          countdownTimer = null;
           return;
         }
 
-        const stepIndex = Math.floor(elapsed / STEP_DURATION);
-        const currentNum = COUNTDOWN_FROM - stepIndex;
+        currentStep--;
 
-        if (currentNum !== lastShown && currentNum >= 1) {
-          lastShown = currentNum;
-          setCountdownDisplay(currentNum);
+        if (currentStep >= 1) {
+          lastShown = currentStep;
+          setCountdownDisplay(currentStep);
 
-          const c = COUNTDOWN_COLORS[currentNum];
-          const palette = [c.main, c.glow, c.alt, '#ffffff'];
+          const c = COUNTDOWN_COLORS[currentStep];
+          if (c) {
+            const palette = [c.main, c.glow, c.alt, '#ffffff'];
+            const baseCount = isMobilePerf ? 15 : 22;
+            spawnBurst(W / 2, H / 2, baseCount + (COUNTDOWN_FROM - currentStep) * 4, false, palette);
 
-          spawnBurst(W / 2, H / 2, 22 + (COUNTDOWN_FROM - currentNum) * 4, false, palette);
-
-          for (let i = 0; i < 3; i++) {
-            spawnBurst(
-              W / 2 + (Math.random() - 0.5) * 260,
-              H / 2 + (Math.random() - 0.5) * 200,
-              5,
-              false,
-              palette
-            );
+            if (!isMobilePerf) {
+              for (let i = 0; i < 3; i++) {
+                spawnBurst(
+                  W / 2 + (Math.random() - 0.5) * 260,
+                  H / 2 + (Math.random() - 0.5) * 200,
+                  5,
+                  false,
+                  palette
+                );
+              }
+            }
           }
+        } else {
+          // Countdown reached 1 -> Finish
+          clearInterval(countdownTimer);
+          countdownTimer = null;
+          finishRoll();
         }
+      }, STEP_DURATION);
+
+      // ✅ Visual animation via rAF (can be throttled safely)
+      function visualTick() {
+        if (countdownFinished) return;
+
+        const elapsed = performance.now() - startTime;
+        const t = Math.min(elapsed / COUNTDOWN_TOTAL, 1);
 
         ringProgress.style.strokeDashoffset = CIRCUMFERENCE * (1 - t);
 
-        const c = COUNTDOWN_COLORS[currentNum] || COUNTDOWN_COLORS[1];
+        const c = COUNTDOWN_COLORS[lastShown] || COUNTDOWN_COLORS[1];
         const glowBoost = 1 + t * 1.5;
         countdownNumber.style.textShadow = `
           0 0 ${30 * glowBoost}px ${c.glow},
@@ -809,20 +841,41 @@
           0 0 ${90 * glowBoost}px ${c.alt}
         `;
 
-        if (Math.random() < 0.3 + t * 0.5) {
+        if (Math.random() < (isMobilePerf ? 0.15 : 0.3) + t * 0.5) {
           const px = W / 2 + (Math.random() - 0.5) * 350;
           const py = H / 2 + (Math.random() - 0.5) * 250;
           const palette = [c.main, c.glow, c.alt, '#ffffff'];
-          spawnBurst(px, py, 2, false, palette);
+          spawnBurst(px, py, isMobilePerf ? 1 : 2, false, palette);
         }
 
-        requestAnimationFrame(tick);
+        if (t < 1) {
+          requestAnimationFrame(visualTick);
+        }
       }
+      requestAnimationFrame(visualTick);
 
-      requestAnimationFrame(tick);
+      // ✅ Ultimate safety net - if animation gets stuck for any reason
+      setTimeout(() => {
+        if (!countdownFinished) {
+          finishRoll();
+        }
+      }, COUNTDOWN_TOTAL + 2500);
     }
 
     function finishRoll() {
+      // ✅ Guard against double execution
+      if (countdownFinished) return;
+      if (!animating) return;
+
+      countdownFinished = true;
+      animating = false;
+
+      // ✅ Clear the interval if still running
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+
       rollScreen.classList.remove('shaking');
       rollScreen.classList.add('hidden');
       resultScreen.classList.remove('hidden');
@@ -834,28 +887,34 @@
       setTimeout(() => {
         const cx = W / 2;
         const cy = H / 2;
-        spawnBurst(cx, cy, 100, true);
-        setTimeout(() => spawnBurst(cx - 150, cy - 100, 40, true), 100);
-        setTimeout(() => spawnBurst(cx + 150, cy + 100, 40, true), 200);
-        setTimeout(() => spawnBurst(cx, cy - 150, 50, true), 300);
+        const mainCount = isMobilePerf ? 50 : 100;
+        spawnBurst(cx, cy, mainCount, true);
+        if (!isMobilePerf) {
+          setTimeout(() => spawnBurst(cx - 150, cy - 100, 40, true), 100);
+          setTimeout(() => spawnBurst(cx + 150, cy + 100, 40, true), 200);
+          setTimeout(() => spawnBurst(cx, cy - 150, 50, true), 300);
+        }
 
         let count = 0;
         const interval = setInterval(() => {
-          if (count++ > 12) { clearInterval(interval); return; }
-          if (!animating) { clearInterval(interval); return; }
+          if (count++ > (isMobilePerf ? 5 : 12)) { clearInterval(interval); return; }
+          if (!countdownFinished) { clearInterval(interval); return; }
           spawnBurst(
             W / 2 + (Math.random() - 0.5) * W * 0.6,
             H / 2 + (Math.random() - 0.5) * H * 0.4,
-            12,
+            isMobilePerf ? 6 : 12,
             false
           );
         }, 250);
       }, 150);
-
-      animating = false;
     }
 
     function reset() {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+      countdownFinished = false;
       particles = [];
       rollScreen.classList.remove('shaking');
       rollScreen.classList.add('hidden');
