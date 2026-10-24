@@ -100,7 +100,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
+      justify-content: center;
     }
 
     canvas {
@@ -108,13 +108,6 @@
       border-radius: 50%;
       border: 10px solid #2e5e2e;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .digital-time {
-      font-size: 20px;
-      color: #7fd77f;
-      letter-spacing: 3px;
-      font-family: 'Courier New', monospace;
     }
 
     /* Responsive */
@@ -160,10 +153,9 @@
       <div class="timer-display" id="timerDisplay">00:00:00</div>
     </div>
 
-    <!-- Clock (RIGHT) -->
+    <!-- Clock (RIGHT) - Digital time removed -->
     <div class="clock-section">
       <canvas id="analogClock" width="300" height="300"></canvas>
-      <div class="digital-time" id="digitalTime">00:00:00</div>
     </div>
 
   </div>
@@ -174,7 +166,6 @@
        ========================================== */
     const canvas = document.getElementById('analogClock');
     const ctx = canvas.getContext('2d');
-    const digitalTime = document.getElementById('digitalTime');
 
     const dpr = window.devicePixelRatio || 1;
     const size = 300;
@@ -211,10 +202,6 @@
       const t = getTehranTime();
       const ms = Date.now() % 1000;
       const secWithMs = t.sec + ms / 1000;
-
-      // Digital Display
-      const pad = n => String(n).padStart(2, '0');
-      digitalTime.textContent = `${pad(t.hr)}:${pad(t.min)}:${pad(t.sec)}`;
 
       // Clear
       ctx.clearRect(-radius, -radius, size, size);
