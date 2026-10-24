@@ -222,7 +222,7 @@
     #cropBox.circle::before,
     #cropBox.circle::after { display: none; }
 
-    /* وقتی گوشه‌ها گرد می‌شوند، خطوط راهنمای شبکه حذف می‌شوند */
+    /* Hide grid lines when rounded */
     #cropBox.rounded::before,
     #cropBox.rounded::after { display: none; }
 
@@ -311,7 +311,7 @@
       stroke-width: 2;
     }
 
-    /* ===== اسلایدر گردی گوشه ===== */
+    /* Corner radius slider */
     .radius-slider {
       -webkit-appearance: none;
       appearance: none;
@@ -536,7 +536,7 @@
       let crop = { x: 0, y: 0, w: 0, h: 0 };
       let activeRatio = null;
       let activeShape = 'rect';
-      let cornerRadius = 0;          // درصد گردی گوشه (۰ تا ۵۰)
+      let cornerRadius = 0;
       let dragMode = null;
       let dragStart = { x: 0, y: 0 };
       let startCrop = { x: 0, y: 0, w: 0, h: 0 };
@@ -641,7 +641,7 @@
         crop.y = Math.max(0, Math.min(displayH - size, cy - size / 2));
       }
 
-      /* شعاع گردی بر حسب پیکسل، نسبت به کوچک‌ترین ضلع کادر برش */
+      /* Radius in px based on smaller side */
       function getRadiusPx(w, h, percent) {
         return (percent / 100) * Math.min(w, h);
       }
@@ -683,7 +683,7 @@
         radiusGroup.classList.toggle('disabled', activeShape === 'circle');
       }
 
-      /* ===== رسم مسیر مستطیل با گوشه‌های گرد ===== */
+      /* Rounded rectangle path */
       function roundRectPath(ctx, x, y, w, h, r) {
         r = Math.max(0, Math.min(r, w / 2, h / 2));
         if (r === 0) {
@@ -789,7 +789,7 @@
       document.addEventListener('touchend', onEnd);
       document.addEventListener('touchcancel', onEnd);
 
-      /* ===== اسلایدر گردی گوشه ===== */
+      /* Corner radius slider */
       radiusSlider.addEventListener('input', () => {
         cornerRadius = parseFloat(radiusSlider.value) || 0;
         updateRadiusUI();
@@ -932,7 +932,7 @@
         if (img && editor.classList.contains('active')) enterEditor();
       });
 
-      // مقدار اولیه UI
+      // Init UI
       updateRadiusUI();
     })();
   </script>
