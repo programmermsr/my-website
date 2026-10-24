@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پالت رنگ کامل | programmer-msr.ir</title>
+<meta name="description" content="پالت رنگ کامل با بیش از ۲۲۰ رنگ و انتخاب‌گر رنگ هوشمند با تبدیل کد HEX، RGB و HSL">
+
+<!-- Favicon -->
+<link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+<link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+<link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+    user-select: none;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body {
+    background: #08080c;
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(251, 191, 36, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(236, 72, 153, 0.05) 0%, transparent 40%);
+    color: #e0e0e8;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(8, 8, 12, 0.9);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    min-height: 52px;
+  }
+
+  .brand-link {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fbbf24;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    transition: 0.3s;
+    direction: ltr;
+  }
+
+  .brand-link:hover {
+    color: #fff;
+    text-shadow: 0 0 30px rgba(251, 191, 36, 0.9);
+  }
+
+  .back-btn {
+    color: #fbbf24;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid #fbbf24;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .back-btn:hover {
+    background: rgba(251, 191, 36, 0.15);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.35);
+  }
+
+  .top-bar h2 {
+    color: #7a7a8a;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .search-bar {
+    padding: 12px 20px;
+    background: rgba(8, 8, 12, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 500px;
+    min-width: 200px;
+  }
+
+  .search-input-wrap svg {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    stroke: #7a7a8a;
+    fill: none;
+    stroke-width: 2.5;
+    pointer-events: none;
+  }
+
+  #searchInput {
+    width: 100%;
+    background: rgba(20, 20, 30, 0.9);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 10px;
+    padding: 10px 40px 10px 14px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    transition: 0.2s;
+  }
+
+  #searchInput::placeholder { color: #5a5a6a; }
+
+  #searchInput:focus {
+    border-color: #fbbf24;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+    background: rgba(30, 30, 40, 0.9);
+  }
+
+  .picker-btn {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1a1a00;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  }
+
+  .picker-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.45);
+  }
+
+  .picker-btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  .picker-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .grid-wrap {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(251, 191, 36, 0.4) rgba(251, 191, 36, 0.05);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .grid-wrap::-webkit-scrollbar { width: 8px; }
+  .grid-wrap::-webkit-scrollbar-track {
+    background: rgba(251, 191, 36, 0.05);
+    border-radius: 4px;
+  }
+  .grid-wrap::-webkit-scrollbar-thumb {
+    background: rgba(251, 191, 36, 0.4);
+    border-radius: 4px;
+  }
+  .grid-wrap::-webkit-scrollbar-thumb:hover {
+    background: rgba(251, 191, 36, 0.7);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 10px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .color-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    padding: 0;
+    outline: none;
+    min-width: 0;
+  }
+
+  .color-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .color-card:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+
+  .color-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .color-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 4px;
+    text-align: center;
+    z-index: 2;
+    color: #fff;
+  }
+
+  .color-name {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 700;
+    margin-bottom: 1px;
+    opacity: 0.95;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .color-hex {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    font-family: 'Courier New', monospace;
+    direction: ltr;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+  }
+
+  .copy-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .copy-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .color-card.copied .copy-icon {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  #toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(25, 25, 35, 0.95);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    direction: ltr;
+  }
+
+  #toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  #toast .toast-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+  }
+
+  #toast .toast-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  #toast .toast-label {
+    font-size: 10px;
+    color: #fbbf24;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+
+  #toast .toast-hex {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  .empty-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #5a5a6a;
+    padding: 60px 20px;
+    font-size: 14px;
+  }
+
+  /* ===== Color Picker Modal ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 500;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    background: #14141a;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(251, 191, 36, 0.4) transparent;
+  }
+
+  .modal-overlay.show .modal {
+    transform: scale(1);
+  }
+
+  .modal::-webkit-scrollbar { width: 6px; }
+  .modal::-webkit-scrollbar-thumb {
+    background: rgba(251, 191, 36, 0.4);
+    border-radius: 3px;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    background: #14141a;
+    z-index: 2;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header h3 {
+    font-size: 15px;
+    color: #fbbf24;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-header h3 svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fbbf24;
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #7a7a8a;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 80, 80, 0.15);
+    border-color: rgba(255, 80, 80, 0.5);
+    color: #ff5050;
+  }
+
+  .modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .preview-swatch {
+    width: 100%;
+    height: 100px;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+
+  .preview-swatch::after {
+    content: attr(data-hex);
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+  }
+
+  .picker-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .native-picker-wrap {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid rgba(251, 191, 36, 0.5);
+    cursor: pointer;
+    flex-shrink: 0;
+    background: conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+    transition: 0.2s;
+  }
+
+  .native-picker-wrap:hover {
+    border-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+    transform: scale(1.05);
+  }
+
+  .native-picker-wrap input[type="color"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .picker-label {
+    font-size: 12px;
+    color: #7a7a8a;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  .picker-label strong {
+    color: #fbbf24;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .format-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .format-label {
+    font-size: 11px;
+    color: #7a7a8a;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .format-label small {
+    font-size: 10px;
+    color: #5a5a6a;
+    font-weight: 600;
+  }
+
+  .format-input-wrap {
+    position: relative;
+  }
+
+  .format-input {
+    width: 100%;
+    background: rgba(8, 8, 14, 0.9);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 10px;
+    padding: 10px 44px 10px 14px;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+    transition: 0.2s;
+    direction: ltr;
+    letter-spacing: 0.5px;
+  }
+
+  .format-input:focus {
+    border-color: #fbbf24;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.2);
+    background: rgba(20, 20, 28, 0.9);
+  }
+
+  .copy-small-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+
+  .copy-small-btn:hover {
+    background: rgba(251, 191, 36, 0.3);
+    border-color: #fbbf24;
+  }
+
+  .copy-small-btn:active {
+    transform: translateY(-50%) scale(0.9);
+  }
+
+  .copy-small-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* RGB section with copy button */
+  .rgb-section {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    direction: ltr;
+  }
+
+  .rgb-row {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .rgb-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .rgb-field label {
+    font-size: 11px;
+    color: #7a7a8a;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .rgb-field label.r { color: #ff5555; }
+  .rgb-field label.g { color: #4ade80; }
+  .rgb-field label.b { color: #60a5fa; }
+
+  .rgb-field input {
+    background: rgba(8, 8, 14, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 4px;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    transition: 0.2s;
+    direction: ltr;
+    width: 100%;
+  }
+
+  .rgb-field.r input { border-color: rgba(255, 85, 85, 0.3); }
+  .rgb-field.g input { border-color: rgba(74, 222, 128, 0.3); }
+  .rgb-field.b input { border-color: rgba(96, 165, 250, 0.3); }
+
+  .rgb-field.r input:focus { border-color: #ff5555; box-shadow: 0 0 10px rgba(255, 85, 85, 0.3); }
+  .rgb-field.g input:focus { border-color: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
+  .rgb-field.b input:focus { border-color: #60a5fa; box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
+
+  /* number input arrows removal */
+  .rgb-field input::-webkit-outer-spin-button,
+  .rgb-field input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .rgb-field input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* RGB copy button (overrides the absolute positioning) */
+  .copy-small-btn.rgb-copy-btn {
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 42px;
+    height: auto;
+    align-self: stretch;
+    flex-shrink: 0;
+  }
+
+  .copy-small-btn.rgb-copy-btn:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 6px;
+    }
+    .grid-wrap { padding: 12px; }
+    .color-name { font-size: 8.5px; }
+    .color-hex { font-size: 10px; }
+    .brand-link { font-size: 14px; }
+    .back-btn span { display: none; }
+    .back-btn { padding: 6px 8px; }
+    .top-bar h2 { font-size: 11px; }
+    .search-bar { padding: 10px 12px; gap: 8px; }
+    .picker-btn { padding: 9px 14px; font-size: 12px; }
+    .picker-btn svg { width: 16px; height: 16px; }
+    .modal { max-height: 95vh; }
+    .modal-body { padding: 16px; gap: 14px; }
+    .preview-swatch { height: 80px; }
+    .native-picker-wrap { width: 50px; height: 50px; }
+    .copy-small-btn.rgb-copy-btn { width: 38px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <h2>🎨 پالت رنگ کامل</h2>
+    <a href="https://www.programmer-msr.ir/" class="brand-link">programmer-msr.ir</a>
+    <a href="https://www.programmer-msr.ir/" class="back-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+      <span>بازگشت به سایت</span>
+    </a>
+  </div>
+
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="جستجو بر اساس نام یا کد HEX..." dir="auto">
+    </div>
+    <button class="picker-btn" id="openPickerBtn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+      انتخاب رنگ
+    </button>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="toast">
+    <span class="toast-swatch" id="toastSwatch"></span>
+    <div class="toast-text">
+      <span class="toast-label">COPIED</span>
+      <span class="toast-hex" id="toastHex">#FFFFFF</span>
+    </div>
+  </div>
+
+  <!-- ===== Color Picker Modal ===== -->
+  <div class="modal-overlay" id="pickerModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+          انتخاب رنگ
+        </h3>
+        <button class="close-btn" id="closeModalBtn" title="بستن">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Preview -->
+        <div class="preview-swatch" id="previewSwatch" data-hex="#FBBF24" style="background:#FBBF24"></div>
+
+        <!-- Native picker -->
+        <div class="picker-row">
+          <label class="native-picker-wrap" title="انتخاب رنگ از پالت">
+            <input type="color" id="nativePicker" value="#fbbf24">
+          </label>
+          <div class="picker-label">
+            <strong>کلیک کنید</strong>
+            برای انتخاب رنگ از پالت رنگی مرورگر
+          </div>
+        </div>
+
+        <!-- HEX -->
+        <div class="format-group">
+          <div class="format-label">
+            <span>HEX</span>
+            <small>مثال: #FBBF24</small>
+          </div>
+          <div class="format-input-wrap">
+            <input type="text" class="format-input" id="hexInput" value="#FBBF24" maxlength="7" dir="ltr">
+            <button class="copy-small-btn" data-copy="hexInput" title="کپی HEX">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RGB -->
+        <div class="format-group">
+          <div class="format-label">
+            <span>RGB</span>
+            <small>0 تا 255</small>
+          </div>
+          <div class="rgb-section">
+            <div class="rgb-row">
+              <div class="rgb-field r">
+                <label class="r">R</label>
+                <input type="number" id="rInput" min="0" max="255" value="251">
+              </div>
+              <div class="rgb-field g">
+                <label class="g">G</label>
+                <input type="number" id="gInput" min="0" max="255" value="191">
+              </div>
+              <div class="rgb-field b">
+                <label class="b">B</label>
+                <input type="number" id="bInput" min="0" max="255" value="36">
+              </div>
+            </div>
+            <button class="copy-small-btn rgb-copy-btn" data-copy="rgbValue" title="کپی RGB">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <input type="hidden" id="rgbValue" value="rgb(251, 191, 36)">
+        </div>
+
+        <!-- HSL -->
+        <div class="format-group">
+          <div class="format-label">
+            <span>HSL</span>
+            <small>مثال: hsl(45, 96%, 56%)</small>
+          </div>
+          <div class="format-input-wrap">
+            <input type="text" class="format-input" id="hslInput" value="hsl(45, 96%, 56%)" dir="ltr">
+            <button class="copy-small-btn" data-copy="hslInput" title="کپی HSL">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const SHADE_FA = ['۵۰', '۱۰۰', '۲۰۰', '۳۰۰', '۴۰۰', '۵۰۰', '۶۰۰', '۷۰۰', '۸۰۰', '۹۰۰'];
+
+      const SHADE_DATA = `
+خاکستری|f9fafb,f3f4f6,e5e7eb,d1d5db,9ca3af,6b7280,4b5563,374151,1f2937,111827
+خاکستری سرد|f8fafc,f1f5f9,e2e8f0,cbd5e1,94a3b8,64748b,475569,334155,1e293b,0f172a
+خاکستری گرم|fafaf9,f5f5f4,e7e5e4,d6d3d1,a8a29e,78716c,57534e,44403c,292524,1c1917
+زینک|fafafa,f4f4f5,e4e4e7,d4d4d8,a1a1aa,71717a,52525b,3f3f46,27272a,18181b
+قرمز|fef2f2,fee2e2,fecaca,fca5a5,f87171,ef4444,dc2626,b91c1c,991b1b,7f1d1d
+نارنجی|fff7ed,ffedd5,fed7aa,fdba74,fb923c,f97316,ea580c,c2410c,9a3412,7c2d12
+کهربایی|fffbeb,fef3c7,fde68a,fcd34d,fbbf24,f59e0b,d97706,b45309,92400e,78350f
+زرد|fefce8,fef9c3,fef08a,fde047,facc15,eab308,ca8a04,a16207,854d0e,713f12
+لیمویی|f7fee7,ecfccb,d9f99d,bef264,a3e635,84cc16,65a30d,4d7c0f,3f6212,365314
+سبز|f0fdf4,dcfce7,bbf7d0,86efac,4ade80,22c55e,16a34a,15803d,166534,14532d
+زمرد|ecfdf5,d1fae5,a7f3d0,6ee7b7,34d399,10b981,059669,047857,065f46,064e3b
+فیروزه‌ای|f0fdfa,ccfbf1,99f6e4,5eead4,2dd4bf,14b8a6,0d9488,0f766e,115e59,134e4a
+سایان|ecfeff,cffafe,a5f3fc,67e8f9,22d3ee,06b6d4,0891b2,0e7490,155e75,164e63
+آبی آسمانی|f0f9ff,e0f2fe,bae6fd,7dd3fc,38bdf8,0ea5e9,0284c7,0369a1,075985,0c4a6e
+آبی|eff6ff,dbeafe,bfdbfe,93c5fd,60a5fa,3b82f6,2563eb,1d4ed8,1e40af,1e3a8a
+نیلی|eef2ff,e0e7ff,c7d2fe,a5b4fc,818cf8,6366f1,4f46e5,4338ca,3730a3,312e81
+بنفش روشن|f5f3ff,ede9fe,ddd6fe,c4b5fd,a78bfa,8b5cf6,7c3aed,6d28d9,5b21b6,4c1d95
+بنفش|faf5ff,f3e8ff,e9d5ff,d8b4fe,c084fc,a855f7,9333ea,7e22ce,6b21a8,581c87
+سرخابی|fdf4ff,fae8ff,f5d0fe,f0abfc,e879f9,d946ef,c026d3,a21caf,86198f,701a75
+صورتی|fdf2f8,fce7f3,fbcfe8,f9a8d4,f472b6,ec4899,db2777,be185d,9d174d,831843
+رز|fff1f2,ffe4e6,fecdd3,fda4af,fb7185,f43f5e,e11d48,be123c,9f1239,881337
+      `.trim();
+
+      const NAMED_DATA = {
+        'نئون': [
+          { hex: '#FF10F0', name: 'نئون صورتی' },
+          { hex: '#FF3131', name: 'نئون قرمز' },
+          { hex: '#FF5F1F', name: 'نئون نارنجی' },
+          { hex: '#FFFF00', name: 'نئون زرد' },
+          { hex: '#39FF14', name: 'نئون سبز' },
+          { hex: '#0FF0FC', name: 'نئون سایان' },
+          { hex: '#1F51FF', name: 'نئون آبی' },
+          { hex: '#BC13FE', name: 'نئون بنفش' },
+          { hex: '#FF00FF', name: 'نئون مگنتا' },
+          { hex: '#00FF7F', name: 'نئون زمرد' }
+        ],
+        'پاستل': [
+          { hex: '#FFB3BA', name: 'پاستل صورتی' },
+          { hex: '#FFDFBA', name: 'پاستل هلویی' },
+          { hex: '#FFFFBA', name: 'پاستل زرد' },
+          { hex: '#BAFFC9', name: 'پاستل نعنایی' },
+          { hex: '#BAE1FF', name: 'پاستل آبی' },
+          { hex: '#E0BBE4', name: 'پاستل یاسی' },
+          { hex: '#FEC8D8', name: 'پاستل گلی' },
+          { hex: '#D4F0F0', name: 'پاستل فیروزه‌ای' },
+          { hex: '#FFD3B6', name: 'پاستل شبرنگی' },
+          { hex: '#A8E6CF', name: 'پاستل مینتی' }
+        ],
+        'ویژه': [
+          { hex: '#FFFFFF', name: 'سفید خالص' },
+          { hex: '#F5F5DC', name: 'بژ' },
+          { hex: '#FFF8DC', name: 'کورن‌سیلک' },
+          { hex: '#F5DEB3', name: 'گندمی' },
+          { hex: '#D2B48C', name: 'برنزه' },
+          { hex: '#8B4513', name: 'قهوه‌ای چرمی' },
+          { hex: '#800000', name: 'زرشکی' },
+          { hex: '#000080', name: 'سرمه‌ای' },
+          { hex: '#008080', name: 'سبز آبی' },
+          { hex: '#FFD700', name: 'طلایی' },
+          { hex: '#C0C0C0', name: 'نقره‌ای' },
+          { hex: '#B87333', name: 'مسی' },
+          { hex: '#E5E4E2', name: 'پلاتینیوم' },
+          { hex: '#000000', name: 'مشکی خالص' }
+        ]
+      };
+
+      const allColors = [];
+
+      SHADE_DATA.split('\n').forEach(line => {
+        if (!line.trim()) return;
+        const [name, shadesStr] = line.split('|');
+        const shades = shadesStr.split(',').map(s => '#' + s.trim());
+        shades.forEach((hex, i) => {
+          allColors.push({ hex, name: name + ' ' + SHADE_FA[i] });
+        });
+      });
+
+      Object.keys(NAMED_DATA).forEach(familyName => {
+        NAMED_DATA[familyName].forEach(c => {
+          allColors.push({ hex: c.hex, name: c.name });
+        });
+      });
+
+      const gridEl = document.getElementById('grid');
+      const searchInput = document.getElementById('searchInput');
+      const toast = document.getElementById('toast');
+      const toastHex = document.getElementById('toastHex');
+      const toastSwatch = document.getElementById('toastSwatch');
+
+      // Picker elements
+      const pickerModal = document.getElementById('pickerModal');
+      const openPickerBtn = document.getElementById('openPickerBtn');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const nativePicker = document.getElementById('nativePicker');
+      const hexInput = document.getElementById('hexInput');
+      const rInput = document.getElementById('rInput');
+      const gInput = document.getElementById('gInput');
+      const bInput = document.getElementById('bInput');
+      const hslInput = document.getElementById('hslInput');
+      const rgbValueInput = document.getElementById('rgbValue');
+      const previewSwatch = document.getElementById('previewSwatch');
+
+      // ===== COLOR CONVERSION =====
+
+      function hexToRgb(hex) {
+        hex = hex.replace('#', '').trim();
+        if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+        if (!/^[0-9a-f]{6}$/i.test(hex)) return null;
+        return {
+          r: parseInt(hex.substring(0, 2), 16),
+          g: parseInt(hex.substring(2, 4), 16),
+          b: parseInt(hex.substring(4, 6), 16)
+        };
+      }
+
+      function rgbToHex(r, g, b) {
+        r = clamp(r, 0, 255);
+        g = clamp(g, 0, 255);
+        b = clamp(b, 0, 255);
+        return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+      }
+
+      function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h = 0, s = 0;
+        const l = (max + min) / 2;
+        if (max !== min) {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h *= 60;
+        }
+        return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) };
+      }
+
+      function hslToRgb(h, s, l) {
+        h = ((h % 360) + 360) % 360;
+        s = clamp(s, 0, 100) / 100;
+        l = clamp(l, 0, 100) / 100;
+        const c = (1 - Math.abs(2 * l - 1)) * s;
+        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        const m = l - c / 2;
+        let r = 0, g = 0, b = 0;
+        if (h < 60) { r = c; g = x; b = 0; }
+        else if (h < 120) { r = x; g = c; b = 0; }
+        else if (h < 180) { r = 0; g = c; b = x; }
+        else if (h < 240) { r = 0; g = x; b = c; }
+        else if (h < 300) { r = x; g = 0; b = c; }
+        else { r = c; g = 0; b = x; }
+        return { r: Math.round((r + m) * 255), g: Math.round((g + m) * 255), b: Math.round((b + m) * 255) };
+      }
+
+      function clamp(v, min, max) {
+        return Math.max(min, Math.min(max, v));
+      }
+
+      // ===== UPDATE ALL FIELDS =====
+      function updateFromRgb(r, g, b) {
+        r = clamp(Math.round(r), 0, 255);
+        g = clamp(Math.round(g), 0, 255);
+        b = clamp(Math.round(b), 0, 255);
+
+        const hex = rgbToHex(r, g, b);
+        const hsl = rgbToHsl(r, g, b);
+
+        rInput.value = r;
+        gInput.value = g;
+        bInput.value = b;
+        hexInput.value = hex;
+        nativePicker.value = hex.toLowerCase();
+        previewSwatch.style.background = hex;
+        previewSwatch.dataset.hex = hex;
+        hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+        // Hidden input for copy
+        if (rgbValueInput) rgbValueInput.value = `rgb(${r}, ${g}, ${b})`;
+      }
+
+      function updateFromHex(hex) {
+        const rgb = hexToRgb(hex);
+        if (!rgb) return;
+        updateFromRgb(rgb.r, rgb.g, rgb.b);
+      }
+
+      // ===== EVENT LISTENERS =====
+
+      openPickerBtn.addEventListener('click', () => {
+        pickerModal.classList.add('show');
+        updateFromHex(hexInput.value);
+      });
+
+      closeModalBtn.addEventListener('click', () => {
+        pickerModal.classList.remove('show');
+      });
+
+      pickerModal.addEventListener('click', (e) => {
+        if (e.target === pickerModal) {
+          pickerModal.classList.remove('show');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pickerModal.classList.contains('show')) {
+          pickerModal.classList.remove('show');
+        }
+      });
+
+      nativePicker.addEventListener('input', (e) => {
+        updateFromHex(e.target.value);
+      });
+
+      hexInput.addEventListener('input', (e) => {
+        let val = e.target.value.trim();
+        if (!val.startsWith('#')) val = '#' + val;
+        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(val)) {
+          const rgb = hexToRgb(val);
+          if (rgb) updateFromRgb(rgb.r, rgb.g, rgb.b);
+        }
+      });
+
+      hexInput.addEventListener('blur', (e) => {
+        let val = e.target.value.trim();
+        if (!val.startsWith('#')) val = '#' + val;
+        const rgb = hexToRgb(val);
+        if (rgb) {
+          updateFromRgb(rgb.r, rgb.g, rgb.b);
+        } else {
+          hexInput.value = previewSwatch.dataset.hex;
+        }
+      });
+
+      [rInput, gInput, bInput].forEach(inp => {
+        inp.addEventListener('input', () => {
+          const r = parseInt(rInput.value) || 0;
+          const g = parseInt(gInput.value) || 0;
+          const b = parseInt(bInput.value) || 0;
+          updateFromRgb(r, g, b);
+        });
+
+        inp.addEventListener('blur', () => {
+          const r = clamp(parseInt(rInput.value) || 0, 0, 255);
+          const g = clamp(parseInt(gInput.value) || 0, 0, 255);
+          const b = clamp(parseInt(bInput.value) || 0, 0, 255);
+          updateFromRgb(r, g, b);
+        });
+      });
+
+      hslInput.addEventListener('blur', () => {
+        const val = hslInput.value.trim();
+        const match = val.match(/^hsl\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%\s*,\s*(\d+(?:\.\d+)?)%\s*\)$/i);
+        if (match) {
+          const rgb = hslToRgb(parseFloat(match[1]), parseFloat(match[2]), parseFloat(match[3]));
+          updateFromRgb(rgb.r, rgb.g, rgb.b);
+        } else {
+          const rgb = hexToRgb(previewSwatch.dataset.hex);
+          if (rgb) {
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+          }
+        }
+      });
+
+      // Small copy buttons (HEX, RGB, HSL)
+      document.querySelectorAll('.copy-small-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const inputId = btn.dataset.copy;
+          const input = document.getElementById(inputId);
+          if (!input) return;
+          copyText(input.value);
+
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+          btn.style.background = 'rgba(74, 222, 128, 0.3)';
+          btn.style.borderColor = '#4ade80';
+          btn.style.color = '#4ade80';
+
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+          }, 900);
+        });
+      });
+
+      // ===== GRID RENDERING =====
+      function renderGrid() {
+        gridEl.innerHTML = '';
+
+        const query = searchInput.value.trim().toLowerCase();
+        let items = allColors;
+
+        if (query) {
+          items = allColors.filter(c =>
+            c.hex.toLowerCase().includes(query) ||
+            c.name.toLowerCase().includes(query)
+          );
+        }
+
+        if (items.length === 0) {
+          gridEl.innerHTML = '<div class="empty-msg">🔍 رنگی با این مشخصات یافت نشد</div>';
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        items.forEach(c => fragment.appendChild(makeCard(c)));
+        gridEl.appendChild(fragment);
+      }
+
+      function makeCard(c) {
+        const card = document.createElement('button');
+        card.className = 'color-card';
+        card.style.background = c.hex;
+        card.dataset.hex = c.hex;
+        card.title = `کلیک برای کپی ${c.hex} — ${c.name}`;
+
+        card.innerHTML = `
+          <div class="color-info">
+            <span class="color-name">${c.name}</span>
+            <span class="color-hex">${c.hex}</span>
+          </div>
+          <span class="copy-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </span>
+        `;
+
+        card.addEventListener('click', () => {
+          copyText(c.hex);
+          card.classList.add('copied');
+          setTimeout(() => card.classList.remove('copied'), 900);
+          showToast(c.hex);
+        });
+        return card;
+      }
+
+      // ===== UTILITIES =====
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.style.position = 'fixed';
+        el.style.opacity = '0';
+        document.body.appendChild(el);
+        el.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(el);
+      }
+
+      function showToast(hex) {
+        toastSwatch.style.background = hex;
+        toastHex.textContent = hex;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      searchInput.addEventListener('input', renderGrid);
+      renderGrid();
+
+      updateFromHex('#FBBF24');
+    })();
+  </script>
+</body>
+</html>

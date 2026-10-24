@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تبدیل فرمت و تغییر اندازه عکس | programmer-msr.ir</title>
+  <meta name="description" content="ابزار آنلاین تبدیل فرمت عکس به ICO، JPG، PNG با تغییر ابعاد و محدودیت حجم - بدون نیاز به سرور">
+
+  <!-- Favicon -->
+  <link rel="icon" href="homeImages/head/msrMedium.jpg" type="image/jpeg">
+  <link rel="shortcut icon" href="homeImages/head/msrMedium.jpg">
+  <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg">
+
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      background: #0a1a0f;
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(74, 222, 128, 0.10) 0%, transparent 50%),
+        radial-gradient(circle at 85% 90%, rgba(22, 163, 74, 0.08) 0%, transparent 50%);
+      color: #d8f0dd;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: rgba(10, 26, 15, 0.85);
+      border-bottom: 1px solid rgba(74, 222, 128, 0.25);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+      min-height: 52px;
+    }
+
+    .brand-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #4ade80;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+      transition: 0.3s;
+      direction: ltr;
+    }
+
+    .brand-link:hover {
+      color: #fff;
+      text-shadow: 0 0 30px rgba(74, 222, 128, 0.9);
+    }
+
+    .back-btn {
+      color: #4ade80;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid #4ade80;
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-btn:hover {
+      background: rgba(74, 222, 128, 0.15);
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.35);
+    }
+
+    .top-bar h2 {
+      color: #7ca88a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    #uploadArea {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+      border: 2px dashed rgba(74, 222, 128, 0.4);
+      border-radius: 20px;
+      padding: 40px;
+      transition: 0.3s;
+      cursor: pointer;
+      text-align: center;
+      min-height: 0;
+    }
+
+    #uploadArea:hover,
+    #uploadArea.dragover {
+      border-color: #4ade80;
+      background: rgba(74, 222, 128, 0.05);
+      box-shadow: inset 0 0 40px rgba(74, 222, 128, 0.08);
+    }
+
+    #uploadArea svg {
+      width: 64px;
+      height: 64px;
+      stroke: #4ade80;
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    #uploadArea h3 {
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    #uploadArea p {
+      font-size: 14px;
+      color: #7ca88a;
+      margin-bottom: 6px;
+    }
+
+    #uploadArea small {
+      font-size: 12px;
+      color: #4a6a55;
+      margin-top: 15px;
+      display: block;
+      max-width: 400px;
+    }
+
+    #fileInput { display: none; }
+
+    #editor {
+      display: none;
+      flex: 1;
+      flex-direction: row;
+      padding: 15px;
+      gap: 15px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    #editor.active { display: flex; }
+
+    .preview-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .preview-stage {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 0;
+      background:
+        repeating-conic-gradient(#152a1c 0% 25%, #0c1a12 0% 50%) 50% / 20px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      overflow: hidden;
+      padding: 15px;
+    }
+
+    #previewCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+    }
+
+    .controls-side {
+      width: 360px;
+      flex-shrink: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 6px;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(74, 222, 128, 0.4) rgba(74, 222, 128, 0.05);
+    }
+
+    .controls-side::-webkit-scrollbar { width: 8px; }
+    .controls-side::-webkit-scrollbar-track {
+      background: rgba(74, 222, 128, 0.05);
+      border-radius: 4px;
+    }
+    .controls-side::-webkit-scrollbar-thumb {
+      background: rgba(74, 222, 128, 0.4);
+      border-radius: 4px;
+    }
+    .controls-side::-webkit-scrollbar-thumb:hover {
+      background: rgba(74, 222, 128, 0.7);
+    }
+
+    .control-card {
+      background: rgba(10, 26, 15, 0.7);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 14px;
+      padding: 14px;
+      flex-shrink: 0;
+    }
+
+    .control-title {
+      font-size: 13px;
+      color: #4ade80;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .control-title svg {
+      width: 16px;
+      height: 16px;
+      stroke: #4ade80;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .format-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .format-btn {
+      background: transparent;
+      color: #7ca88a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 8px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .format-btn:hover {
+      border-color: #4ade80;
+      color: #fff;
+    }
+
+    .format-btn.active {
+      background: rgba(74, 222, 128, 0.15);
+      border-color: #4ade80;
+      color: #4ade80;
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.25);
+    }
+
+    .format-btn small {
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.7;
+    }
+
+    .format-info {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: rgba(255, 215, 64, 0.08);
+      border: 1px solid rgba(255, 215, 64, 0.3);
+      border-radius: 10px;
+      font-size: 11.5px;
+      line-height: 1.7;
+      color: #d0c090;
+    }
+
+    .format-info strong { color: #ffd740; }
+
+    .dim-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .dim-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .dim-field label {
+      font-size: 11px;
+      color: #7ca88a;
+      font-weight: 700;
+    }
+
+    .dim-field input {
+      background: rgba(5, 15, 9, 0.9);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      width: 100%;
+      outline: none;
+      transition: 0.2s;
+      direction: ltr;
+    }
+
+    .dim-field input:focus {
+      border-color: #4ade80;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+    }
+
+    .lock-btn {
+      background: transparent;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      color: #7ca88a;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+
+    .lock-btn:hover { border-color: #4ade80; color: #4ade80; }
+
+    .lock-btn.active {
+      background: rgba(74, 222, 128, 0.15);
+      border-color: #4ade80;
+      color: #4ade80;
+    }
+
+    .lock-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .maxsize-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .switch input:checked + .slider { background: #4ade80; }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+
+    .maxsize-input {
+      flex: 1;
+      background: rgba(5, 15, 9, 0.9);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      transition: 0.2s;
+      direction: ltr;
+      min-width: 0;
+    }
+
+    .maxsize-input:focus {
+      border-color: #4ade80;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+    }
+
+    .maxsize-input:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .unit {
+      color: #7ca88a;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .maxsize-hint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #4a6a55;
+      line-height: 1.6;
+    }
+
+    .status-info {
+      background: rgba(10, 26, 15, 0.7);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 12px;
+      color: #7ca88a;
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+
+    .status-info .status-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .status-info .status-line:last-child { margin-bottom: 0; }
+    .status-info strong { color: #4ade80; }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .action-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      color: #052e16;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+    }
+
+    .action-btn:active { transform: translateY(0) scale(0.97); }
+
+    .action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .action-btn.secondary {
+      background: transparent;
+      color: #4ade80;
+      border: 1px solid #4ade80;
+    }
+
+    .action-btn.secondary:hover {
+      background: rgba(74, 222, 128, 0.15);
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+    }
+
+    @media (max-width: 900px) {
+      body {
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      #editor {
+        flex-direction: column;
+        overflow: visible;
+        min-height: auto;
+        padding-bottom: 20px;
+      }
+      .controls-side {
+        width: 100%;
+        overflow-y: visible;
+        min-height: auto;
+        max-height: none;
+        padding-right: 0;
+      }
+      .preview-stage {
+        min-height: 250px;
+        max-height: 400px;
+      }
+      .brand-link { font-size: 14px; }
+      .back-btn span { display: none; }
+      .back-btn { padding: 6px 8px; }
+      .top-bar h2 { font-size: 11px; }
+    }
+
+    @media (max-width: 500px) {
+      #uploadArea { padding: 25px; }
+      #uploadArea h3 { font-size: 16px; }
+      .format-btn { padding: 10px 6px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <h2>🔄 تبدیل فرمت عکس</h2>
+    <a href="https://www.programmer-msr.ir/" class="brand-link">programmer-msr.ir</a>
+    <a href="https://www.programmer-msr.ir/" class="back-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+      <span>بازگشت به سایت</span>
+    </a>
+  </div>
+
+  <div id="uploadArea">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" y1="3" x2="12" y2="15"></line>
+    </svg>
+    <h3>عکس را اینجا رها کنید</h3>
+    <p>یا برای انتخاب کلیک کنید</p>
+    <p style="color: #4ade80; font-size: 13px; margin-top: 8px;">Ctrl+V هم کار می‌کند</p>
+    <small>🔒 عکس شما هرگز از دستگاه‌تان خارج نمی‌شود.</small>
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+
+  <div id="editor">
+    <div class="preview-side">
+      <div class="preview-stage">
+        <canvas id="previewCanvas"></canvas>
+      </div>
+    </div>
+
+    <div class="controls-side">
+      <div class="control-card">
+        <div class="control-title">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 12h16M12 4v16"/></svg>
+          فرمت خروجی
+        </div>
+        <div class="format-btns">
+          <button class="format-btn active" data-format="image/png">
+            PNG
+            <small>با شفافیت</small>
+          </button>
+          <button class="format-btn" data-format="image/jpeg">
+            JPG
+            <small>حجم کمتر</small>
+          </button>
+          <button class="format-btn" data-format="image/x-icon">
+            ICO
+            <small>آیکن</small>
+          </button>
+        </div>
+        <div class="format-info" id="formatInfo">
+          <strong>PNG</strong> شفافیت را حفظ می‌کند ولی حجم بیشتر دارد.
+          <br>
+          <strong>JPG</strong> حجم کمتری دارد ولی <strong>پس‌زمینه دارد</strong> (شفاف نیست).
+        </div>
+      </div>
+
+      <div class="control-card">
+        <div class="control-title">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          ابعاد (پیکسل)
+        </div>
+        <div class="dim-row">
+          <div class="dim-field">
+            <label>عرض</label>
+            <input type="number" id="widthInput" min="1" max="10000" value="0">
+          </div>
+          <button class="lock-btn active" id="lockBtn" title="قفل نسبت ابعاد">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          </button>
+          <div class="dim-field">
+            <label>ارتفاع</label>
+            <input type="number" id="heightInput" min="1" max="10000" value="0">
+          </div>
+        </div>
+        <div class="maxsize-hint" style="margin-top: 10px;">
+          📐 حداکثر ابعاد برای ICO: ۲۵۶ × ۲۵۶
+        </div>
+      </div>
+
+      <div class="control-card">
+        <div class="control-title">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
+          حداکثر حجم
+        </div>
+        <div class="maxsize-row">
+          <label class="switch">
+            <input type="checkbox" id="maxSizeToggle">
+            <span class="slider"></span>
+          </label>
+          <input type="number" class="maxsize-input" id="maxSizeInput" value="100" min="1" max="10000" disabled>
+          <span class="unit">KB</span>
+        </div>
+        <div class="maxsize-hint">
+          🔽 اگر عکس بزرگ‌تر باشد، به‌طور خودکار تا رسیدن به این حجم کوچک می‌شود (با حفظ نسبت ابعاد).
+        </div>
+      </div>
+
+      <div class="status-info" id="statusInfo">
+        <div class="status-line">
+          <span>ابعاد خروجی:</span>
+          <strong id="outDims">—</strong>
+        </div>
+        <div class="status-line">
+          <span>حجم تقریبی:</span>
+          <strong id="outSize">—</strong>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn" id="downloadBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          دانلود
+        </button>
+        <button class="action-btn secondary" id="newImageBtn">عکس جدید</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+      const editor = document.getElementById('editor');
+      const previewCanvas = document.getElementById('previewCanvas');
+      const widthInput = document.getElementById('widthInput');
+      const heightInput = document.getElementById('heightInput');
+      const lockBtn = document.getElementById('lockBtn');
+      const maxSizeToggle = document.getElementById('maxSizeToggle');
+      const maxSizeInput = document.getElementById('maxSizeInput');
+      const formatBtns = document.querySelectorAll('.format-btn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const newImageBtn = document.getElementById('newImageBtn');
+      const outDims = document.getElementById('outDims');
+      const outSize = document.getElementById('outSize');
+      const formatInfo = document.getElementById('formatInfo');
+
+      let originalImage = null;
+      let aspectRatio = 1;
+      let currentFormat = 'image/png';
+      let lockActive = true;
+      let isProcessing = false;
+
+      uploadArea.addEventListener('click', () => fileInput.click());
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) loadImageFile(file);
+      });
+
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+      });
+
+      uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) loadImageFile(file);
+      });
+
+      document.addEventListener('paste', (e) => {
+        for (const item of e.clipboardData.items) {
+          if (item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            if (file) loadImageFile(file);
+            break;
+          }
+        }
+      });
+
+      function loadImageFile(file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const image = new Image();
+          image.onload = () => {
+            originalImage = image;
+            enterEditor();
+          };
+          image.onerror = () => alert('عکس نامعتبر است');
+          image.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function enterEditor() {
+        uploadArea.style.display = 'none';
+        editor.classList.add('active');
+
+        aspectRatio = originalImage.naturalWidth / originalImage.naturalHeight;
+        widthInput.value = originalImage.naturalWidth;
+        heightInput.value = originalImage.naturalHeight;
+
+        updatePreview();
+      }
+
+      widthInput.addEventListener('input', () => {
+        if (lockActive && !isNaN(aspectRatio)) {
+          const w = parseInt(widthInput.value);
+          if (w > 0) heightInput.value = Math.round(w / aspectRatio);
+        }
+        updatePreview();
+      });
+
+      heightInput.addEventListener('input', () => {
+        if (lockActive && !isNaN(aspectRatio)) {
+          const h = parseInt(heightInput.value);
+          if (h > 0) widthInput.value = Math.round(h * aspectRatio);
+        }
+        updatePreview();
+      });
+
+      lockBtn.addEventListener('click', () => {
+        lockActive = !lockActive;
+        lockBtn.classList.toggle('active', lockActive);
+        lockBtn.title = lockActive ? 'نسبت ابعاد قفل است' : 'نسبت ابعاد آزاد است';
+      });
+
+      formatBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          formatBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFormat = btn.dataset.format;
+
+          if (currentFormat === 'image/jpeg') {
+            formatInfo.innerHTML = '<strong>JPG</strong> حجم کمتری دارد ولی <strong>پس‌زمینه دارد</strong> (شفاف نیست). گوشه‌های شفاف به رنگ سفید تبدیل می‌شوند.';
+          } else if (currentFormat === 'image/png') {
+            formatInfo.innerHTML = '<strong>PNG</strong> شفافیت را حفظ می‌کند ولی حجم بیشتر دارد. برای لوگو و عکس‌های شفاف مناسب است.';
+          } else {
+            formatInfo.innerHTML = '<strong>ICO</strong> مخصوص آیکن سایت (Favicon) است. حداکثر ابعاد ۲۵۶×۲۵۶ و شفافیت پشتیبانی می‌شود.';
+          }
+
+          updatePreview();
+        });
+      });
+
+      maxSizeToggle.addEventListener('change', () => {
+        maxSizeInput.disabled = !maxSizeToggle.checked;
+      });
+
+      maxSizeInput.addEventListener('input', () => updatePreview());
+
+      function getTargetDims() {
+        let w = parseInt(widthInput.value) || originalImage?.naturalWidth || 100;
+        let h = parseInt(heightInput.value) || originalImage?.naturalHeight || 100;
+
+        if (currentFormat === 'image/x-icon') {
+          if (w > 256 || h > 256) {
+            const s = Math.min(256 / w, 256 / h);
+            w = Math.round(w * s);
+            h = Math.round(h * s);
+          }
+        }
+
+        w = Math.max(1, Math.min(10000, w));
+        h = Math.max(1, Math.min(10000, h));
+
+        return { w, h };
+      }
+
+      function updatePreview() {
+        if (!originalImage) return;
+
+        const { w, h } = getTargetDims();
+
+        previewCanvas.width = w;
+        previewCanvas.height = h;
+        const ctx = previewCanvas.getContext('2d');
+
+        if (currentFormat === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+        }
+
+        ctx.drawImage(originalImage, 0, 0, w, h);
+
+        outDims.textContent = `${w} × ${h}`;
+
+        generateBlob(previewCanvas, currentFormat, false).then(blob => {
+          if (blob) outSize.textContent = formatBytes(blob.size);
+        });
+      }
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      async function createICO(canvas) {
+        let cw = canvas.width;
+        let ch = canvas.height;
+
+        if (cw > 256 || ch > 256) {
+          const scale = Math.min(256 / cw, 256 / ch);
+          const temp = document.createElement('canvas');
+          temp.width = Math.round(cw * scale);
+          temp.height = Math.round(ch * scale);
+          const tctx = temp.getContext('2d');
+          tctx.drawImage(canvas, 0, 0, temp.width, temp.height);
+          canvas = temp;
+          cw = canvas.width;
+          ch = canvas.height;
+        }
+
+        const pngBlob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        const pngData = new Uint8Array(await pngBlob.arrayBuffer());
+
+        const headerSize = 6;
+        const entrySize = 16;
+        const dataOffset = headerSize + entrySize;
+        const totalSize = dataOffset + pngData.length;
+
+        const buffer = new ArrayBuffer(totalSize);
+        const view = new DataView(buffer);
+        const uint8 = new Uint8Array(buffer);
+
+        view.setUint16(0, 0, true);
+        view.setUint16(2, 1, true);
+        view.setUint16(4, 1, true);
+
+        view.setUint8(6, cw >= 256 ? 0 : cw);
+        view.setUint8(7, ch >= 256 ? 0 : ch);
+        view.setUint8(8, 0);
+        view.setUint8(9, 0);
+        view.setUint16(10, 1, true);
+        view.setUint16(12, 32, true);
+        view.setUint32(14, pngData.length, true);
+        view.setUint32(18, dataOffset, true);
+
+        uint8.set(pngData, dataOffset);
+
+        return new Blob([buffer], { type: 'image/x-icon' });
+      }
+
+      async function generateBlob(canvas, format, useQuality) {
+        if (format === 'image/x-icon') return createICO(canvas);
+        return new Promise(r => {
+          if (format === 'image/jpeg') {
+            canvas.toBlob(r, format, useQuality ? 0.92 : 0.92);
+          } else {
+            canvas.toBlob(r, format);
+          }
+        });
+      }
+
+      async function fitToMaxSize(targetW, targetH, format, maxBytes) {
+        let w = targetW;
+        let h = targetH;
+        let quality = 0.92;
+
+        for (let iter = 0; iter < 60; iter++) {
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+
+          if (format === 'image/jpeg') {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, w, h);
+          }
+
+          ctx.drawImage(originalImage, 0, 0, w, h);
+
+          let blob;
+          if (format === 'image/x-icon') {
+            blob = await createICO(canvas);
+          } else if (format === 'image/jpeg') {
+            blob = await new Promise(r => canvas.toBlob(r, format, quality));
+          } else {
+            blob = await new Promise(r => canvas.toBlob(r, format));
+          }
+
+          if (!blob) return null;
+
+          if (blob.size <= maxBytes) {
+            return { blob, w, h, quality, iterations: iter + 1 };
+          }
+
+          if (format === 'image/jpeg' && quality > 0.35) {
+            quality -= 0.08;
+          } else {
+            w = Math.max(16, Math.round(w * 0.88));
+            h = Math.max(16, Math.round(h * 0.88));
+            quality = 0.92;
+          }
+        }
+
+        return null;
+      }
+
+      downloadBtn.addEventListener('click', async () => {
+        if (!originalImage || isProcessing) return;
+
+        isProcessing = true;
+        downloadBtn.disabled = true;
+        downloadBtn.textContent = 'در حال پردازش...';
+
+        try {
+          const { w, h } = getTargetDims();
+
+          let resultBlob = null;
+          let finalW = w;
+          let finalH = h;
+
+          if (maxSizeToggle.checked) {
+            const maxBytes = (parseInt(maxSizeInput.value) || 100) * 1024;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            if (currentFormat === 'image/jpeg') {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, w, h);
+            }
+            ctx.drawImage(originalImage, 0, 0, w, h);
+
+            const testBlob = await generateBlob(canvas, currentFormat, true);
+
+            if (testBlob && testBlob.size <= maxBytes) {
+              resultBlob = testBlob;
+            } else {
+              downloadBtn.textContent = 'در حال کوچک‌سازی...';
+              const fit = await fitToMaxSize(w, h, currentFormat, maxBytes);
+              if (fit) {
+                resultBlob = fit.blob;
+                finalW = fit.w;
+                finalH = fit.h;
+              } else {
+                alert('نمی‌توان به حجم مورد نظر رسید. لطفاً حجم بیشتری انتخاب کنید.');
+                return;
+              }
+            }
+          } else {
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            if (currentFormat === 'image/jpeg') {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, w, h);
+            }
+            ctx.drawImage(originalImage, 0, 0, w, h);
+            resultBlob = await generateBlob(canvas, currentFormat, true);
+          }
+
+          if (!resultBlob) {
+            alert('خطا در تولید فایل');
+            return;
+          }
+
+          let ext = 'png';
+          if (currentFormat === 'image/jpeg') ext = 'jpg';
+          else if (currentFormat === 'image/x-icon') ext = 'ico';
+
+          const filename = `converted_${finalW}x${finalH}_${Date.now()}.${ext}`;
+
+          if ('showSaveFilePicker' in window && currentFormat !== 'image/x-icon') {
+            try {
+              const handle = await window.showSaveFilePicker({
+                suggestedName: filename,
+                startIn: 'desktop',
+                types: [{
+                  description: ext.toUpperCase() + ' Image',
+                  accept: { [currentFormat]: ['.' + ext] }
+                }]
+              });
+              const writable = await handle.createWritable();
+              await writable.write(resultBlob);
+              await writable.close();
+
+              outSize.textContent = `✅ ذخیره شد (${formatBytes(resultBlob.size)})`;
+              if (finalW !== w || finalH !== h) outDims.textContent = `${finalW} × ${finalH}`;
+              return;
+            } catch (err) {
+              if (err.name === 'AbortError') return;
+              console.warn('Save picker failed:', err);
+            }
+          }
+
+          const url = URL.createObjectURL(resultBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+          outSize.textContent = `✅ دانلود شد (${formatBytes(resultBlob.size)})`;
+          if (finalW !== w || finalH !== h) outDims.textContent = `${finalW} × ${finalH}`;
+        } catch (err) {
+          console.error(err);
+          alert('خطا: ' + err.message);
+        } finally {
+          isProcessing = false;
+          downloadBtn.disabled = false;
+          downloadBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            دانلود`;
+        }
+      });
+
+      newImageBtn.addEventListener('click', () => {
+        fileInput.value = '';
+        originalImage = null;
+        editor.classList.remove('active');
+        uploadArea.style.display = 'flex';
+        maxSizeToggle.checked = false;
+        maxSizeInput.disabled = true;
+      });
+
+      window.addEventListener('resize', () => {
+        if (originalImage) updatePreview();
+      });
+    })();
+  </script>
+</body>
+</html>
