@@ -134,14 +134,6 @@
       margin-bottom: 6px;
     }
 
-    #uploadArea small {
-      font-size: 12px;
-      color: #5a6a8a;
-      margin-top: 15px;
-      display: block;
-      max-width: 400px;
-    }
-
     #fileInput { display: none; }
 
     #editor {
@@ -448,8 +440,6 @@
     </svg>
     <h3>عکس را اینجا رها کنید</h3>
     <p>یا برای انتخاب کلیک کنید</p>
-    <p style="color: #00e5ff; font-size: 13px; margin-top: 8px;">Ctrl+V هم کار می‌کند</p>
-    <small>🔒 عکس شما هرگز از دستگاه‌تان خارج نمی‌شود.</small>
     <input type="file" id="fileInput" accept="image/*">
   </div>
 
@@ -566,6 +556,7 @@
         if (file && file.type.startsWith('image/')) loadImageFile(file);
       });
 
+      // Ctrl+V paste (still active, hint text removed)
       document.addEventListener('paste', (e) => {
         for (const item of e.clipboardData.items) {
           if (item.type.startsWith('image/')) {
