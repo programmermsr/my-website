@@ -29,6 +29,7 @@
         radial-gradient(circle at 80% 100%, rgba(176, 0, 255, 0.08) 0%, transparent 50%);
       color: #e0e8f5;
       min-height: 100vh;
+      min-height: 100dvh; /* mobile-safe */
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -150,16 +151,18 @@
       padding: 15px;
       gap: 15px;
       min-height: 0;
+      overflow-y: auto;              /* allow inner scroll on small screens */
+      -webkit-overflow-scrolling: touch;
     }
 
     #editor.active { display: flex; }
 
     .stage-wrap {
-      flex: 1;
+      flex: 1 1 auto;                /* grow to fill, but can shrink */
+      min-height: 200px;             /* floor so crop box stays usable */
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 0;
       position: relative;
     }
 
@@ -519,6 +522,7 @@
       const stage = document.getElementById('stage');
       const stageCanvas = document.getElementById('stageCanvas');
       const stageCtx = stageCanvas.getContext('2d');
+      const stageWrap = document.querySelector('.stage-wrap');
       const cropBox = document.getElementById('cropBox');
       const downloadBtn = document.getElementById('downloadBtn');
       const newImageBtn = document.getElementById('newImageBtn');
@@ -593,8 +597,30 @@
         naturalW = img.naturalWidth;
         naturalH = img.naturalHeight;
 
-        const maxW = window.innerWidth - 40;
-        const maxH = window.innerHeight - 180;
+        // Wait for layout so stage-wrap has real dimensions
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sizeStage();
+
+            const pad = 0.1;
+            crop.x = displayW * pad;
+            crop.y = displayH * pad;
+            crop.w = displayW * (1 - 2 * pad);
+            crop.h = displayH * (1 - 2 * pad);
+
+            if (activeShape === 'circle') forceSquareCrop();
+
+            updateCropBox();
+            updateInfo();
+          });
+        });
+      }
+
+      // Fit image into actual stage-wrap area
+      function sizeStage() {
+        const rect = stageWrap.getBoundingClientRect();
+        const maxW = Math.max(120, rect.width - 4);
+        const maxH = Math.max(120, rect.height - 4);
 
         if (naturalW / naturalH > maxW / maxH) {
           displayW = maxW;
@@ -618,17 +644,6 @@
         stageCanvas.style.width = displayW + 'px';
         stageCanvas.style.height = displayH + 'px';
         stageCtx.drawImage(img, 0, 0, displayW, displayH);
-
-        const pad = 0.1;
-        crop.x = displayW * pad;
-        crop.y = displayH * pad;
-        crop.w = displayW * (1 - 2 * pad);
-        crop.h = displayH * (1 - 2 * pad);
-
-        if (activeShape === 'circle') forceSquareCrop();
-
-        updateCropBox();
-        updateInfo();
       }
 
       function forceSquareCrop() {
@@ -928,8 +943,31 @@
         uploadArea.style.display = 'flex';
       });
 
+      // Resize: re-fit stage, keep crop if possible
+      let resizeTimer = null;
       window.addEventListener('resize', () => {
-        if (img && editor.classList.contains('active')) enterEditor();
+        if (!img || !editor.classList.contains('active')) return;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          requestAnimationFrame(() => {
+            const prevW = displayW, prevH = displayH;
+            sizeStage();
+            if (prevW && prevH) {
+              const rx = displayW / prevW;
+              const ry = displayH / prevH;
+              crop.x *= rx;
+              crop.y *= ry;
+              crop.w *= rx;
+              crop.h *= ry;
+              crop.w = Math.min(crop.w, displayW);
+              crop.h = Math.min(crop.h, displayH);
+              crop.x = Math.max(0, Math.min(displayW - crop.w, crop.x));
+              crop.y = Math.max(0, Math.min(displayH - crop.h, crop.y));
+              updateCropBox();
+              updateInfo();
+            }
+          });
+        }, 120);
       });
 
       // Init UI
