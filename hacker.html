@@ -12,7 +12,7 @@
   <meta name="theme-color" content="#010206">
   <link rel="canonical" href="https://www.programmer-msr.ir/hacker.html">
 
-  <!-- Open Graph (For Social Media) -->
+  <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fa_IR">
   <meta property="og:site_name" content="Mohammad Sadegh Rezaei | Programmer MSR">
@@ -21,7 +21,7 @@
   <meta property="og:url" content="https://www.programmer-msr.ir/hacker.html">
   <meta property="og:image" content="https://www.programmer-msr.ir/homeImages/head/msrMedium.jpg">
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="hack">
   <meta name="twitter:description" content="شبیه‌سازی صفحه کامپیوتر یک هکر در فیلم‌ها با ترمینال زنده و رادار ماهواره‌ای.">
@@ -52,9 +52,10 @@
       user-select: none;
     }
 
+    /* Lock body scroll */
     html, body {
       height: 100%;
-      overflow: hidden; /* قفل کردن اسکرول بدنه */
+      overflow: hidden;
       overscroll-behavior-y: none;
     }
 
@@ -139,10 +140,7 @@
       box-shadow: 0 0 20px var(--cyan);
     }
 
-    /* 
-      کانتینر اسکرول (در دسکتاپ نامرئی است و روی چیدمان اثری ندارد)
-      در موبایل تبدیل به یک ظرف اسکرول شونده می‌شود
-    */
+    /* Scroll Container */
     .scroll-container {
       display: contents; 
     }
@@ -201,7 +199,7 @@
       z-index: 2;
     }
 
-    /* --- LEFT PANELS --- */
+    /* Left Panels */
     .terminal-panel { flex: 0.8; }
     .terminal {
       flex: 1;
@@ -296,7 +294,7 @@
       white-space: nowrap;
     }
 
-    /* --- RIGHT PANELS --- */
+    /* Right Panels */
     .stats-panel {
       padding: 10px;
       display: flex;
@@ -391,7 +389,7 @@
       margin-top: 5px;
     }
 
-    /* --- CENTER UI (Aligned Bottom) --- */
+    /* Center UI */
     .center-wrapper {
       position: absolute;
       bottom: 20px;
@@ -513,9 +511,7 @@
     }
     @keyframes blink-cursor { 50% { opacity: 0; } }
 
-    /* ==========================================================
-       RESPONSIVE DESIGN FOR MOBILE (Absolute Scroll Container)
-       ========================================================== */
+    /* Mobile Responsive */
     @media (max-width: 900px) {
       .scroll-container {
         display: flex;
@@ -524,11 +520,11 @@
         position: absolute;
         inset: 0;
         overflow-y: auto;
-        overscroll-behavior-y: contain; /* یا none */
+        overscroll-behavior-y: contain;
         -webkit-overflow-scrolling: touch;
         padding-top: 65px;
         padding-bottom: 40px;
-        z-index: 10; /* بالاتر از کانواس ها */
+        z-index: 10;
       }
 
       .top-nav {
@@ -551,15 +547,15 @@
         height: auto;
         display: flex;
         pointer-events: auto;
-        flex: none; /* جلوگیری از کشیدگی یا جمع شدگی */
+        flex: none;
       }
 
-      /* Ordering elements for mobile view */
+      /* Mobile order */
       .center-wrapper { order: 1; margin-top: 5px; }
       .left-hud { order: 2; }
       .right-hud { order: 3; }
 
-      /* Explicit heights for panels on mobile */
+      /* Mobile panel heights */
       .terminal-panel { height: 200px; flex: none; }
       .scanner-panel { height: 200px; flex: none; }
       .decrypt-panel { height: 200px; flex: none; }
@@ -589,10 +585,10 @@
     <a href="https://www.programmer-msr.ir/" class="disconnect-btn">DISCONNECT</a>
   </div>
 
-  <!-- Scroll Container (Wraps the three sections) -->
+  <!-- Scroll Container -->
   <div class="scroll-container">
 
-    <!-- Center UI (Glitch text + Code Panel) -->
+    <!-- Center UI -->
     <div class="center-wrapper">
       <div class="center-glitch">
         <div class="glitch-text" data-text="SYSTEM&#10;OVERRIDE">SYSTEM<br>OVERRIDE</div>
@@ -700,12 +696,10 @@
       </div>
     </div>
 
-  </div> <!-- End of Scroll Container -->
+  </div>
 
   <script>
-    /* ==========================================================
-       1. BACKGROUND MATRIX
-       ========================================================== */
+    // Background Matrix Effect
     const bgCanvas = document.getElementById('matrix-canvas');
     const bgCtx = bgCanvas.getContext('2d');
     bgCanvas.width = window.innerWidth;
@@ -731,9 +725,7 @@
     }
     setInterval(drawMatrix, 40);
 
-    /* ==========================================================
-       2. CENTER CORE CANVAS (3D Rotating Sphere)
-       ========================================================== */
+    // 3D Rotating Sphere
     const coreCanvas = document.getElementById('core-canvas');
     const cCtx = coreCanvas.getContext('2d');
     
@@ -819,9 +811,7 @@
     }
     drawCore();
 
-    /* ==========================================================
-       3. C# CODE TYPING EFFECT
-       ========================================================== */
+    // C# Code Typing Effect
     const codeEditor = document.getElementById('code-editor');
     
     const csharpCode = `using System;
@@ -868,10 +858,7 @@ namespace Exploit {
     
     setTimeout(typeCode, 1000);
 
-
-    /* ==========================================================
-       4. TERMINAL LOGGER
-       ========================================================== */
+    // Terminal Logger
     const terminal = document.getElementById('terminal-output');
     const logs = [
       "Bypassing node...", "SQL injection OK.", "Decrypting RSA...",
@@ -894,9 +881,7 @@ namespace Exploit {
       if (terminal.children.length > 5) terminal.removeChild(terminal.firstChild);
     }, 800);
 
-    /* ==========================================================
-       5. PORT SCANNER LOGIC
-       ========================================================== */
+    // Port Scanner Logic
     const scannerOutput = document.getElementById('scanner-output');
     
     setInterval(() => {
@@ -918,9 +903,7 @@ namespace Exploit {
       if (lines.length > 5) lines[0].remove();
     }, 300);
 
-    /* ==========================================================
-       6. PAYLOAD DECRYPT & HEX DUMP LOGIC
-       ========================================================== */
+    // Payload Decrypt & Hex Dump
     const decryptBar = document.getElementById('decrypt-bar');
     const decryptPercent = document.getElementById('decrypt-percent');
     const currentFile = document.getElementById('current-file');
@@ -966,9 +949,7 @@ namespace Exploit {
     }
     setInterval(generateHexLine, 120);
 
-    /* ==========================================================
-       7. BRUTE FORCE PASSWORD CRACKER
-       ========================================================== */
+    // Brute Force Cracker
     const bruteOutput = document.getElementById('brute-output');
     const bruteBar = document.getElementById('brute-bar');
     const attemptCount = document.getElementById('attempt-count');
@@ -1024,9 +1005,7 @@ namespace Exploit {
       }
     }, 50);
 
-    /* ==========================================================
-       8. RANDOM STATS & IP
-       ========================================================== */
+    // Random Stats & IP
     setInterval(() => {
       const cpu = Math.floor(Math.random() * 20) + 75;
       const ram = Math.floor(Math.random() * 30) + 50;
