@@ -248,7 +248,6 @@
   <script>
     // ===== Fullscreen management =====
     const fullscreenBtn = document.getElementById('fullscreenBtn');
-    let autoFullscreenDisabled = false; // بعد از اینکه کاربر خودش دکمه را زد، حالت خودکار غیرفعال می‌شود
 
     function isFullscreen() {
       return !!(
@@ -314,34 +313,17 @@
       fullscreenBtn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        autoFullscreenDisabled = true;
         toggleFullscreen();
       });
     }
 
-    // کلید F11 (شبیه‌سازی رفتار مرورگر)
+    // کلید F11
     document.addEventListener('keydown', function (e) {
       if (e.key === 'F11' || e.keyCode === 122) {
         e.preventDefault();
-        autoFullscreenDisabled = true;
         toggleFullscreen();
       }
     });
-
-    // تلاش برای ورود خودکار به تمام‌صفحه در بارگذاری
-    enterFullscreen();
-
-    // Fallback: ورود به تمام‌صفحه با اولین تعامل کاربر
-    function onFirstGesture(e) {
-      if (autoFullscreenDisabled) return;
-      if (e && e.key === 'F11') return;
-      if (e && e.target && e.target.closest &&
-          e.target.closest('.back-btn, #fullscreenBtn')) return;
-      if (!isFullscreen()) enterFullscreen();
-    }
-    document.addEventListener('click', onFirstGesture);
-    document.addEventListener('keydown', onFirstGesture);
-    document.addEventListener('touchstart', onFirstGesture, { passive: true });
 
     // خروج از تمام‌صفحه هنگام کلیک روی «بازگشت به سایت»
     const backBtn = document.querySelector('.back-btn');
