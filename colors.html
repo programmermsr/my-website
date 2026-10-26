@@ -20,6 +20,7 @@
     box-sizing: border-box;
     font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
     user-select: none;
+    -webkit-user-select: none;
   }
 
   html, body {
@@ -390,13 +391,16 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px;
     z-index: 500;
     opacity: 0;
     visibility: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
@@ -411,8 +415,10 @@
     border-radius: 20px;
     width: 100%;
     max-width: 480px;
-    max-height: 90vh;
+    margin: auto;
+    max-height: calc(100dvh - 40px);
     overflow-y: auto;
+    overscroll-behavior: contain;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -486,13 +492,13 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
   }
 
   .preview-swatch {
     width: 100%;
-    height: 100px;
-    border-radius: 14px;
+    height: 64px;
+    border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
@@ -502,11 +508,11 @@
   .preview-swatch::after {
     content: attr(data-hex);
     position: absolute;
-    bottom: 10px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 4px 12px;
-    background: rgba(0, 0, 0, 0.6);
+    padding: 3px 12px;
+    background: rgba(0, 0, 0, 0.55);
     border-radius: 6px;
     font-family: 'Courier New', monospace;
     font-size: 12px;
@@ -516,54 +522,72 @@
     backdrop-filter: blur(10px);
   }
 
-  .picker-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .native-picker-wrap {
+  /* ===== Custom Color Picker ===== */
+  .cp-area-wrap {
     position: relative;
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
+    width: 100%;
+    height: 170px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 2px solid rgba(251, 191, 36, 0.5);
-    cursor: pointer;
-    flex-shrink: 0;
-    background: conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-    transition: 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    touch-action: none;
   }
 
-  .native-picker-wrap:hover {
-    border-color: #fbbf24;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
-    transform: scale(1.05);
-  }
-
-  .native-picker-wrap input[type="color"] {
+  .cp-area {
     position: absolute;
     inset: 0;
+    background:
+      linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+      linear-gradient(to right, #fff, var(--cp-hue-color, #f00));
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .cp-cursor {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 3px 10px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    background: #fbbf24;
+  }
+
+  .cp-hue-wrap {
+    position: relative;
     width: 100%;
-    height: 100%;
-    opacity: 0;
+    height: 26px;
+    touch-action: none;
+  }
+
+  .cp-hue {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    border-radius: 13px;
+    background: linear-gradient(to right,
+      #ff0000 0%, #ffff00 16.66%, #00ff00 33.33%,
+      #00ffff 50%, #0000ff 66.66%, #ff00ff 83.33%, #ff0000 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    border: none;
-    padding: 0;
+    touch-action: none;
   }
 
-  .picker-label {
-    font-size: 12px;
-    color: #7a7a8a;
-    font-weight: 700;
-    line-height: 1.6;
-  }
-
-  .picker-label strong {
-    color: #fbbf24;
-    display: block;
-    font-size: 13px;
-    margin-bottom: 2px;
+  .cp-hue-thumb {
+    position: absolute;
+    top: 50%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 3px 10px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    background: #fbbf24;
   }
 
   .format-group {
@@ -709,7 +733,6 @@
   .rgb-field.g input:focus { border-color: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
   .rgb-field.b input:focus { border-color: #60a5fa; box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); }
 
-  /* number input arrows removal */
   .rgb-field input::-webkit-outer-spin-button,
   .rgb-field input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -720,7 +743,6 @@
     appearance: textfield;
   }
 
-  /* RGB copy button (overrides the absolute positioning) */
   .copy-small-btn.rgb-copy-btn {
     position: static;
     right: auto;
@@ -751,10 +773,12 @@
     .search-bar { padding: 10px 12px; gap: 8px; }
     .picker-btn { padding: 9px 14px; font-size: 12px; }
     .picker-btn svg { width: 16px; height: 16px; }
-    .modal { max-height: 95vh; }
-    .modal-body { padding: 16px; gap: 14px; }
-    .preview-swatch { height: 80px; }
-    .native-picker-wrap { width: 50px; height: 50px; }
+
+    .modal-overlay { padding: 12px; }
+    .modal { max-height: calc(100dvh - 24px); }
+    .modal-body { padding: 14px; gap: 12px; }
+    .preview-swatch { height: 56px; }
+    .cp-area-wrap { height: 150px; }
     .copy-small-btn.rgb-copy-btn { width: 38px; }
   }
 </style>
@@ -810,14 +834,21 @@
         <!-- Preview -->
         <div class="preview-swatch" id="previewSwatch" data-hex="#FBBF24" style="background:#FBBF24"></div>
 
-        <!-- Native picker -->
-        <div class="picker-row">
-          <label class="native-picker-wrap" title="انتخاب رنگ از پالت">
-            <input type="color" id="nativePicker" value="#fbbf24">
-          </label>
-          <div class="picker-label">
-            <strong>کلیک کنید</strong>
-            برای انتخاب رنگ از پالت رنگی مرورگر
+        <!-- Custom color area (saturation × brightness) -->
+        <div class="format-group">
+          <div class="format-label">
+            <span>طیف رنگ</span>
+            <small>اشباع و روشنایی</small>
+          </div>
+          <div class="cp-area-wrap">
+            <div class="cp-area" id="cpArea">
+              <div class="cp-cursor" id="cpCursor"></div>
+            </div>
+          </div>
+          <div class="cp-hue-wrap">
+            <div class="cp-hue" id="cpHue">
+              <div class="cp-hue-thumb" id="cpHueThumb"></div>
+            </div>
           </div>
         </div>
 
@@ -980,7 +1011,6 @@
       const pickerModal = document.getElementById('pickerModal');
       const openPickerBtn = document.getElementById('openPickerBtn');
       const closeModalBtn = document.getElementById('closeModalBtn');
-      const nativePicker = document.getElementById('nativePicker');
       const hexInput = document.getElementById('hexInput');
       const rInput = document.getElementById('rInput');
       const gInput = document.getElementById('gInput');
@@ -989,7 +1019,21 @@
       const rgbValueInput = document.getElementById('rgbValue');
       const previewSwatch = document.getElementById('previewSwatch');
 
+      // Custom picker elements
+      const cpArea = document.getElementById('cpArea');
+      const cpCursor = document.getElementById('cpCursor');
+      const cpHue = document.getElementById('cpHue');
+      const cpHueThumb = document.getElementById('cpHueThumb');
+
+      // ===== STATE =====
+      // h: 0-360, s: 0-1, v: 0-1
+      const hsv = { h: 45, s: 0.96, v: 0.98 };
+
       // ===== COLOR CONVERSION =====
+
+      function clamp(v, min, max) {
+        return Math.max(min, Math.min(max, v));
+      }
 
       function hexToRgb(hex) {
         hex = hex.replace('#', '').trim();
@@ -1003,9 +1047,9 @@
       }
 
       function rgbToHex(r, g, b) {
-        r = clamp(r, 0, 255);
-        g = clamp(g, 0, 255);
-        b = clamp(b, 0, 255);
+        r = clamp(Math.round(r), 0, 255);
+        g = clamp(Math.round(g), 0, 255);
+        b = clamp(Math.round(b), 0, 255);
         return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
       }
 
@@ -1045,43 +1089,91 @@
         return { r: Math.round((r + m) * 255), g: Math.round((g + m) * 255), b: Math.round((b + m) * 255) };
       }
 
-      function clamp(v, min, max) {
-        return Math.max(min, Math.min(max, v));
+      function rgbToHsv(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        const d = max - min;
+        let h = 0;
+        if (d !== 0) {
+          if (max === r) h = ((g - b) / d) % 6;
+          else if (max === g) h = (b - r) / d + 2;
+          else h = (r - g) / d + 4;
+          h *= 60;
+          if (h < 0) h += 360;
+        }
+        return {
+          h: h,
+          s: max === 0 ? 0 : d / max,
+          v: max
+        };
       }
 
-      // ===== UPDATE ALL FIELDS =====
-      function updateFromRgb(r, g, b) {
+      function hsvToRgb(h, s, v) {
+        h = ((h % 360) + 360) % 360;
+        s = clamp(s, 0, 1);
+        v = clamp(v, 0, 1);
+        const c = v * s;
+        const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+        const m = v - c;
+        let r = 0, g = 0, b = 0;
+        if (h < 60) { r = c; g = x; b = 0; }
+        else if (h < 120) { r = x; g = c; b = 0; }
+        else if (h < 180) { r = 0; g = c; b = x; }
+        else if (h < 240) { r = 0; g = x; b = c; }
+        else if (h < 300) { r = x; g = 0; b = c; }
+        else { r = c; g = 0; b = x; }
+        return {
+          r: Math.round((r + m) * 255),
+          g: Math.round((g + m) * 255),
+          b: Math.round((b + m) * 255)
+        };
+      }
+
+      // ===== RENDER =====
+      function syncAll(except) {
+        const rgb = hsvToRgb(hsv.h, hsv.s, hsv.v);
+        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+        if (except !== 'r') rInput.value = rgb.r;
+        if (except !== 'g') gInput.value = rgb.g;
+        if (except !== 'b') bInput.value = rgb.b;
+        if (except !== 'hex') hexInput.value = hex;
+        if (except !== 'hsl') hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        rgbValueInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+        // Preview
+        previewSwatch.style.background = hex;
+        previewSwatch.dataset.hex = hex;
+
+        // Color area
+        cpArea.style.setProperty('--cp-hue-color', `hsl(${hsv.h}, 100%, 50%)`);
+        cpCursor.style.left = (hsv.s * 100) + '%';
+        cpCursor.style.top = ((1 - hsv.v) * 100) + '%';
+        cpCursor.style.background = hex;
+
+        // Hue slider: thumb slides within [14px, width-14px]
+        cpHueThumb.style.left = `calc(14px + (100% - 28px) * ${hsv.h / 360})`;
+        cpHueThumb.style.background = `hsl(${hsv.h}, 100%, 50%)`;
+      }
+
+      // Set state from RGB (preserving hue when color is gray/black)
+      function setFromRgb(r, g, b, except) {
         r = clamp(Math.round(r), 0, 255);
         g = clamp(Math.round(g), 0, 255);
         b = clamp(Math.round(b), 0, 255);
-
-        const hex = rgbToHex(r, g, b);
-        const hsl = rgbToHsl(r, g, b);
-
-        rInput.value = r;
-        gInput.value = g;
-        bInput.value = b;
-        hexInput.value = hex;
-        nativePicker.value = hex.toLowerCase();
-        previewSwatch.style.background = hex;
-        previewSwatch.dataset.hex = hex;
-        hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-
-        // Hidden input for copy
-        if (rgbValueInput) rgbValueInput.value = `rgb(${r}, ${g}, ${b})`;
-      }
-
-      function updateFromHex(hex) {
-        const rgb = hexToRgb(hex);
-        if (!rgb) return;
-        updateFromRgb(rgb.r, rgb.g, rgb.b);
+        const nh = rgbToHsv(r, g, b);
+        if (nh.s > 0 && nh.v > 0) hsv.h = nh.h;
+        hsv.s = nh.s;
+        hsv.v = nh.v;
+        syncAll(except);
       }
 
       // ===== EVENT LISTENERS =====
 
       openPickerBtn.addEventListener('click', () => {
         pickerModal.classList.add('show');
-        updateFromHex(hexInput.value);
       });
 
       closeModalBtn.addEventListener('click', () => {
@@ -1100,62 +1192,121 @@
         }
       });
 
-      nativePicker.addEventListener('input', (e) => {
-        updateFromHex(e.target.value);
+      // ===== DRAG: color area (saturation × value) =====
+      function updateArea(e) {
+        const rect = cpArea.getBoundingClientRect();
+        const x = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+        const y = clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        hsv.s = x;
+        hsv.v = 1 - y;
+        syncAll();
+      }
+
+      cpArea.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        try { cpArea.setPointerCapture(e.pointerId); } catch (err) {}
+        updateArea(e);
+      });
+      cpArea.addEventListener('pointermove', (e) => {
+        if (e.buttons === 0 && e.pointerType === 'mouse') return;
+        if (cpArea.hasPointerCapture && cpArea.hasPointerCapture(e.pointerId)) {
+          updateArea(e);
+        }
+      });
+      cpArea.addEventListener('pointerup', (e) => {
+        if (cpArea.hasPointerCapture && cpArea.hasPointerCapture(e.pointerId)) {
+          cpArea.releasePointerCapture(e.pointerId);
+        }
+      });
+      cpArea.addEventListener('pointercancel', (e) => {
+        if (cpArea.hasPointerCapture && cpArea.hasPointerCapture(e.pointerId)) {
+          cpArea.releasePointerCapture(e.pointerId);
+        }
       });
 
-      hexInput.addEventListener('input', (e) => {
-        let val = e.target.value.trim();
+      // ===== DRAG: hue slider =====
+      function updateHue(e) {
+        const rect = cpHue.getBoundingClientRect();
+        // account for thumb padding (14px each side)
+        const usable = rect.width - 28;
+        const rawX = (e.clientX - rect.left - 14);
+        const x = clamp(usable > 0 ? rawX / usable : 0, 0, 1);
+        hsv.h = x * 360;
+        syncAll();
+      }
+
+      cpHue.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        try { cpHue.setPointerCapture(e.pointerId); } catch (err) {}
+        updateHue(e);
+      });
+      cpHue.addEventListener('pointermove', (e) => {
+        if (e.buttons === 0 && e.pointerType === 'mouse') return;
+        if (cpHue.hasPointerCapture && cpHue.hasPointerCapture(e.pointerId)) {
+          updateHue(e);
+        }
+      });
+      cpHue.addEventListener('pointerup', (e) => {
+        if (cpHue.hasPointerCapture && cpHue.hasPointerCapture(e.pointerId)) {
+          cpHue.releasePointerCapture(e.pointerId);
+        }
+      });
+      cpHue.addEventListener('pointercancel', (e) => {
+        if (cpHue.hasPointerCapture && cpHue.hasPointerCapture(e.pointerId)) {
+          cpHue.releasePointerCapture(e.pointerId);
+        }
+      });
+
+      // ===== HEX input =====
+      hexInput.addEventListener('input', () => {
+        let val = hexInput.value.trim();
         if (!val.startsWith('#')) val = '#' + val;
         if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(val)) {
           const rgb = hexToRgb(val);
-          if (rgb) updateFromRgb(rgb.r, rgb.g, rgb.b);
+          if (rgb) setFromRgb(rgb.r, rgb.g, rgb.b, 'hex');
         }
       });
 
-      hexInput.addEventListener('blur', (e) => {
-        let val = e.target.value.trim();
+      hexInput.addEventListener('blur', () => {
+        let val = hexInput.value.trim();
         if (!val.startsWith('#')) val = '#' + val;
         const rgb = hexToRgb(val);
         if (rgb) {
-          updateFromRgb(rgb.r, rgb.g, rgb.b);
+          setFromRgb(rgb.r, rgb.g, rgb.b);
         } else {
-          hexInput.value = previewSwatch.dataset.hex;
+          syncAll();
         }
       });
 
-      [rInput, gInput, bInput].forEach(inp => {
+      // ===== RGB inputs =====
+      [[rInput, 'r'], [gInput, 'g'], [bInput, 'b']].forEach(([inp, key]) => {
         inp.addEventListener('input', () => {
-          const r = parseInt(rInput.value) || 0;
-          const g = parseInt(gInput.value) || 0;
-          const b = parseInt(bInput.value) || 0;
-          updateFromRgb(r, g, b);
+          const r = clamp(parseInt(rInput.value) || 0, 0, 255);
+          const g = clamp(parseInt(gInput.value) || 0, 0, 255);
+          const b = clamp(parseInt(bInput.value) || 0, 0, 255);
+          setFromRgb(r, g, b, key);
         });
-
         inp.addEventListener('blur', () => {
           const r = clamp(parseInt(rInput.value) || 0, 0, 255);
           const g = clamp(parseInt(gInput.value) || 0, 0, 255);
           const b = clamp(parseInt(bInput.value) || 0, 0, 255);
-          updateFromRgb(r, g, b);
+          setFromRgb(r, g, b);
         });
       });
 
+      // ===== HSL input =====
       hslInput.addEventListener('blur', () => {
         const val = hslInput.value.trim();
-        const match = val.match(/^hsl\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%\s*,\s*(\d+(?:\.\d+)?)%\s*\)$/i);
+        const match = val.match(/^hsl\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%\s*,\s*(\d+(?:\.\d+)?)%\s*\)$/i);
         if (match) {
           const rgb = hslToRgb(parseFloat(match[1]), parseFloat(match[2]), parseFloat(match[3]));
-          updateFromRgb(rgb.r, rgb.g, rgb.b);
+          setFromRgb(rgb.r, rgb.g, rgb.b);
         } else {
-          const rgb = hexToRgb(previewSwatch.dataset.hex);
-          if (rgb) {
-            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-            hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-          }
+          syncAll();
         }
       });
 
-      // Small copy buttons (HEX, RGB, HSL)
+      // ===== Small copy buttons (HEX, RGB, HSL) =====
       document.querySelectorAll('.copy-small-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const inputId = btn.dataset.copy;
@@ -1178,7 +1329,7 @@
         });
       });
 
-      // ===== GRID RENDERING =====
+      // ===== GRID =====
       function renderGrid() {
         gridEl.innerHTML = '';
 
@@ -1259,7 +1410,12 @@
       searchInput.addEventListener('input', renderGrid);
       renderGrid();
 
-      updateFromHex('#FBBF24');
+      // ===== INIT =====
+      (function init() {
+        const rgb = hexToRgb('#FBBF24');
+        if (rgb) setFromRgb(rgb.r, rgb.g, rgb.b);
+        else syncAll();
+      })();
     })();
   </script>
 </body>
