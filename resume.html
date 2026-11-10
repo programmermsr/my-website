@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>رزومه محمدصادق رضائی</title>
-  <!-- فاوآیکون سایت -->
   <link rel="icon" type="image/jpeg" href="homeImages/head/msrMedium.jpg" />
   <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg" />
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
@@ -56,7 +55,6 @@
       grid-template-rows: auto 1fr;
     }
 
-    /* ---------- ستون کناری ---------- */
     .sidebar {
       grid-row: 1 / -1;
       background: var(--sidebar-bg);
@@ -64,13 +62,15 @@
       padding: 32px 22px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 20px;
     }
 
     .name-role {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      text-align: center;
       gap: 8px;
       width: 100%;
       min-width: 0;
@@ -85,6 +85,7 @@
       line-height: 1.4;
       margin: 0;
       overflow-wrap: anywhere;
+      text-align: center;
     }
 
     .sidebar .role {
@@ -95,23 +96,14 @@
       background: var(--accent-soft);
       border: 1px solid rgba(129, 140, 248, 0.22);
       border-radius: 20px;
+      text-align: center;
     }
 
-    .sidebar-section {
+    .sidebar-info {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
-
-    .sidebar-section-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 1.2px;
-      padding-bottom: 6px;
-      margin-bottom: 2px;
-      border-bottom: 1px solid var(--border-soft);
     }
 
     .contact-item {
@@ -139,7 +131,6 @@
       line-height: 1.5;
     }
 
-    /* آیکون تصویری گیت‌هاب */
     .contact-item .icon-img {
       width: 20px;
       height: 20px;
@@ -167,32 +158,6 @@
 
     .contact-item a:hover { color: var(--accent); }
 
-    .info-block {
-      background: #0f1828;
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-      line-height: 1.6;
-    }
-
-    .info-block strong {
-      display: block;
-      color: var(--primary-dark);
-      font-weight: 700;
-      font-size: 0.82rem;
-      margin-bottom: 2px;
-    }
-
-    .info-block .info-meta {
-      color: var(--text-muted);
-      font-size: 0.72rem;
-      direction: ltr;
-      text-align: right;
-      margin-top: 2px;
-    }
-
-    /* ---------- بخش اصلی ---------- */
     .main {
       padding: 32px 30px 32px;
       display: flex;
@@ -226,7 +191,6 @@
       background: #10b981;
     }
 
-    /* ---------- متن معرفی ---------- */
     .intro-lead {
       font-size: 0.9rem;
       color: var(--text);
@@ -239,7 +203,6 @@
       text-align: justify;
     }
 
-    /* ---------- بلوک‌های سه‌گانه ---------- */
     .skill-block {
       padding: 20px 20px 18px;
       border-radius: 10px;
@@ -309,7 +272,6 @@
       text-align: justify;
     }
 
-    /* ---------- کارت‌های پروژه ---------- */
     .project-card {
       display: flex;
       flex-direction: column;
@@ -385,7 +347,6 @@
       line-height: 1.75;
     }
 
-    /* ---------- پکیج لینک + آدرس ---------- */
     .link-stack {
       display: flex;
       flex-direction: column;
@@ -465,7 +426,6 @@
       margin-right: 4px;
     }
 
-    /* ---------- کارت‌های اندروید ---------- */
     .android-showcase {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -491,16 +451,23 @@
     }
 
     .android-app-icon {
-      font-size: 1rem;
-      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      flex-shrink: 0;
-      background: rgba(6, 182, 212, 0.16);
-      color: #22d3ee;
+      background: #0a101c;
+      border: 1px solid var(--border-soft);
+    }
+
+    .android-app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .android-app-header h5 {
@@ -550,6 +517,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      padding: 0 2px;
     }
 
     .skill-item {
@@ -582,7 +550,7 @@
     .progress-bar {
       width: 100%;
       height: 8px;
-      background: rgba(148, 163, 184, 0.1);
+      background: rgba(148, 163, 184, 0.18);
       border-radius: 4px;
       overflow: hidden;
       position: relative;
@@ -591,55 +559,57 @@
     .progress-fill {
       height: 100%;
       border-radius: 4px;
-      width: 0;
-      transition: width 1s ease;
+      transform-origin: right center;
+      animation: fillBar 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    .skill-item:nth-child(1) .progress-fill { width: 90%; }
-    .skill-item:nth-child(2) .progress-fill { width: 85%; }
-    .skill-item:nth-child(3) .progress-fill { width: 40%; }
-    .skill-item:nth-child(4) .progress-fill { width: 40%; }
-    .skill-item:nth-child(5) .progress-fill { width: 88%; }
-    .skill-item:nth-child(6) .progress-fill { width: 82%; }
-    .skill-item:nth-child(7) .progress-fill { width: 78%; }
-    .skill-item:nth-child(8) .progress-fill { width: 50%; }
-    .skill-item:nth-child(9) .progress-fill { width: 85%; }
-    .skill-item:nth-child(10) .progress-fill { width: 80%; }
+    @keyframes fillBar {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
 
-    /* بک‌اند - آبی */
+    /* ================================================
+       رنگ‌بندی مهارت‌ها بر اساس ترتیب جدید:
+       1. C#
+       2. Windows Forms
+       3. ASP.NET Core  ← منتقل شد بالا + آبی
+       4. Microsoft SQL Server
+       5. Entity Framework
+       6. HTML
+       7. CSS
+       8. JavaScript
+       9. Git
+       10. GitHub
+    ================================================= */
+
+    /* آبی: بک‌اند و فریم‌ورک (C#, WinForms, ASP.NET, SQL, EF) */
     .skill-item:nth-child(1) .progress-fill,
     .skill-item:nth-child(2) .progress-fill,
     .skill-item:nth-child(3) .progress-fill,
-    .skill-item:nth-child(4) .progress-fill {
+    .skill-item:nth-child(4) .progress-fill,
+    .skill-item:nth-child(5) .progress-fill {
       background: #3b82f6;
     }
 
-    /* فرانت‌اند - بنفش */
-    .skill-item:nth-child(5) .progress-fill,
+    /* بنفش: فرانت‌اند (HTML, CSS, JS) */
     .skill-item:nth-child(6) .progress-fill,
-    .skill-item:nth-child(7) .progress-fill {
+    .skill-item:nth-child(7) .progress-fill,
+    .skill-item:nth-child(8) .progress-fill {
       background: #8b5cf6;
     }
 
-    /* ASP.NET Core - نارنجی */
-    .skill-item:nth-child(8) .progress-fill {
-      background: #f97316;
-    }
-
-    /* ابزارها - سبز */
+    /* سبز: ابزارها (Git, GitHub) */
     .skill-item:nth-child(9) .progress-fill,
     .skill-item:nth-child(10) .progress-fill {
       background: #10b981;
     }
 
-    /* ---------- فوتر ---------- */
     .resume-footer {
       margin-top: 4px;
       padding: 16px 20px;
       border-radius: 10px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       gap: 12px;
       color: #e2e8f0;
@@ -653,13 +623,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       min-width: 0;
     }
 
     .resume-footer .footer-item .label {
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       flex-shrink: 0;
     }
 
@@ -678,40 +648,11 @@
       color: var(--accent);
     }
 
-    /* ---------- دکمه چاپ ---------- */
-    .print-btn {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      background: var(--accent);
-      color: #0b1220;
-      border: none;
-      border-radius: 50%;
-      width: 52px;
-      height: 52px;
-      font-size: 1.3rem;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(129, 140, 248, 0.35);
-      transition: background 0.2s, transform 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .print-btn:hover {
-      background: #a5b4fc;
-      transform: scale(1.05);
-    }
-
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ============================================
-       RESPONSIVE
-    ============================================ */
     @media (max-width: 900px) {
       .resume {
         grid-template-columns: 1fr;
@@ -725,36 +666,10 @@
         gap: 16px;
       }
 
-      .name-role {
-        align-items: center;
-        text-align: center;
-        padding-bottom: 14px;
-      }
-
-      .sidebar h2 {
-        text-align: center;
-        font-size: 1.2rem;
-        white-space: normal;
-      }
-
-      .sidebar-section.contact-group {
+      .sidebar-info {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 8px;
-      }
-
-      .sidebar-section.contact-group .sidebar-section-title {
-        grid-column: 1 / -1;
-      }
-
-      .sidebar-section.education-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 8px;
-      }
-
-      .sidebar-section.education-group .sidebar-section-title {
-        grid-column: 1 / -1;
       }
 
       .main {
@@ -773,18 +688,11 @@
         gap: 14px;
       }
 
-      .name-role { width: 100%; }
-
       .sidebar h2 { font-size: 1.15rem; }
 
-      .sidebar-section { width: 100%; }
-
-      .sidebar-section.contact-group {
+      .sidebar-info {
+        width: 100%;
         grid-template-columns: 1fr 1fr;
-      }
-
-      .sidebar-section.education-group {
-        grid-template-columns: 1fr;
       }
 
       .contact-item {
@@ -827,7 +735,8 @@
         margin-bottom: 14px;
       }
 
-      .section-skills { padding: 16px; }
+      .section-skills { padding: 18px; }
+      .skills-progress { gap: 12px; padding: 0 4px; }
 
       .block-title {
         font-size: 0.92rem;
@@ -855,9 +764,8 @@
       .android-app-card { padding: 10px; }
       .android-app-header h5 { font-size: 0.78rem; }
       .android-app-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 0.85rem;
+        width: 30px;
+        height: 30px;
       }
       .android-app-desc { font-size: 0.72rem; }
       .link-button { font-size: 0.74rem; padding: 8px 10px; }
@@ -876,30 +784,16 @@
       }
       .link-hint { font-size: 0.7rem; }
 
-      .skills-progress { gap: 12px; }
       .skill-header { font-size: 0.8rem; }
       .progress-bar { height: 7px; }
 
       .resume-footer {
-        flex-direction: column;
-        align-items: stretch;
         padding: 14px 16px;
-        gap: 10px;
       }
       .resume-footer .footer-item {
-        justify-content: center;
-        font-size: 0.84rem;
-        padding: 3px 0;
+        font-size: 0.85rem;
       }
-      .resume-footer .footer-item a { font-size: 0.84rem; }
-
-      .print-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.05rem;
-        bottom: 14px;
-        left: 14px;
-      }
+      .resume-footer .footer-item a { font-size: 0.85rem; }
     }
 
     @media (max-width: 380px) {
@@ -918,7 +812,9 @@
       }
 
       .skill-block { padding: 14px 14px 12px; }
-      .section-skills { padding: 14px; }
+
+      .section-skills { padding: 16px; }
+      .skills-progress { padding: 0 3px; }
 
       .block-title { font-size: 0.86rem; }
       .block-icon {
@@ -931,6 +827,10 @@
       .android-showcase { grid-template-columns: 1fr; gap: 10px; }
       .android-app-card { padding: 12px; }
       .android-app-header h5 { font-size: 0.83rem; }
+      .android-app-icon {
+        width: 32px;
+        height: 32px;
+      }
       .android-app-desc { font-size: 0.76rem; }
       .link-button { font-size: 0.74rem; }
       .link-url { font-size: 0.62rem; }
@@ -940,7 +840,7 @@
       .project-card p { font-size: 0.75rem; }
       .project-preview { height: 170px; }
 
-      .sidebar-section.contact-group { grid-template-columns: 1fr; }
+      .sidebar-info { grid-template-columns: 1fr; }
 
       .contact-item a,
       .contact-item span { font-size: 0.77rem; }
@@ -948,8 +848,8 @@
       .sidebar h2 { font-size: 1.02rem; }
       .sidebar .role { font-size: 0.75rem; }
 
-      .resume-footer .footer-item { font-size: 0.78rem; }
-      .resume-footer .footer-item a { font-size: 0.78rem; }
+      .resume-footer .footer-item { font-size: 0.8rem; }
+      .resume-footer .footer-item a { font-size: 0.8rem; }
     }
 
     @media print {
@@ -971,13 +871,11 @@
       .sidebar h2,
       .sidebar .role,
       .contact-item a,
-      .contact-item span,
-      .info-block strong {
+      .contact-item span {
         color: #1f2937 !important;
       }
 
-      .contact-item,
-      .info-block {
+      .contact-item {
         background: #ffffff !important;
         border-color: #e5e7eb !important;
       }
@@ -992,9 +890,8 @@
         color: #111827 !important;
       }
 
-      .print-btn { display: none; }
       .section { animation: none; }
-      .progress-fill { transition: none; }
+      .progress-fill { animation: none; transform: none; }
 
       .project-card { break-inside: avoid; }
       .android-app-card { break-inside: avoid; }
@@ -1011,12 +908,10 @@
     <aside class="sidebar">
       <div class="name-role">
         <h2>محمدصادق رضائی</h2>
-        <p class="role">برنامه‌نویس</p>
+        <p class="role">برنامه‌ نویس</p>
       </div>
 
-      <!-- اطلاعات تماس -->
-      <div class="sidebar-section contact-group">
-        <div class="sidebar-section-title">اطلاعات تماس</div>
+      <div class="sidebar-info">
         <div class="contact-item">
           <span class="icon">📞</span>
           <a href="tel:+989173508447" dir="ltr">۰۹۱۷۳۵۰۸۴۴۷</a>
@@ -1031,11 +926,15 @@
         </div>
         <div class="contact-item">
           <span class="icon">🎖️</span>
-          <span>پایان خدمت</span>
+          <span>سربازی : پایان خدمت</span>
         </div>
         <div class="contact-item">
-          <span class="icon">💰</span>
-          <span>حقوق درخواستی: توافقی</span>
+          <span class="icon">🎓</span>
+          <span>مهندسی کامپیوتر – گرایش IT</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">🗣️</span>
+          <span>زبان انگلیسی : متوسط</span>
         </div>
         <div class="contact-item">
           <span class="icon">🌐</span>
@@ -1050,31 +949,17 @@
           <a href="https://github.com/programmermsr" target="_blank" rel="noopener">github.com/programmermsr</a>
         </div>
       </div>
-
-      <!-- تحصیلات و زبان -->
-      <div class="sidebar-section education-group">
-        <div class="sidebar-section-title">تحصیلات و زبان</div>
-        <div class="info-block">
-          <strong>مهندسی کامپیوتر – گرایش IT</strong>
-          <span class="info-meta">۱۳۹۴ – ۱۴۰۰</span>
-        </div>
-        <div class="info-block">
-          <strong>زبان انگلیسی</strong>
-          <span>سطح متوسط</span>
-        </div>
-      </div>
     </aside>
 
     <main class="main">
 
       <section class="section">
-        <h3 class="section-title"><span class="section-badge"></span>معرفی و نمونه‌کارها</h3>
+        <h3 class="section-title"><span class="section-badge"></span>معرفی</h3>
 
         <p class="intro-lead">
-          با سلام؛ من محمدصادق رضایی هستم و تخصص اصلی‌ام زبان برنامه‌نویسی سی‌شارپ (C#) است. در ادامه، سه حوزه‌ای که در آن‌ها فعالیت می‌کنم و نمونه‌کارهای مرتبط با هر کدام را معرفی می‌کنم.
+          سلام؛ من محمدصادق رضایی هستم و تخصص اصلی‌ام زبان برنامه‌نویسی سی‌شارپ (#C) است. در ادامه، سه حوزه‌ای که در آن‌ها فعالیت می‌کنم و نمونه‌کارهای مرتبط با هر کدام را معرفی می‌کنم.
         </p>
 
-        <!-- ویندوز -->
         <div class="skill-block block-windows">
           <h4 class="block-title">
             <span class="block-icon">💻</span>
@@ -1097,7 +982,7 @@
             </div>
             <h4>
               سیستم مدیریت مشتریان و خریدها
-              <span class="project-tag">C# · Windows Forms · SQL Server</span>
+              <span class="project-tag">#C · Windows Forms · SQL Server</span>
             </h4>
             <p>
               نرم‌افزار دسکتاپ با Windows Forms برای مدیریت اطلاعات مشتریان، محصولات و خریدها. رمزنگاری
@@ -1117,7 +1002,6 @@
           </div>
         </div>
 
-        <!-- وب -->
         <div class="skill-block block-web">
           <h4 class="block-title">
             <span class="block-icon">🌐</span>
@@ -1166,7 +1050,6 @@
           </div>
         </div>
 
-        <!-- اندروید -->
         <div class="skill-block block-android">
           <h4 class="block-title">
             <span class="block-icon">📱</span>
@@ -1180,32 +1063,36 @@
 
             <div class="android-app-card">
               <div class="android-app-header">
-                <span class="android-app-icon">📖</span>
+                <span class="android-app-icon">
+                  <img src="homeImages/english icon.png" alt="آیکون افعال بی قاعده انگلیسی" loading="lazy" />
+                </span>
                 <h5>افعال بی قاعده انگلیسی</h5>
               </div>
               <p class="android-app-desc">
                 اپلیکیشن آموزش افعال بی قاعده زبان انگلیسی همراه با معنی فارسی، تلفظ و مثال‌های کاربردی؛ مناسب برای زبان‌آموزان همه سطوح.
               </p>
               <div class="android-app-gallery">
-                <img src="homeImages/english%201.jpg"
+                <img src="homeImages/english 1.jpg"
                      alt="اسکرین‌شات افعال بی قاعده انگلیسی - تصویر ۱"
                      loading="lazy" />
-                <img src="homeImages/english%202.jpg"
+                <img src="homeImages/english 2.jpg"
                      alt="اسکرین‌شات افعال بی قاعده انگلیسی - تصویر ۲"
                      loading="lazy" />
               </div>
               <div class="link-wrapper">
-                <a href="https://cafebazaar.ir/app/programmer_msr.ir.irregular_verbs_msr"
+                <a href="https://cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr"
                    target="_blank" rel="noopener" class="link-button market-link">
                   🛒 مشاهده در کافه بازار
                 </a>
-                <span class="link-url">cafebazaar.ir/app/programmer_msr.ir.irregular_verbs_msr</span>
+                <span class="link-url">cafebazaar.ir/app/programmer_msr.ir.english_irregular_verbs_msr</span>
               </div>
             </div>
 
             <div class="android-app-card">
               <div class="android-app-header">
-                <span class="android-app-icon">🔦</span>
+                <span class="android-app-icon">
+                  <img src="homeImages/police light.png" alt="آیکون چراغ قوه پلیسی" loading="lazy" />
+                </span>
                 <h5>چراغ قوه پلیسی زیبا</h5>
               </div>
               <p class="android-app-desc">
@@ -1232,111 +1119,91 @@
         </div>
       </section>
 
-      <!-- مهارت‌ها -->
       <section class="section section-skills">
         <h3 class="section-title"><span class="section-badge"></span>مهارت‌ها</h3>
         <div class="skills-progress">
           <div class="skill-item">
             <div class="skill-header">
-              <span class="skill-name">سی‌شارپ (C#)</span>
+              <span class="skill-name">سی‌شارپ (#C)</span>
               <span class="skill-percent">۹۰٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Windows Forms</span>
               <span class="skill-percent">۸۵٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Microsoft SQL Server</span>
-              <span class="skill-percent">۴۰٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">Entity Framework</span>
-              <span class="skill-percent">۴۰٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">HTML</span>
-              <span class="skill-percent">۸۸٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">CSS</span>
-              <span class="skill-percent">۸۲٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">JavaScript</span>
-              <span class="skill-percent">۷۸٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">ASP.NET Core</span>
               <span class="skill-percent">۵۰٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 50%;"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Microsoft SQL Server</span>
+              <span class="skill-percent">۴۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Entity Framework</span>
+              <span class="skill-percent">۴۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">HTML</span>
+              <span class="skill-percent">۸۸٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 88%;"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">CSS</span>
+              <span class="skill-percent">۸۲٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 82%;"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-percent">۷۸٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 78%;"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Git</span>
               <span class="skill-percent">۸۵٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">GitHub</span>
               <span class="skill-percent">۸۰٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
           </div>
         </div>
       </section>
 
-      <!-- فوتر -->
       <div class="resume-footer">
         <div class="footer-item">
           <span>📞</span>
           <span class="label">شماره تماس:</span>
           <a href="tel:+989173508447" dir="ltr">۰۹۱۷۳۵۰۸۴۴۷</a>
         </div>
-        <div class="footer-item">
-          <span>🌐</span>
-          <a href="https://www.programmer-msr.ir" target="_blank" rel="noopener" dir="ltr" style="font-weight:500;letter-spacing:0;">www.programmer-msr.ir</a>
-        </div>
       </div>
 
     </main>
   </div>
-
-  <button class="print-btn" id="printBtn" title="چاپ / ذخیره PDF">🖨️</button>
-
-  <script>
-    const printBtn = document.getElementById('printBtn');
-    printBtn.addEventListener('click', () => window.print());
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.progress-fill').forEach((bar) => {
-        const targetWidth = bar.style.width || getComputedStyle(bar).width;
-        setTimeout(() => { bar.style.width = targetWidth; }, 200);
-      });
-    });
-  </script>
 </body>
 </html>
