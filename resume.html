@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رزومه محمدصادق رضائی</title>
+  <!-- فاوآیکون سایت -->
+  <link rel="icon" type="image/jpeg" href="homeImages/head/msrMedium.jpg" />
+  <link rel="apple-touch-icon" href="homeImages/head/msrMedium.jpg" />
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+  <style>
+    :root {
+      --primary: #e2e8f0;
+      --primary-dark: #f1f5f9;
+      --accent: #818cf8;
+      --accent-soft: rgba(129, 140, 248, 0.12);
+      --bg: #0b1220;
+      --card-bg: #111a2e;
+      --sidebar-bg: #0a101c;
+      --text: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border: #253248;
+      --border-soft: #1c2740;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Vazirmatn', Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 28px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    .resume {
+      max-width: 960px;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      grid-template-rows: auto 1fr;
+    }
+
+    /* ---------- ستون کناری ---------- */
+    .sidebar {
+      grid-row: 1 / -1;
+      background: var(--sidebar-bg);
+      border-left: 1px solid var(--border-soft);
+      padding: 32px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .name-role {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.4;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .sidebar .role {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      padding: 4px 14px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(129, 140, 248, 0.22);
+      border-radius: 20px;
+    }
+
+    .sidebar-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1.2px;
+      padding-bottom: 6px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #0f1828;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      transition: border-color 0.2s, background 0.2s;
+      min-width: 0;
+    }
+
+    .contact-item:hover {
+      border-color: rgba(129, 140, 248, 0.35);
+      background: #131d30;
+    }
+
+    .contact-item .icon {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+
+    /* آیکون تصویری گیت‌هاب */
+    .contact-item .icon-img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: brightness(0) invert(0.85);
+      opacity: 0.9;
+      transition: opacity 0.2s, filter 0.2s;
+    }
+
+    .contact-item:hover .icon-img {
+      opacity: 1;
+      filter: brightness(0) invert(1);
+    }
+
+    .contact-item a,
+    .contact-item span {
+      color: var(--text);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      font-size: 0.8rem;
+      min-width: 0;
+      line-height: 1.6;
+    }
+
+    .contact-item a:hover { color: var(--accent); }
+
+    .info-block {
+      background: #0f1828;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .info-block strong {
+      display: block;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+    }
+
+    .info-block .info-meta {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      direction: ltr;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    /* ---------- بخش اصلی ---------- */
+    .main {
+      padding: 32px 30px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      min-width: 0;
+    }
+
+    .section { animation: fadeInUp 0.4s ease both; }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title .section-badge {
+      width: 6px;
+      height: 18px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+
+    .section-skills .section-title .section-badge {
+      background: #10b981;
+    }
+
+    /* ---------- متن معرفی ---------- */
+    .intro-lead {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 22px;
+      padding: 16px 20px;
+      background: #0f1828;
+      border-right: 3px solid var(--accent);
+      border-radius: 6px;
+      text-align: justify;
+    }
+
+    /* ---------- بلوک‌های سه‌گانه ---------- */
+    .skill-block {
+      padding: 20px 20px 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-soft);
+      border-right-width: 4px;
+    }
+
+    .skill-block:last-child { margin-bottom: 0; }
+
+    .block-windows {
+      background: rgba(59, 130, 246, 0.06);
+      border-color: rgba(59, 130, 246, 0.18);
+      border-right-color: #3b82f6;
+    }
+    .block-windows .block-icon {
+      background: rgba(59, 130, 246, 0.16);
+      color: #60a5fa;
+    }
+
+    .block-web {
+      background: rgba(139, 92, 246, 0.06);
+      border-color: rgba(139, 92, 246, 0.18);
+      border-right-color: #8b5cf6;
+    }
+    .block-web .block-icon {
+      background: rgba(139, 92, 246, 0.16);
+      color: #a78bfa;
+    }
+
+    .block-android {
+      background: rgba(6, 182, 212, 0.06);
+      border-color: rgba(6, 182, 212, 0.18);
+      border-right-color: #06b6d4;
+    }
+    .block-android .block-icon {
+      background: rgba(6, 182, 212, 0.16);
+      color: #22d3ee;
+    }
+
+    .block-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .block-title .block-icon {
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .block-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    /* ---------- کارت‌های پروژه ---------- */
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(10, 16, 28, 0.6);
+      border-radius: 8px;
+      padding: 14px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+
+    .project-preview {
+      width: 100%;
+      height: 300px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #0a101c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 1px solid var(--border-soft);
+    }
+
+    .project-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .project-preview .preview-placeholder {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .project-preview .preview-placeholder .ph-icon {
+      font-size: 2.2rem;
+      opacity: 0.55;
+    }
+
+    .project-card h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .project-card h4 .project-tag {
+      font-size: 0.66rem;
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-muted);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid var(--border-soft);
+    }
+
+    .project-card p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ---------- پکیج لینک + آدرس ---------- */
+    .link-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .link-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 5px;
+    }
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 9px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      min-height: 38px;
+      transition: background 0.2s, border-color 0.2s;
+      border: 1px solid;
+    }
+
+    .link-button.github-link {
+      color: #c4b5fd;
+      background: rgba(139, 92, 246, 0.12);
+      border-color: rgba(139, 92, 246, 0.35);
+    }
+    .link-button.github-link:hover {
+      background: rgba(139, 92, 246, 0.22);
+      border-color: rgba(139, 92, 246, 0.6);
+    }
+
+    .link-button.live-link {
+      color: #93c5fd;
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+    .link-button.live-link:hover {
+      background: rgba(59, 130, 246, 0.22);
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    .link-button.market-link {
+      color: #67e8f9;
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(6, 182, 212, 0.35);
+    }
+    .link-button.market-link:hover {
+      background: rgba(6, 182, 212, 0.22);
+      border-color: rgba(6, 182, 212, 0.6);
+    }
+
+    .link-url {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      direction: ltr;
+      unicode-bidi: embed;
+      text-align: center;
+      overflow-wrap: anywhere;
+      padding: 0 4px;
+      line-height: 1.4;
+      font-family: Consolas, 'SF Mono', monospace;
+      opacity: 0.85;
+    }
+
+    .link-hint {
+      font-size: 0.72rem;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-right: 4px;
+    }
+
+    /* ---------- کارت‌های اندروید ---------- */
+    .android-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .android-app-card {
+      background: rgba(10, 16, 28, 0.6);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .android-app-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .android-app-icon {
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: rgba(6, 182, 212, 0.16);
+      color: #22d3ee;
+    }
+
+    .android-app-header h5 {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .android-app-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+      text-align: justify;
+      flex-grow: 1;
+    }
+
+    .android-app-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .android-app-gallery img {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 5px;
+      border: 1px solid var(--border-soft);
+      background: #0a101c;
+    }
+
+    /* ---------- بخش مهارت‌ها ---------- */
+    .section-skills {
+      padding: 20px;
+      background: rgba(16, 185, 129, 0.05);
+      border: 1px solid rgba(16, 185, 129, 0.16);
+      border-right: 4px solid #10b981;
+      border-radius: 10px;
+    }
+
+    .skills-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      color: var(--primary);
+      min-width: 0;
+    }
+
+    .skill-percent {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    .skill-item:nth-child(1) .progress-fill { width: 90%; }
+    .skill-item:nth-child(2) .progress-fill { width: 85%; }
+    .skill-item:nth-child(3) .progress-fill { width: 40%; }
+    .skill-item:nth-child(4) .progress-fill { width: 40%; }
+    .skill-item:nth-child(5) .progress-fill { width: 88%; }
+    .skill-item:nth-child(6) .progress-fill { width: 82%; }
+    .skill-item:nth-child(7) .progress-fill { width: 78%; }
+    .skill-item:nth-child(8) .progress-fill { width: 50%; }
+    .skill-item:nth-child(9) .progress-fill { width: 85%; }
+    .skill-item:nth-child(10) .progress-fill { width: 80%; }
+
+    /* بک‌اند - آبی */
+    .skill-item:nth-child(1) .progress-fill,
+    .skill-item:nth-child(2) .progress-fill,
+    .skill-item:nth-child(3) .progress-fill,
+    .skill-item:nth-child(4) .progress-fill {
+      background: #3b82f6;
+    }
+
+    /* فرانت‌اند - بنفش */
+    .skill-item:nth-child(5) .progress-fill,
+    .skill-item:nth-child(6) .progress-fill,
+    .skill-item:nth-child(7) .progress-fill {
+      background: #8b5cf6;
+    }
+
+    /* ASP.NET Core - نارنجی */
+    .skill-item:nth-child(8) .progress-fill {
+      background: #f97316;
+    }
+
+    /* ابزارها - سبز */
+    .skill-item:nth-child(9) .progress-fill,
+    .skill-item:nth-child(10) .progress-fill {
+      background: #10b981;
+    }
+
+    /* ---------- فوتر ---------- */
+    .resume-footer {
+      margin-top: 4px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #e2e8f0;
+      background: #0a101c;
+      border: 1px solid var(--border-soft);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .resume-footer .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      min-width: 0;
+    }
+
+    .resume-footer .footer-item .label {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      flex-shrink: 0;
+    }
+
+    .resume-footer .footer-item a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+      direction: ltr;
+      unicode-bidi: embed;
+      overflow-wrap: anywhere;
+      transition: color 0.2s;
+    }
+
+    .resume-footer .footer-item a:hover {
+      color: var(--accent);
+    }
+
+    /* ---------- دکمه چاپ ---------- */
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: var(--accent);
+      color: #0b1220;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(129, 140, 248, 0.35);
+      transition: background 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .print-btn:hover {
+      background: #a5b4fc;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 900px) {
+      .resume {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      .sidebar {
+        border-left: none;
+        border-bottom: 1px solid var(--border-soft);
+        padding: 24px;
+        gap: 16px;
+      }
+
+      .name-role {
+        align-items: center;
+        text-align: center;
+        padding-bottom: 14px;
+      }
+
+      .sidebar h2 {
+        text-align: center;
+        font-size: 1.2rem;
+        white-space: normal;
+      }
+
+      .sidebar-section.contact-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+      }
+
+      .sidebar-section.contact-group .sidebar-section-title {
+        grid-column: 1 / -1;
+      }
+
+      .sidebar-section.education-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 8px;
+      }
+
+      .sidebar-section.education-group .sidebar-section-title {
+        grid-column: 1 / -1;
+      }
+
+      .main {
+        padding: 26px 24px 28px;
+        gap: 24px;
+      }
+
+      .project-preview { height: 260px; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px 6px; }
+
+      .sidebar {
+        padding: 22px 16px;
+        gap: 14px;
+      }
+
+      .name-role { width: 100%; }
+
+      .sidebar h2 { font-size: 1.15rem; }
+
+      .sidebar-section { width: 100%; }
+
+      .sidebar-section.contact-group {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .sidebar-section.education-group {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-item {
+        padding: 7px 9px;
+      }
+
+      .contact-item .icon {
+        font-size: 0.9rem;
+        width: 18px;
+      }
+
+      .contact-item .icon-img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .contact-item a,
+      .contact-item span {
+        font-size: 0.74rem;
+      }
+
+      .main {
+        padding: 20px 14px 22px;
+        gap: 22px;
+      }
+
+      .section-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+      }
+
+      .intro-lead {
+        font-size: 0.84rem;
+        padding: 12px 14px;
+        margin-bottom: 20px;
+      }
+
+      .skill-block {
+        padding: 16px 16px 14px;
+        margin-bottom: 14px;
+      }
+
+      .section-skills { padding: 16px; }
+
+      .block-title {
+        font-size: 0.92rem;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .block-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+
+      .block-text {
+        font-size: 0.82rem;
+        line-height: 1.75;
+        margin-bottom: 12px;
+      }
+
+      .android-showcase {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .android-app-card { padding: 10px; }
+      .android-app-header h5 { font-size: 0.78rem; }
+      .android-app-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.85rem;
+      }
+      .android-app-desc { font-size: 0.72rem; }
+      .link-button { font-size: 0.74rem; padding: 8px 10px; }
+      .link-url { font-size: 0.56rem; }
+
+      .project-preview { height: 210px; }
+      .project-card { padding: 12px; gap: 8px; }
+      .project-card h4 { font-size: 0.9rem; }
+      .project-card h4 .project-tag { font-size: 0.6rem; padding: 2px 8px; }
+      .project-card p { font-size: 0.79rem; }
+
+      .link-button {
+        width: 100%;
+        padding: 9px 14px;
+        font-size: 0.8rem;
+      }
+      .link-hint { font-size: 0.7rem; }
+
+      .skills-progress { gap: 12px; }
+      .skill-header { font-size: 0.8rem; }
+      .progress-bar { height: 7px; }
+
+      .resume-footer {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px 16px;
+        gap: 10px;
+      }
+      .resume-footer .footer-item {
+        justify-content: center;
+        font-size: 0.84rem;
+        padding: 3px 0;
+      }
+      .resume-footer .footer-item a { font-size: 0.84rem; }
+
+      .print-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.05rem;
+        bottom: 14px;
+        left: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      body { padding: 6px 4px; }
+
+      .main {
+        padding: 16px 12px 20px;
+        gap: 18px;
+      }
+
+      .section-title { font-size: 0.93rem; }
+
+      .intro-lead {
+        font-size: 0.79rem;
+        padding: 10px 12px;
+      }
+
+      .skill-block { padding: 14px 14px 12px; }
+      .section-skills { padding: 14px; }
+
+      .block-title { font-size: 0.86rem; }
+      .block-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.88rem;
+      }
+      .block-text { font-size: 0.77rem; }
+
+      .android-showcase { grid-template-columns: 1fr; gap: 10px; }
+      .android-app-card { padding: 12px; }
+      .android-app-header h5 { font-size: 0.83rem; }
+      .android-app-desc { font-size: 0.76rem; }
+      .link-button { font-size: 0.74rem; }
+      .link-url { font-size: 0.62rem; }
+
+      .project-card { padding: 10px; gap: 7px; }
+      .project-card h4 { font-size: 0.85rem; }
+      .project-card p { font-size: 0.75rem; }
+      .project-preview { height: 170px; }
+
+      .sidebar-section.contact-group { grid-template-columns: 1fr; }
+
+      .contact-item a,
+      .contact-item span { font-size: 0.77rem; }
+
+      .sidebar h2 { font-size: 1.02rem; }
+      .sidebar .role { font-size: 0.75rem; }
+
+      .resume-footer .footer-item { font-size: 0.78rem; }
+      .resume-footer .footer-item a { font-size: 0.78rem; }
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+
+      .resume {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: 100%;
+        border: none;
+      }
+
+      .sidebar {
+        background: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .sidebar h2,
+      .sidebar .role,
+      .contact-item a,
+      .contact-item span,
+      .info-block strong {
+        color: #1f2937 !important;
+      }
+
+      .contact-item,
+      .info-block {
+        background: #ffffff !important;
+        border-color: #e5e7eb !important;
+      }
+
+      .contact-item .icon-img {
+        filter: brightness(0) !important;
+      }
+
+      .section-title,
+      .block-title,
+      .project-card h4 {
+        color: #111827 !important;
+      }
+
+      .print-btn { display: none; }
+      .section { animation: none; }
+      .progress-fill { transition: none; }
+
+      .project-card { break-inside: avoid; }
+      .android-app-card { break-inside: avoid; }
+
+      .project-preview { height: 240px; }
+      .link-button { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="resume">
+
+    <aside class="sidebar">
+      <div class="name-role">
+        <h2>محمدصادق رضائی</h2>
+        <p class="role">برنامه‌نویس</p>
+      </div>
+
+      <!-- اطلاعات تماس -->
+      <div class="sidebar-section contact-group">
+        <div class="sidebar-section-title">اطلاعات تماس</div>
+        <div class="contact-item">
+          <span class="icon">📞</span>
+          <a href="tel:+989173508447" dir="ltr">۰۹۱۷۳۵۰۸۴۴۷</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon">📍</span>
+          <span>استان فارس، شیراز</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">🎂</span>
+          <span>۱۳۷۵/۱۲/۱۲</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">🎖️</span>
+          <span>پایان خدمت</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">💰</span>
+          <span>حقوق درخواستی: توافقی</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">🌐</span>
+          <a href="https://www.programmer-msr.ir" target="_blank" rel="noopener">www.programmer-msr.ir</a>
+        </div>
+        <div class="contact-item">
+          <img src="homeImages/head/github.png"
+               alt="GitHub"
+               class="icon-img"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+          <span class="icon" style="display:none;">🐙</span>
+          <a href="https://github.com/programmermsr" target="_blank" rel="noopener">github.com/programmermsr</a>
+        </div>
+      </div>
+
+      <!-- تحصیلات و زبان -->
+      <div class="sidebar-section education-group">
+        <div class="sidebar-section-title">تحصیلات و زبان</div>
+        <div class="info-block">
+          <strong>مهندسی کامپیوتر – گرایش IT</strong>
+          <span class="info-meta">۱۳۹۴ – ۱۴۰۰</span>
+        </div>
+        <div class="info-block">
+          <strong>زبان انگلیسی</strong>
+          <span>سطح متوسط</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <section class="section">
+        <h3 class="section-title"><span class="section-badge"></span>معرفی و نمونه‌کارها</h3>
+
+        <p class="intro-lead">
+          با سلام؛ من محمدصادق رضایی هستم و تخصص اصلی‌ام زبان برنامه‌نویسی سی‌شارپ (C#) است. در ادامه، سه حوزه‌ای که در آن‌ها فعالیت می‌کنم و نمونه‌کارهای مرتبط با هر کدام را معرفی می‌کنم.
+        </p>
+
+        <!-- ویندوز -->
+        <div class="skill-block block-windows">
+          <h4 class="block-title">
+            <span class="block-icon">💻</span>
+            توسعه نرم‌افزارهای ویندوز
+          </h4>
+          <p class="block-text">
+            نرم‌افزارهای ویندوزی را با سی‌شارپ و تکنولوژی Windows Forms طراحی و توسعه می‌دهم. یکی از نمونه‌کارهای من در این حوزه، نرم‌افزار «مدیریت مشتریان و خریدها» است که در ادامه می‌بینید:
+          </p>
+
+          <div class="project-card">
+            <div class="project-preview">
+              <img src="https://github.com/programmermsr/Customers-Purchases-MSR/raw/master/screenshots/1.png"
+                   alt="پیش‌نمایش سیستم مدیریت مشتریان"
+                   loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="preview-placeholder">
+                <span class="ph-icon">💼</span>
+                <span>سیستم مدیریت مشتریان</span>
+              </div>
+            </div>
+            <h4>
+              سیستم مدیریت مشتریان و خریدها
+              <span class="project-tag">C# · Windows Forms · SQL Server</span>
+            </h4>
+            <p>
+              نرم‌افزار دسکتاپ با Windows Forms برای مدیریت اطلاعات مشتریان، محصولات و خریدها. رمزنگاری
+              رشته اتصال با AES، استفاده از Entity Framework برای اتصال به SQL Server، دریافت داده از Web API،
+              رسم ساعت با دستورات گرافیکی، کامپوننت تاریخ شمسی و مدیریت چاپ با Stimulsoft.
+            </p>
+            <div class="link-stack">
+              <div class="link-wrapper">
+                <a href="https://github.com/programmermsr/Customers-Purchases-MSR"
+                   target="_blank" rel="noopener" class="link-button github-link">
+                  🔗 مشاهده مخزن در گیت‌هاب
+                  <span class="link-hint">— برای دیدن کدها</span>
+                </a>
+                <span class="link-url">github.com/programmermsr/Customers-Purchases-MSR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- وب -->
+        <div class="skill-block block-web">
+          <h4 class="block-title">
+            <span class="block-icon">🌐</span>
+            توسعه وب
+          </h4>
+          <p class="block-text">
+            همچنین توانایی طراحی و ساخت وب‌سایت را دارم؛ بخش ظاهری (فرانت‌اند) را با HTML، CSS و JavaScript طراحی می‌کنم، بک‌اند را با ASP.NET Core پیاده‌سازی می‌کنم و با SQL Server و Entity Framework به پایگاه داده متصل می‌شوم. نمونه‌ای از یک وب‌سایت — که در حال حاضر تنها بخش فرانت‌اند آن پیاده‌سازی شده — را می‌توانید در ادامه مشاهده کنید:
+          </p>
+
+          <div class="project-card">
+            <div class="project-preview">
+              <img src="https://github.com/programmermsr/laptop-store/raw/master/screenshots/3.png"
+                   alt="پیش‌نمایش فروشگاه لپ‌تاپ"
+                   loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="preview-placeholder">
+                <span class="ph-icon">🖥️</span>
+                <span>فروشگاه لپ‌تاپ</span>
+              </div>
+            </div>
+            <h4>
+              فروشگاه لپ‌تاپ (Laptop Store)
+              <span class="project-tag">HTML · CSS · JavaScript</span>
+            </h4>
+            <p>
+              یک فروشگاه لپ‌تاپ کاملاً ریسپانسیو ساخته‌شده با HTML، CSS و JavaScript خالص. دارای فیلتر داینامیک
+              محصولات، شبیه‌سازی سبد خرید و طراحی مینیمال بدون نیاز به بک‌اند.
+            </p>
+            <div class="link-stack">
+              <div class="link-wrapper">
+                <a href="https://programmermsr.github.io/laptop-store/"
+                   target="_blank" rel="noopener" class="link-button live-link">
+                  🚀 مشاهده آنلاین پروژه
+                </a>
+                <span class="link-url">programmermsr.github.io/laptop-store</span>
+              </div>
+              <div class="link-wrapper">
+                <a href="https://github.com/programmermsr/laptop-store"
+                   target="_blank" rel="noopener" class="link-button github-link">
+                  🔗 مشاهده مخزن در گیت‌هاب
+                  <span class="link-hint">— برای دیدن کدها</span>
+                </a>
+                <span class="link-url">github.com/programmermsr/laptop-store</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- اندروید -->
+        <div class="skill-block block-android">
+          <h4 class="block-title">
+            <span class="block-icon">📱</span>
+            توسعه اپلیکیشن اندروید
+          </h4>
+          <p class="block-text">
+            با استفاده از کاتلین (Kotlin) و هوش مصنوعی (AI) اپلیکیشن‌های اندروید حرفه‌ای می‌سازم. در ادامه، دو نمونه از اپلیکیشن‌های من را با تصاویر واقعی آن‌ها مشاهده می‌کنید:
+          </p>
+
+          <div class="android-showcase">
+
+            <div class="android-app-card">
+              <div class="android-app-header">
+                <span class="android-app-icon">📖</span>
+                <h5>افعال بی قاعده انگلیسی</h5>
+              </div>
+              <p class="android-app-desc">
+                اپلیکیشن آموزش افعال بی قاعده زبان انگلیسی همراه با معنی فارسی، تلفظ و مثال‌های کاربردی؛ مناسب برای زبان‌آموزان همه سطوح.
+              </p>
+              <div class="android-app-gallery">
+                <img src="homeImages/english%201.jpg"
+                     alt="اسکرین‌شات افعال بی قاعده انگلیسی - تصویر ۱"
+                     loading="lazy" />
+                <img src="homeImages/english%202.jpg"
+                     alt="اسکرین‌شات افعال بی قاعده انگلیسی - تصویر ۲"
+                     loading="lazy" />
+              </div>
+              <div class="link-wrapper">
+                <a href="https://cafebazaar.ir/app/programmer_msr.ir.irregular_verbs_msr"
+                   target="_blank" rel="noopener" class="link-button market-link">
+                  🛒 مشاهده در کافه بازار
+                </a>
+                <span class="link-url">cafebazaar.ir/app/programmer_msr.ir.irregular_verbs_msr</span>
+              </div>
+            </div>
+
+            <div class="android-app-card">
+              <div class="android-app-header">
+                <span class="android-app-icon">🔦</span>
+                <h5>چراغ قوه پلیسی زیبا</h5>
+              </div>
+              <p class="android-app-desc">
+                چراغ قوه حرفه‌ای با افکت‌های نوری متنوع، حالت‌های چشمک‌زن و کنترل فلش دوربین؛ بدون نیاز به اینترنت.
+              </p>
+              <div class="android-app-gallery">
+                <img src="homeImages/f1.jpg"
+                     alt="اسکرین‌شات چراغ قوه پلیسی - تصویر ۱"
+                     loading="lazy" />
+                <img src="homeImages/f2.jpg"
+                     alt="اسکرین‌شات چراغ قوه پلیسی - تصویر ۲"
+                     loading="lazy" />
+              </div>
+              <div class="link-wrapper">
+                <a href="https://cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr"
+                   target="_blank" rel="noopener" class="link-button market-link">
+                  🛒 مشاهده در کافه بازار
+                </a>
+                <span class="link-url">cafebazaar.ir/app/programmer_msr.ir.flashlight_police_msr</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- مهارت‌ها -->
+      <section class="section section-skills">
+        <h3 class="section-title"><span class="section-badge"></span>مهارت‌ها</h3>
+        <div class="skills-progress">
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">سی‌شارپ (C#)</span>
+              <span class="skill-percent">۹۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Windows Forms</span>
+              <span class="skill-percent">۸۵٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Microsoft SQL Server</span>
+              <span class="skill-percent">۴۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Entity Framework</span>
+              <span class="skill-percent">۴۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">HTML</span>
+              <span class="skill-percent">۸۸٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">CSS</span>
+              <span class="skill-percent">۸۲٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-percent">۷۸٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">ASP.NET Core</span>
+              <span class="skill-percent">۵۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Git</span>
+              <span class="skill-percent">۸۵٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">GitHub</span>
+              <span class="skill-percent">۸۰٪</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- فوتر -->
+      <div class="resume-footer">
+        <div class="footer-item">
+          <span>📞</span>
+          <span class="label">شماره تماس:</span>
+          <a href="tel:+989173508447" dir="ltr">۰۹۱۷۳۵۰۸۴۴۷</a>
+        </div>
+        <div class="footer-item">
+          <span>🌐</span>
+          <a href="https://www.programmer-msr.ir" target="_blank" rel="noopener" dir="ltr" style="font-weight:500;letter-spacing:0;">www.programmer-msr.ir</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <button class="print-btn" id="printBtn" title="چاپ / ذخیره PDF">🖨️</button>
+
+  <script>
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => window.print());
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.progress-fill').forEach((bar) => {
+        const targetWidth = bar.style.width || getComputedStyle(bar).width;
+        setTimeout(() => { bar.style.width = targetWidth; }, 200);
+      });
+    });
+  </script>
+</body>
+</html>
