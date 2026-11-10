@@ -42,6 +42,13 @@
 
     img { max-width: 100%; display: block; }
 
+    .ltr-token {
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
     .resume {
       max-width: 960px;
       width: 100%;
@@ -339,6 +346,9 @@
       font-weight: 600;
       white-space: nowrap;
       border: 1px solid var(--border-soft);
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
     }
 
     .project-card p {
@@ -504,7 +514,6 @@
       background: #0a101c;
     }
 
-    /* ---------- بخش مهارت‌ها ---------- */
     .section-skills {
       padding: 20px;
       background: rgba(16, 185, 129, 0.05);
@@ -568,21 +577,6 @@
       to   { transform: scaleX(1); }
     }
 
-    /* ================================================
-       رنگ‌بندی مهارت‌ها بر اساس ترتیب جدید:
-       1. C#
-       2. Windows Forms
-       3. ASP.NET Core  ← منتقل شد بالا + آبی
-       4. Microsoft SQL Server
-       5. Entity Framework
-       6. HTML
-       7. CSS
-       8. JavaScript
-       9. Git
-       10. GitHub
-    ================================================= */
-
-    /* آبی: بک‌اند و فریم‌ورک (C#, WinForms, ASP.NET, SQL, EF) */
     .skill-item:nth-child(1) .progress-fill,
     .skill-item:nth-child(2) .progress-fill,
     .skill-item:nth-child(3) .progress-fill,
@@ -591,19 +585,18 @@
       background: #3b82f6;
     }
 
-    /* بنفش: فرانت‌اند (HTML, CSS, JS) */
     .skill-item:nth-child(6) .progress-fill,
     .skill-item:nth-child(7) .progress-fill,
     .skill-item:nth-child(8) .progress-fill {
       background: #8b5cf6;
     }
 
-    /* سبز: ابزارها (Git, GitHub) */
     .skill-item:nth-child(9) .progress-fill,
     .skill-item:nth-child(10) .progress-fill {
       background: #10b981;
     }
 
+    /* ---------- فوتر ---------- */
     .resume-footer {
       margin-top: 4px;
       padding: 16px 20px;
@@ -639,13 +632,25 @@
       font-weight: 700;
       letter-spacing: 1px;
       direction: ltr;
-      unicode-bidi: embed;
+      unicode-bidi: isolate;
       overflow-wrap: anywhere;
       transition: color 0.2s;
     }
 
-    .resume-footer .footer-item a:hover {
-      color: var(--accent);
+    /* ============================================
+       شماره تلفن - سه بخش سفید با فاصله
+    ============================================ */
+    .phone-number {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .phone-blue,
+    .phone-white,
+    .phone-red {
+      color: #ffffff;
+      font-weight: 800;
     }
 
     @keyframes fadeInUp {
@@ -794,6 +799,8 @@
         font-size: 0.85rem;
       }
       .resume-footer .footer-item a { font-size: 0.85rem; }
+
+      .phone-number { gap: 6px; }
     }
 
     @media (max-width: 380px) {
@@ -898,6 +905,13 @@
 
       .project-preview { height: 240px; }
       .link-button { min-height: auto; }
+
+      /* در چاپ همه بخش‌های شماره تلفن تیره دیده شوند */
+      .phone-blue,
+      .phone-white,
+      .phone-red {
+        color: #111827 !important;
+      }
     }
   </style>
 </head>
@@ -957,7 +971,7 @@
         <h3 class="section-title"><span class="section-badge"></span>معرفی</h3>
 
         <p class="intro-lead">
-          سلام؛ من محمدصادق رضایی هستم و تخصص اصلی‌ام زبان برنامه‌نویسی سی‌شارپ (#C) است. در ادامه، سه حوزه‌ای که در آن‌ها فعالیت می‌کنم و نمونه‌کارهای مرتبط با هر کدام را معرفی می‌کنم.
+          سلام؛ من محمدصادق رضایی هستم و تخصص اصلی‌ام زبان برنامه‌نویسی سی‌شارپ <span class="ltr-token">&lrm;#C</span> است. در ادامه، سه حوزه‌ای که در آن‌ها فعالیت می‌کنم و نمونه‌کارهای مرتبط با هر کدام را معرفی می‌کنم.
         </p>
 
         <div class="skill-block block-windows">
@@ -982,7 +996,7 @@
             </div>
             <h4>
               سیستم مدیریت مشتریان و خریدها
-              <span class="project-tag">#C · Windows Forms · SQL Server</span>
+              <span class="project-tag">&lrm;#C · Windows Forms · SQL Server</span>
             </h4>
             <p>
               نرم‌افزار دسکتاپ با Windows Forms برای مدیریت اطلاعات مشتریان، محصولات و خریدها. رمزنگاری
@@ -1124,7 +1138,7 @@
         <div class="skills-progress">
           <div class="skill-item">
             <div class="skill-header">
-              <span class="skill-name">سی‌شارپ (#C)</span>
+              <span class="skill-name">سی‌شارپ <span class="ltr-token">&lrm;#C</span></span>
               <span class="skill-percent">۹۰٪</span>
             </div>
             <div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div>
@@ -1195,11 +1209,16 @@
         </div>
       </section>
 
+      <!-- فوتر: شماره تلفن سفید با فاصله -->
       <div class="resume-footer">
         <div class="footer-item">
           <span>📞</span>
           <span class="label">شماره تماس:</span>
-          <a href="tel:+989173508447" dir="ltr">۰۹۱۷۳۵۰۸۴۴۷</a>
+          <a href="tel:+989173508447" dir="ltr" class="phone-number">
+            <span class="phone-blue">۰۹۱۷</span>
+            <span class="phone-white">۳۵۰</span>
+            <span class="phone-red">۸۴۴۷</span>
+          </a>
         </div>
       </div>
 
