@@ -591,9 +591,44 @@
       background: #8b5cf6;
     }
 
-    .skill-item:nth-child(9) .progress-fill,
-    .skill-item:nth-child(10) .progress-fill {
+    .skill-item:nth-child(9) .progress-fill {
       background: #10b981;
+    }
+
+    .pdf-contact-item {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .pdf-button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Vazirmatn', Tahoma, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 10px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      text-align: right;
+      min-width: 0;
+      line-height: 1.6;
+      transition: color 0.2s;
+    }
+
+    .pdf-button .download-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .pdf-button:hover,
+    .contact-item:hover .pdf-button {
+      color: var(--accent);
     }
 
     .resume-footer {
@@ -907,6 +942,76 @@
       .phone-red {
         color: #111827 !important;
       }
+
+      .pdf-contact-item {
+        display: none !important;
+      }
+    }
+
+    body.pdf-generating
+    {
+      display: block !important;
+      width: 1200px !important;
+      min-width: 1200px !important;
+      padding: 28px 0 !important;
+    }
+
+    body.pdf-generating .resume
+    {
+      width: 960px !important;
+      max-width: 960px !important;
+      margin: 0 auto !important;
+      flex: none !important;
+      grid-template-columns: 290px minmax(0, 1fr) !important;
+      grid-template-rows: auto 1fr !important;
+    }
+
+    body.pdf-generating .sidebar
+    {
+      grid-row: 1 / -1 !important;
+      border-left: 1px solid var(--border-soft) !important;
+      border-bottom: none !important;
+      padding: 32px 22px !important;
+      gap: 20px !important;
+    }
+
+    body.pdf-generating .sidebar-info
+    {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    body.pdf-generating .main
+    {
+      padding: 32px 30px !important;
+      gap: 26px !important;
+    }
+
+    body.pdf-generating .project-preview
+    {
+      height: 300px !important;
+    }
+
+    body.pdf-generating .android-showcase
+    {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
+    body.pdf-generating .pdf-contact-item
+    {
+      display: none !important;
+    }
+
+    body.pdf-generating .section,
+    body.pdf-generating .progress-fill
+    {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+
+    body.pdf-generating .progress-fill
+    {
+      transform: none !important;
     }
   </style>
 </head>
@@ -950,12 +1055,22 @@
           <a href="https://www.programmer-msr.ir" target="_blank" rel="noopener">www.programmer-msr.ir</a>
         </div>
         <div class="contact-item">
-          <img src="homeImages/head/github.png"
-               alt="GitHub"
-               class="icon-img"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
-          <span class="icon" style="display:none;">🐙</span>
+          <span class="icon">📧</span>
+          <a href="mailto:programmermsr@gmail.com" dir="ltr">programmermsr@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <img src="homeImages/head/github.png" alt="GitHub" class="icon-img" />
           <a href="https://github.com/programmermsr" target="_blank" rel="noopener">github.com/programmermsr</a>
+        </div>
+        <div class="contact-item pdf-contact-item">
+          <button type="button" class="pdf-button" onclick="downloadResumePdf()">
+            <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>دانلود رزومه</span>
+          </button>
         </div>
       </div>
     </aside>
@@ -980,7 +1095,8 @@
 
           <div class="project-card">
             <div class="project-preview">
-              <img src="https://github.com/programmermsr/Customers-Purchases-MSR/raw/master/screenshots/1.png"
+              <img crossorigin="anonymous"
+                   src="https://raw.githubusercontent.com/programmermsr/Customers-Purchases-MSR/master/screenshots/1.png"
                    alt="پیش‌نمایش سیستم مدیریت مشتریان"
                    loading="lazy"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -1022,7 +1138,8 @@
 
           <div class="project-card">
             <div class="project-preview">
-              <img src="https://github.com/programmermsr/laptop-store/raw/master/screenshots/3.png"
+              <img crossorigin="anonymous"
+                   src="https://raw.githubusercontent.com/programmermsr/laptop-store/master/screenshots/3.png"
                    alt="پیش‌نمایش فروشگاه لپ‌تاپ"
                    loading="lazy"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -1148,9 +1265,9 @@
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">ASP.NET Core</span>
-              <span class="skill-percent">۵۰٪</span>
+              <span class="skill-percent">۷۵٪</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 50%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
@@ -1189,17 +1306,10 @@
           </div>
           <div class="skill-item">
             <div class="skill-header">
-              <span class="skill-name">Git</span>
+              <span class="skill-name">Git / GitHub</span>
               <span class="skill-percent">۸۵٪</span>
             </div>
             <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">GitHub</span>
-              <span class="skill-percent">۸۰٪</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
           </div>
         </div>
       </section>
@@ -1218,5 +1328,141 @@
 
     </main>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    async function downloadResumePdf()
+    {
+      const button = document.querySelector('.pdf-button');
+      const resume = document.querySelector('.resume');
+
+      if (!window.html2canvas || !window.jspdf)
+      {
+        alert('بارگذاری کتابخانه‌های PDF با مشکل مواجه شده است');
+        return;
+      }
+
+      const originalButtonHtml = button.innerHTML;
+
+      button.disabled = true;
+      button.innerHTML = '<span>در حال آماده‌سازی PDF...</span>';
+      document.body.classList.add('pdf-generating');
+
+      try
+      {
+        await new Promise(resolve =>
+        {
+          requestAnimationFrame(() =>
+          {
+            requestAnimationFrame(resolve);
+          });
+        });
+
+        if (document.fonts && document.fonts.ready)
+        {
+          await document.fonts.ready;
+        }
+
+        const images = Array.from(resume.querySelectorAll('img'));
+
+        await Promise.all(images.map(img =>
+        {
+          return new Promise(resolve =>
+          {
+            if (img.complete && img.naturalWidth > 0)
+            {
+              resolve(true);
+              return;
+            }
+
+            let timeout;
+
+            const finish = () =>
+            {
+              clearTimeout(timeout);
+              img.removeEventListener('load', finish);
+              img.removeEventListener('error', finish);
+              resolve(img.naturalWidth > 0);
+            };
+
+            img.addEventListener('load', finish, { once: true });
+            img.addEventListener('error', finish, { once: true });
+
+            timeout = setTimeout(finish, 20000);
+            img.loading = 'eager';
+
+            if (img.complete)
+            {
+              finish();
+            }
+          });
+        }));
+
+        const width = resume.scrollWidth;
+        const height = resume.scrollHeight;
+
+        const canvas = await html2canvas(resume,
+        {
+          scale: 2,
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: '#111a2e',
+          imageTimeout: 20000,
+          logging: false,
+          width: width,
+          height: height,
+          windowWidth: 1200,
+          windowHeight: Math.max(window.innerHeight, height + 56),
+          scrollX: 0,
+          scrollY: 0
+        });
+
+        const pageWidth = width * 25.4 / 96;
+        const pageHeight = height * 25.4 / 96;
+        const { jsPDF } = window.jspdf;
+
+        const pdf = new jsPDF(
+        {
+          orientation: 'portrait',
+          unit: 'mm',
+          format: [pageWidth, pageHeight],
+          compress: true
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+
+        pdf.addImage(
+          imageData,
+          'PNG',
+          0,
+          0,
+          pageWidth,
+          pageHeight,
+          undefined,
+          'FAST'
+        );
+
+        pdf.setProperties(
+        {
+          title: 'رزومه محمدصادق رضائی',
+          subject: 'رزومه'
+        });
+
+        pdf.save('Resume-Mohammad-Sadegh-Rezaei.pdf');
+      }
+      catch (error)
+      {
+        console.error(error);
+        alert('در ساخت فایل PDF مشکلی پیش آمد');
+      }
+      finally
+      {
+        document.body.classList.remove('pdf-generating');
+        button.disabled = false;
+        button.innerHTML = originalButtonHtml;
+      }
+    }
+  </script>
 </body>
 </html>

@@ -26,6 +26,7 @@
       list-style: none;
     }
 
+    /* Disable text selection & tap highlight */
     * {
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
@@ -375,10 +376,7 @@
       object-fit: contain;
     }
 
-    /* ============================================
-       RESUME BUTTON - ساده، کوچک و هم‌رنگ فوتر
-       با فاصله از آیکون‌های شبکه اجتماعی
-    ============================================ */
+    /* Resume Button - simple, small, footer-colored */
     .resume-btn {
       display: inline-block;
       padding: 6px 18px;
@@ -456,7 +454,7 @@
       stroke: #fff;
     }
 
-    /* --- Custom Colors for Each Page --- */
+    /* Custom Colors for Each Page */
     .footer-page-link[href="radar.html"] svg { stroke: #00ff64; }
     .footer-page-link[href="radar.html"]:hover { background-color: #00b84a; border-color: #00b84a; box-shadow: 0 6px 14px -6px #00b84a; }
     .footer-page-link[href="radar.html"]:hover svg { stroke: #fff; }
@@ -541,7 +539,8 @@
       <img id="myIcon" src="homeImages/head/msrMedium.jpg" alt="محمد صادق رضائی برنامه نویس سی شارپ">
     </div>
 
-    <p id="myIntroducing">برنامه نویس ویندوز و موبایل و سایت</p>
+    <!-- Intro text - JS will animate colors word by word -->
+    <p id="myIntroducing">Easy Work , Fun Games , better life</p>
     <p id="skills" aria-label="مهارت های برنامه نویسی"></p>
   </header>
 
@@ -619,7 +618,6 @@
           </div>
         </div>
 
-        <!-- متن با رنگ مشکی برای بخش آخر -->
         <p class="itemDescription">
           ذکر شمار حرفه‌ای با قابلیت <span class="spanRed">آمدن روی صفحه</span>،
           که شما می‌توانید <span class="spanGreen">همزمانی که دارید ذکری را می‌خوانید</span> <span style="color: black;">روی صفحه تعدادش را اضافه کنید</span>
@@ -696,7 +694,7 @@
           </a>
         </div>
 
-        <!-- دکمه مشاهده رزومه -->
+        <!-- Resume button -->
         <a class="resume-btn" href="resume.html" target="_blank" rel="noopener noreferrer" aria-label="مشاهده رزومه محمد صادق رضائی">
           مشاهده ی رزومه ی من
         </a>
@@ -801,7 +799,7 @@
             <span>استراحت</span>
           </a>
 
-          <!-- Row 4 (New) -->
+          <!-- Row 4 -->
           <a href="colors.html" class="footer-page-link" target="_blank" rel="noopener noreferrer" aria-label="صفحه پالت رنگ">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9"/>
@@ -884,7 +882,7 @@
 
   <!-- Scripts -->
   <script>
-    // Header Typewriter Animation
+    // Header Typewriter Animation - cycles name and URL
     (function () {
       const el = document.getElementById('textChange');
       const TEXT_NAME = 'محمد صادق رضائی';
@@ -895,6 +893,7 @@
       let currentText = '';
       let switchTimer = null;
 
+      // Colorize progressive typed text (highlights first letters)
       function colorize(text) {
         if (text.startsWith('p')) {
           return text.slice(0, 11) +
@@ -919,6 +918,7 @@
         return text;
       }
 
+      // Type a string char by char at fixed speed
       function typeText(str) {
         typing = true;
         el.innerHTML = '';
@@ -935,6 +935,7 @@
         }, 150);
       }
 
+      // Switch between name and URL every 2s
       function startCycle() {
         if (switchTimer) clearInterval(switchTimer);
         switchTimer = setInterval(() => {
@@ -948,30 +949,41 @@
     })();
 
 
-    // Intro Text Highlight Animation
+    // Intro Text Highlight - cycles words with custom colors
+    // Commas (,) are skipped like "و" in the original code
     (function () {
       const el = document.getElementById('myIntroducing');
-      const COLOR = '#16baf5';
-      const WORDS = ['برنامه نویس', 'ویندوز', 'و', 'موبایل', 'و', 'سایت'];
+      const BLUE   = '#16baf5'; // better life color
+      const GREEN  = '#15DA06'; // Easy Work color
+      const ORANGE = '#FF8E00'; // Fun Games color
+      // Split into single words so each word highlights one by one
+      const WORDS  = ['Easy', 'Work', ',', 'Fun', 'Games', ',', 'better', 'life'];
+      // Color map per single word
+      const COLORS = {
+        'Easy': GREEN, 'Work': GREEN,
+        'Fun': ORANGE, 'Games': ORANGE,
+        'better': BLUE, 'life': BLUE
+      };
       let index = 0;
 
       setInterval(() => {
-        if (WORDS[index] === 'و') index = (index + 1) % WORDS.length;
+        // Skip comma separators - they never get colored
+        if (WORDS[index] === ',') index = (index + 1) % WORDS.length;
 
         const before  = WORDS.slice(0, index).join(' ');
         const current = WORDS[index];
         const after   = WORDS.slice(index + 1).join(' ');
 
         el.innerHTML = before +
-          ` <span style="color:${COLOR};">${current}</span> ` +
+          ` <span style="color:${COLORS[current]};">${current}</span> ` +
           after;
 
         index = (index + 1) % WORDS.length;
-      }, 750);
+      }, 1000);
     })();
 
 
-    // Skills Marquee
+    // Skills Marquee - scrolling list of skills
     (function () {
       const SKILLS = ['C#', 'sql server', 'EF', 'winform', 'ASP', 'html', 'css', 'js', 'kotlin'];
       const el = document.getElementById('skills');
@@ -996,21 +1008,21 @@
     });
 
 
-    // Image Loading Skeleton Handler
+    // Image Loading Skeleton Handler - shows shimmer until image loads
     document.querySelectorAll('.image-wrapper, .header-bg, .footer-icon').forEach(function (wrapper) {
       const img = wrapper.querySelector('img');
       if (!img) return;
 
-      // Cached image
+      // Cached image - mark loaded immediately
       if (img.complete && img.naturalWidth > 0) {
         wrapper.classList.add('loaded');
       } else {
-        // Downloading image
+        // Downloading image - wait for load
         img.addEventListener('load', function () {
           wrapper.classList.add('loaded');
         });
         
-        // Error fallback
+        // Error fallback - hide shimmer anyway
         img.addEventListener('error', function () {
           wrapper.classList.add('loaded');
         });
